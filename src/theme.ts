@@ -1,19 +1,24 @@
 import createTheme from "@mui/material/styles/createTheme";
+import React from "react";
 
 declare module '@mui/material/styles' {
     interface TypographyVariants {
         nostalgiaHeader: React.CSSProperties;
-        nostalgiaSubHeader: React.CSSProperties;
+        nostalgiaSubHeader1: React.CSSProperties;
+        nostalgiaSubHeader2: React.CSSProperties;
         eventTitle: React.CSSProperties;
         eventDetails: React.CSSProperties;
+        teamMember: React.CSSProperties;
     }
   
     // allow configuration using `createTheme`
     interface TypographyVariantsOptions {
         nostalgiaHeader?: React.CSSProperties;
-        nostalgiaSubHeader?: React.CSSProperties;
+        nostalgiaSubHeader1?: React.CSSProperties;
+        nostalgiaSubHeader2?: React.CSSProperties
         eventTitle: React.CSSProperties;
         eventDetails: React.CSSProperties;
+        teamMember: React.CSSProperties;
     }
   };
   
@@ -21,9 +26,11 @@ declare module '@mui/material/styles' {
   declare module '@mui/material/Typography' {
     interface TypographyPropsVariantOverrides {
         nostalgiaHeader: true;
-        nostalgiaSubHeader: true,
+        nostalgiaSubHeader1: true,
+        nostalgiaSubHeader2: true,
         eventTitle: true,
         eventDetails: true,
+        teamMember: true,
         h3: false;
     }
 };
@@ -31,12 +38,20 @@ declare module '@mui/material/styles' {
 
 const theme = createTheme({
     typography: {
+        fontFamily: 'Open Sans',
         nostalgiaHeader: {
+            fontFamily: 'Comfortaa',
             fontSize: 96,
             color: '#5E0916',
         },
-        nostalgiaSubHeader: {
-            fontSize: 36,
+        nostalgiaSubHeader1: {
+            fontFamily: 'Comfortaa',
+            fontSize: 64,
+            color: '#5E0916',
+        },
+        nostalgiaSubHeader2: {
+            fontFamily: 'Comfortaa',
+            fontSize: 52,
             color: '#5E0916',
         },
         eventTitle: {
@@ -46,6 +61,10 @@ const theme = createTheme({
             marginTop: '2.5rem',
             fontSize: 16,
             fontWeight: 'lighter',
+        },
+        teamMember: {
+            transform: 'rotate(270deg)',
+            transformOrigin: '-17px 2px',
         },
     },
     components: {

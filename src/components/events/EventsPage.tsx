@@ -35,17 +35,17 @@ const EventsPage = () => {
 
             <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '5rem' }}>
                 <Stack>
-                    <Typography variant='nostalgiaSubHeader'>NOV</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>NOV</Typography>
                         <Divider sx={{ height: '2px', backgroundColor: '#5E0916' }} />
-                        <Typography variant='nostalgiaSubHeader'>4</Typography>
+                        <Typography variant='nostalgiaSubHeader2'>4</Typography>
                     </Stack>
                 <Stack sx={{ width: '50%' }}>
-                    <Typography variant='nostalgiaSubHeader'>Lorem Consectetur.</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>Lorem Consectetur.</Typography>
                         <Typography variant='eventTitle'>Cecilla Chapman 711-288 Nulla St.Mankato Mississippi</Typography>
                         <Typography variant='eventTitle'>7:00pm - 8:00pm</Typography>
                         <Typography variant='eventDetails'>
-                            Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam in mi orci. Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam.
-                    </Typography>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae suscipit tellus mauris a diam maecenas sed enim ut. Sed egestas egestas fringilla phasellus faucibus. Tristique nulla aliquet enim tortor. Dolor magna eget est lorem ipsum dolor sit amet. Feugiat scelerisque varius morbi enim nunc faucibus.
+                        </Typography>
                     <Divider sx={{ height: '2px', backgroundColor: '#5E0916', margin: '1rem 0' }} />
                     <Typography sx={{ color: '#5E0916' }} >View Event Details ➔</Typography>
                 </Stack>
@@ -53,17 +53,17 @@ const EventsPage = () => {
 
             <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '5rem' }}>
                 <Stack>
-                    <Typography variant='nostalgiaSubHeader'>NOV</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>NOV</Typography>
                         <Divider sx={{ height: '2px', backgroundColor: '#5E0916' }} />
-                        <Typography variant='nostalgiaSubHeader'>7</Typography>
+                        <Typography variant='nostalgiaSubHeader2'>7</Typography>
                     </Stack>
                 <Stack sx={{ width: '50%' }}>
-                    <Typography variant='nostalgiaSubHeader'>Lorem Consectetur.</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>Lorem Consectetur.</Typography>
                         <Typography variant='eventTitle'>Cecilla Chapman 711-288 Nulla St.Mankato Mississippi</Typography>
                         <Typography variant='eventTitle'>7:00pm - 8:00pm</Typography>
                         <Typography variant='eventDetails'>
-                            Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam in mi orci. Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam.
-                    </Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </Typography>
                     <Divider sx={{ height: '2px', backgroundColor: '#5E0916', margin: '1rem 0' }} />
                     <Typography sx={{ color: '#5E0916' }} >View Event Details ➔</Typography>
                 </Stack>
@@ -71,17 +71,17 @@ const EventsPage = () => {
 
             <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '5rem' }}>
                 <Stack>
-                    <Typography variant='nostalgiaSubHeader'>NOV</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>NOV</Typography>
                         <Divider sx={{ height: '2px', backgroundColor: '#5E0916' }} />
-                        <Typography variant='nostalgiaSubHeader'>4</Typography>
+                        <Typography variant='nostalgiaSubHeader2'>4</Typography>
                     </Stack>
                 <Stack sx={{ width: '50%' }}>
-                    <Typography variant='nostalgiaSubHeader'>Lorem Consectetur.</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>Lorem Consectetur.</Typography>
                         <Typography variant='eventTitle'>Cecilla Chapman 711-288 Nulla St.Mankato Mississippi</Typography>
                         <Typography variant='eventTitle'>7:00pm - 8:00pm</Typography>
                         <Typography variant='eventDetails'>
-                            Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam in mi orci. Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam.
-                    </Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </Typography>
                     <Divider sx={{ height: '2px', backgroundColor: '#5E0916', margin: '1rem 0' }} />
                     <Typography sx={{ color: '#5E0916' }} >View Event Details ➔</Typography>
                 </Stack>
@@ -89,17 +89,17 @@ const EventsPage = () => {
 
             <Box sx={{ display: 'flex', justifyContent: 'space-around', margin: '5rem 0' }}>
                 <Stack>
-                    <Typography variant='nostalgiaSubHeader'>NOV</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>NOV</Typography>
                         <Divider sx={{ height: '2px', backgroundColor: '#5E0916' }} />
-                        <Typography variant='nostalgiaSubHeader'>7</Typography>
+                        <Typography variant='nostalgiaSubHeader2'>7</Typography>
                     </Stack>
                 <Stack sx={{ width: '50%' }}>
-                    <Typography variant='nostalgiaSubHeader'>Lorem Consectetur.</Typography>
+                    <Typography variant='nostalgiaSubHeader2'>Lorem Consectetur.</Typography>
                         <Typography variant='eventTitle'>Cecilla Chapman 711-288 Nulla St.Mankato Mississippi</Typography>
                         <Typography variant='eventTitle'>7:00pm - 8:00pm</Typography>
                         <Typography variant='eventDetails'>
-                            Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam in mi orci. Lorem ipsum dolor sit amet consectetur. Et vestibulum accumsan quam.
-                    </Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </Typography>
                     <Divider sx={{ height: '2px', backgroundColor: '#5E0916', margin: '1rem 0' }} />
                     <Typography sx={{ color: '#5E0916' }} >View Event Details ➔</Typography>
                 </Stack>
