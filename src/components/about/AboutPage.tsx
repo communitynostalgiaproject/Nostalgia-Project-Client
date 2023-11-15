@@ -24,7 +24,7 @@ const AboutPage = () => {
             
                 <Grid container style={{ width: '65%' }}>
                     <Grid item xs={2.4}>  
-                    <img src={sean} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={sean} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -37,7 +37,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={patrick} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={patrick} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -50,7 +50,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={emily} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={emily} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -63,7 +63,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={parvati} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={parvati} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -76,7 +76,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={zain} style={{ width: '79%', }} alt='team member profile picture' />
+                    <img src={zain} style={{ width: '79%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -90,7 +90,7 @@ const AboutPage = () => {
                     </Grid>
 
                     <Grid item xs={2.4}>  
-                    <img src={sean} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={sean} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -103,7 +103,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={patrick} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={patrick} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -116,7 +116,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={emily} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={emily} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -129,7 +129,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={parvati} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={parvati} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -145,7 +145,7 @@ const AboutPage = () => {
                     <Grid item xs={2.4}></Grid>
 
                     <Grid item xs={2.4}>  
-                    <img src={sean} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={sean} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -158,7 +158,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={patrick} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={patrick} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -171,7 +171,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={emily} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={emily} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -187,7 +187,7 @@ const AboutPage = () => {
                     <Grid xs={4.8}></Grid>
 
                     <Grid item xs={2.4}>  
-                    <img src={sean} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={sean} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -200,7 +200,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={patrick} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={patrick} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -216,7 +216,7 @@ const AboutPage = () => {
                     <Grid item xs={7.2}></Grid>
 
                     <Grid item xs={2.4}>  
-                    <img src={sean} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={sean} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -229,7 +229,7 @@ const AboutPage = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={2.4}>  
-                    <img src={patrick} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={patrick} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,
@@ -245,7 +245,7 @@ const AboutPage = () => {
                     <Grid item xs={7.2}></Grid>
 
                     <Grid item xs={2.4}>  
-                    <img src={sean} style={{ width: '80%', }} alt='team member profile picture' />
+                    <img src={sean} style={{ width: '80%', }} alt='team member profile' />
                         <Typography style={{ 
                             position: 'relative',
                             bottom: 0,

@@ -7,7 +7,7 @@ import '@fontsource/roboto';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@emotion/react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
