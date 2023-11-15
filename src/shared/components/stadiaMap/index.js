@@ -39,7 +39,7 @@ const AppVector = () => {
               <Popup>
                 {arcade.properties.name}
                 <br />
-                {arcade.properties['name:en']}
+                {arcade.properties['name:en']} 
               </Popup>
             </Marker>
             ))}
