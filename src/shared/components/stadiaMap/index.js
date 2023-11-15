@@ -1,10 +1,10 @@
-import './App.css'
-import 'leaflet/dist/leaflet.css'
-import {MapContainer, Marker, Popup} from 'react-leaflet'
-import L from 'leaflet'
+import './App.css';
+import 'leaflet/dist/leaflet.css';
+import {MapContainer, Marker, Popup} from 'react-leaflet';
+import L from 'leaflet';
 import MarkerClusterGroup from "react-leaflet-cluster";
 import MapLibreTileLayer from './mapLibreTileLayer';
-import arcades from "../../geoData/arcades.json"
+import arcades from "../../geoData/arcades.json";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
