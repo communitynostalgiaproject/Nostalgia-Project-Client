@@ -1,4 +1,3 @@
-import React from 'react';
 import AppVector from '../../shared/components/stadiaMap/index';
 
 const LandingPage = () => {
