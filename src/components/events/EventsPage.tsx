@@ -3,6 +3,7 @@ import { Container, Stack, Typography, Divider, Box } from '@mui/material';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import EastSharpIcon from '@mui/icons-material/EastSharp';
+import SideDrawer from '../sidedrawer/SideDrawer';
 
 const EventsPage = () => {
 
