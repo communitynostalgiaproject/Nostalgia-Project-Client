@@ -26,7 +26,7 @@ function Navbar() {
 
   return (
     <AppBar position="static" color="transparent" elevation={0} sx={{  marginBottom: '3rem' }} >
-      <Container maxWidth="xl">
+      <Container maxWidth="sm">
         <Toolbar disableGutters>
           <Typography
             variant="h4"

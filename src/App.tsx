@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./shared/components/navbar"; 
+// import Navbar from "./shared/components/navbar"; 
+import Navbar from './shared/components/navbar/index_';
 // import HomePage from "./components/home/HomePage";
 import LandingPage from "./pages/landingPage";
 import SciencePage from "./components/science/SciencePage";
@@ -9,7 +10,7 @@ import AboutPage from "./components/about/AboutPage";
 
 import "./App.css";
 
-function App() {
+const App = () => {
     return (
         <main>
             <Navbar />
