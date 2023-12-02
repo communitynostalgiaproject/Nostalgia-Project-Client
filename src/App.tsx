@@ -12,7 +12,7 @@ import "./App.css";
 
 const App = () => {
     return (
-        <main>
+        <div>
             <Navbar />
             <Routes>
                 <Route path="/" element={<LandingPage />} />
@@ -20,7 +20,7 @@ const App = () => {
                 <Route path="/Events" element={<EventsPage />} />
                 <Route path="/About" element={<AboutPage />} />
             </Routes>     
-        </main>
+        </div>
     );
 }
  
