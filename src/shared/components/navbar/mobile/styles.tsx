@@ -2,16 +2,17 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
     navBar: {
-        height: "80px",
+        height: "100px",
         width: "100%",
         backgroundColor: "#EDEDED",
         position: "fixed",
+        top: 0,
         zIndex: 1,
-        boxShadow: "2px 3px 10px rgb(35, 35, 35)",
+        boxShadow: "2px 0px 2px rgb(155, 155, 155)",
         display: 'flex',
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "0px 50px"
+        padding: "0px 96px"
     },
     iconButton: {
         '&:hover': {

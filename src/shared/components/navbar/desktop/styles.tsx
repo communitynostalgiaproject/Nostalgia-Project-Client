@@ -4,8 +4,8 @@ const useStyles = createUseStyles({
     navBar: {
         backgroundColor: "#EDEDED",
         position: "fixed",
-        height: "80px",
-        boxShadow: "2px 3px 10px rgb(35, 35, 35)"
+        height: "100px",
+        boxShadow: "2px 0px 2px rgb(155, 155, 155)",
     },
     navContainer: {
         height: "100%"
