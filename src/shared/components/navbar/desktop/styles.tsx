@@ -4,7 +4,8 @@ const useStyles = createUseStyles({
     navBar: {
         backgroundColor: "#EDEDED",
         position: "fixed",
-        height: "80px"
+        height: "80px",
+        boxShadow: "2px 3px 10px rgb(35, 35, 35)"
     },
     navContainer: {
         height: "100%"
@@ -30,13 +31,13 @@ const useStyles = createUseStyles({
         }
     },
     tabIndicator: {
-        bottom: 4
+        bottom: 6
     },
     logo: {
         color: "#545454",
         fontWeight: 600,
         textDecoration: "none",
-        fontSize: "22px",
+        fontSize: "26px",
         fontFamily: "serif",
         letterSpacing: "1.5px"
     },

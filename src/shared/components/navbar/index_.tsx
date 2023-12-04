@@ -1,19 +1,10 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material';
-import { Link } from 'react-router-dom';
-import useStyles from './styles';
+import React from 'react';
+import DesktopNav from './desktop';
+import MobileNav from './mobile';
 
 const Navbar = () => {
 
-    const classes = useStyles();
-
-    const [value, setValue] = useState(0)
-
-    const handleChange = (event: SyntheticEvent, newValue: number) => {
-        setValue(newValue)
-    }
-
-    const pages = [
+    const pages: string[] = [
         "Research",
         "Events",
         "Community Outreach",
@@ -23,31 +14,8 @@ const Navbar = () => {
 
 
     return (
-        <AppBar className={classes.navBar}>
-            <Container maxWidth="xl" className={classes.navContainer}>
-                <Toolbar disableGutters className={classes.navContent}>
-                    <Box>
-                        <Typography
-                            noWrap
-                            component="a"
-                            href="/"
-                            className={classes.logo}
-                        >
-                            Nostalgia
-                        </Typography>
-                    </Box>
-                    <Box className={classes.navlinkContainer}>
-                        <Tabs value={value} onChange={handleChange} aria-label='navigation tab' className={classes.navLink} classes={{ indicator: classes.tabIndicator }}>
-                            {
-                                pages.map((page, i) => (
-                                    <Tab label={page} component={Link} to={`/${page}`} />
-                                ))
-                            }
-                        </Tabs>
-                    </Box>
-                </Toolbar>
-            </Container>
-        </AppBar>
+        <MobileNav navItems={pages} />
+        // <DesktopNav navItems={pages}/>
     )
 }
 

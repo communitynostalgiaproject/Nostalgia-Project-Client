@@ -16,9 +16,11 @@ const App = () => {
             <Navbar />
             <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/The Science" element={<SciencePage />} />
-                <Route path="/Events" element={<EventsPage />} />
-                <Route path="/About" element={<AboutPage />} />
+                <Route path="/research" element={<SciencePage />} />
+                <Route path="/events" element={<EventsPage />} />
+                <Route path="/community_outreach" element={<EventsPage />} />
+                <Route path="/our_team" element={<EventsPage />} />
+                <Route path="/about_us" element={<AboutPage />} />
             </Routes>     
         </div>
     );
