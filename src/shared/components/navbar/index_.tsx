@@ -1,8 +1,13 @@
 import React from 'react';
 import DesktopNav from './desktop';
 import MobileNav from './mobile';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const Navbar = () => {
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.down(880));
+    console.log(matches)
 
     const pages: string[] = [
         "Research",
@@ -14,8 +19,11 @@ const Navbar = () => {
 
 
     return (
-        <MobileNav navItems={pages} />
-        // <DesktopNav navItems={pages}/>
+        <>
+        {
+            matches ? <MobileNav navItems={pages} /> : <DesktopNav navItems={pages}/> 
+        }
+        </>
     )
 }
 
