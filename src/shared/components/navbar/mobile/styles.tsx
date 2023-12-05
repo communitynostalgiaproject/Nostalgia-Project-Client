@@ -27,37 +27,39 @@ const useStyles = createUseStyles({
         height: "100%",
     },
     navHeader: {
-        fontSize: "2.5em",
+        fontSize: "1.2em",
         color: "#EDEDED",
         fontWeight: 600,
         letterSpacing: "1.5px",
         width: "100%",
         display: "flex",
-        justifyContent: "center",
-        margin: "0px",
-        paddingTop: "65px",
-        paddingBottom: "10px",
-        backgroundColor: "rgb(30, 30, 30)"
+        alignItems: "center",
+        backgroundColor: "rgb(26, 26, 26)",
+        height: "100px",
+        textTransform: "uppercase",
+        paddingLeft: "40px"
     },
     navItemBox: {
         height: "100%",
-        backgroundColor: "rgb(30, 30, 30)",
+        backgroundColor: "rgb(26, 26, 26)"
     },
     navItemGroup: {
         display: 'flex',
         flexDirection: "column",
         alignItems: 'center',
-        justifyContent: "space-evenly",
-        padding: "45px 45px 0px 45px",
-        height: "60%"
+        margin: "0px 0px 0px 40px",
+        padding: "15px 45px 0px 10px",
+        borderLeft: "1px solid #EDEDED"
     },
     navItem: {
         '& span': {
-            fontSize: "1.7em",
-            fontFamily: "arial",
+            fontSize: "1.45em",
+            fontFamily: "Arial",
             fontWeight: 500,
+            letterSpacing: "2px",
             color: "#EDEDED",
-            textAlign: "center"
+            textAlign: "center",
+            paddingBottom: "40px"
         }
     },
     logo: {

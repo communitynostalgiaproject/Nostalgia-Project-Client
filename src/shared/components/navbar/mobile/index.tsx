@@ -51,7 +51,9 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
           className={classes.drawer}
         >
           <Box className={classes.drawer}>
-            <p className={classes.navHeader}>Nostalgia</p>
+            <div className={classes.navHeader}>
+              <p>Menu</p>
+            </div>
             <Box className={classes.navItemBox}>
               <List className={classes.navItemGroup}>
               {

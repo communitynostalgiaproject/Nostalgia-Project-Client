@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import {MapContainer, Marker, Popup} from 'react-leaflet';
 import L from 'leaflet';
 import MarkerClusterGroup from "react-leaflet-cluster";
-import MapLibreTileLayer from './mapLibreTileLayer';
+import LeafletTileLayer from './leafletTileLayer';
 import arcades from "../../geoData/arcades.json";
 
 delete L.Icon.Default.prototype._getIconUrl;
@@ -26,7 +26,7 @@ const AppVector = () => {
         maxZoom={19}
         maxBounds={[[-85.06, -180], [85.06, 180]]}
         scrollWheelZoom={true}>
-        <MapLibreTileLayer
+        <LeafletTileLayer
           attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
 

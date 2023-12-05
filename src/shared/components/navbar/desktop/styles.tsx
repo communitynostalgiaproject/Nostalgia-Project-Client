@@ -8,7 +8,8 @@ const useStyles = createUseStyles({
         boxShadow: "2px 0px 2px rgb(155, 155, 155)",
     },
     navContainer: {
-        height: "100%"
+        height: "100%",
+        padding: "0px 96px"
     },
     navContent: {
         height: "100%",
