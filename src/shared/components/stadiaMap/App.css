@@ -1,4 +1,5 @@
 .full-screen-map {
-    height: 100vh;
-  }
+  height: 100vh;
+  z-index: 0;
+}
   
