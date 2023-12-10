@@ -1,4 +1,5 @@
 import createTheme from "@mui/material/styles/createTheme";
+import { responsiveFontSizes } from '@mui/material';
 import React from "react";
 
 declare module '@mui/material/styles' {
@@ -20,6 +21,14 @@ declare module '@mui/material/styles' {
         eventDetails: React.CSSProperties;
         teamMember: React.CSSProperties;
     }
+
+    interface ButtonVariants {
+        modalButton: React.CSSProperties;
+    }
+
+    interface ButtonVariansOptions {
+        modalButton: true
+    }
   };
   
   // Update the Typography's variant prop options
@@ -38,6 +47,9 @@ declare module '@mui/material/styles' {
 
 const theme = createTheme({
     typography: {
+        h1: {
+            fontFamily: 'Comfortaa',
+        },
         fontFamily: 'Open Sans',
         nostalgiaHeader: {
             fontFamily: 'Comfortaa',
@@ -79,8 +91,8 @@ const theme = createTheme({
                     nostalgiaHeader: 'h1',
                 },
             },
-        },
+        }
     },
 });
   
-export default theme;
+export default responsiveFontSizes(theme);

@@ -1,12 +1,15 @@
 import React from 'react';
-import { Container, Box, Stack, Typography } from "@mui/material";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import BrainIcon from '@mui/icons-material/PsychologyOutlined';
 import RamenIcon from '@mui/icons-material/RamenDiningOutlined';
 import PhoneIcon from '@mui/icons-material/AppShortcutOutlined';
 
 const bannerImage = require('../../assets/science-banner.png');
 
-const SciencePage = () => {
+const ResearchPage = () => {
 
     return (
         <Container style={{ position: 'relative', maxWidth: '100%', padding: '0' }}>
@@ -19,7 +22,7 @@ const SciencePage = () => {
                     backgroundRepeat: 'no-repeat',
                     height: '600px'
                 }}>
-                <Typography variant="h1" sx={{ 
+                    <Typography variant="h1" sx={{ 
                         position: 'absolute', 
                         top: '34%',
                         bottom: '0',
@@ -59,4 +62,4 @@ const SciencePage = () => {
     );
 };
 
-export default SciencePage;
+export default ResearchPage;
