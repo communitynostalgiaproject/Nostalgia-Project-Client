@@ -7,10 +7,6 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
-
-// import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined'; 
-// import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
-// import DvrOutlinedIcon from '@mui/icons-material/DvrOutlined';
 import cameraIcon from '../../assets/camera-icon.png';
 import tacoIcon from '../../assets/taco-icon.png';
 import appIcon from '../../assets/app-icon.png';
