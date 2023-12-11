@@ -8,15 +8,18 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
 
-import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined'; 
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
-import DvrOutlinedIcon from '@mui/icons-material/DvrOutlined';
+// import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined'; 
+// import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+// import DvrOutlinedIcon from '@mui/icons-material/DvrOutlined';
+import cameraIcon from '../../assets/camera-icon.png';
+import tacoIcon from '../../assets/taco-icon.png';
+import appIcon from '../../assets/app-icon.png';
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
-  height: '60%',
+  height: '80%',
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
@@ -28,32 +31,39 @@ const style = {
 const modals = [
   { 
     id: 0,
-    text: 'Modal One',
-    icon: <FastfoodOutlinedIcon sx={{ fontSize: '10rem' }} />
+    text: 'Diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus.',
+    icon: cameraIcon
   },
   { 
     id: 1,
-    text: 'Modal Two',
-    icon: <CameraAltOutlinedIcon sx={{ fontSize: '10rem' }} />
+    text: 'Diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus.',
+    icon: tacoIcon
   },
   { 
     id: 2,
-    text: 'Modal Three',
-    icon: <DvrOutlinedIcon sx={{ fontSize: '10rem' }} />
+    text: 'Diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus.',
+    icon: appIcon
   },
 ];
 
 export default function TransitionsModal() {
   const [open, setOpen] = useState(true);
-  const [modal, setModal] = useState(0);
+  const [openModal, setOpenModal] = useState(0);
   const handleClose = () => setOpen(false);
 
   const displayModal = modals.map((modal) => {
     return (
       <Fade in={open}>
         <Box sx={style}>
-          <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: '1rem', padding: '1rem' }}>
-          {modal.icon}
+          <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              flexDirection: 'column', 
+              gap: '1rem', 
+              padding: '1rem'
+            }}
+          >
+          <img src={modal.icon} />
           <Typography id="transition-modal-title" variant="h2" sx={{ fontFamily: 'San Sarif', color: '#5E0916' }}>
             {modal.id + 1}
           </Typography>
@@ -61,9 +71,37 @@ export default function TransitionsModal() {
             {modal.text}
           </Typography>
           <Stack direction="row" spacing={2} sx={{ height: '15%', justifyContent: 'center', marginTop: '1rem' }}>
-            <Button size='small' href='' sx={{ color: '#5E0916' }} onClick={() => setModal(0)}><CircleIcon /></Button>
-            <Button size='small' href='' sx={{ color: '#5E0916' }} onClick={() => setModal(1)}><CircleIcon /></Button>
-            <Button size='small' href='' sx={{ color: '#5E0916' }} onClick={() => setModal(2)}><CircleIcon /></Button>
+            <Button 
+              size='small' 
+              href='' 
+              sx={{ 
+                color: openModal === 0 ? '#5E0916' : '#8E525B'
+              }} 
+              onClick={() => setOpenModal(0)
+              } 
+            >
+              <CircleIcon />
+            </Button>
+            <Button 
+              size='small' 
+              href='' 
+              sx={{ 
+                color: openModal === 1 ? '#5E0916' : '#8E525B'
+              }} 
+              onClick={() => setOpenModal(1)
+              } 
+            >
+              <CircleIcon />
+            </Button>
+            <Button 
+              size='small' 
+              href='' 
+              sx={{ 
+                color: openModal === 2 ? '#5E0916' : '#8E525B'
+              }} 
+              onClick={() => setOpenModal(2)
+              
+              } ><CircleIcon /></Button>
           </Stack>
           </Box>
         </Box>
@@ -87,7 +125,7 @@ export default function TransitionsModal() {
         }}
       >
         <>
-          {displayModal[modal]}
+          {displayModal[openModal]}
         </>
       </Modal>
     </div>

@@ -7,9 +7,7 @@ declare module '@mui/material/styles' {
         nostalgiaHeader: React.CSSProperties;
         nostalgiaSubHeader1: React.CSSProperties;
         nostalgiaSubHeader2: React.CSSProperties;
-        eventTitle: React.CSSProperties;
         eventDetails: React.CSSProperties;
-        teamMember: React.CSSProperties;
     }
   
     // allow configuration using `createTheme`
@@ -17,9 +15,7 @@ declare module '@mui/material/styles' {
         nostalgiaHeader?: React.CSSProperties;
         nostalgiaSubHeader1?: React.CSSProperties;
         nostalgiaSubHeader2?: React.CSSProperties
-        eventTitle: React.CSSProperties;
         eventDetails: React.CSSProperties;
-        teamMember: React.CSSProperties;
     }
 
     interface ButtonVariants {
@@ -37,7 +33,6 @@ declare module '@mui/material/styles' {
         nostalgiaHeader: true;
         nostalgiaSubHeader1: true,
         nostalgiaSubHeader2: true,
-        eventTitle: true,
         eventDetails: true,
         teamMember: true,
         h3: false;
@@ -47,10 +42,10 @@ declare module '@mui/material/styles' {
 
 const theme = createTheme({
     typography: {
-        h1: {
+        fontFamily: 'Open Sans',    
+        h4: {
             fontFamily: 'Comfortaa',
         },
-        fontFamily: 'Open Sans',
         nostalgiaHeader: {
             fontFamily: 'Comfortaa',
             fontSize: 96,
@@ -66,18 +61,11 @@ const theme = createTheme({
             fontSize: 52,
             color: '#5E0916',
         },
-        eventTitle: {
-            fontSize: 22,
-        },
         eventDetails: {
             marginTop: '2.5rem',
             fontSize: 16,
             fontWeight: 'lighter',
-        },
-        teamMember: {
-            transform: 'rotate(270deg)',
-            transformOrigin: '-17px 2px',
-        },
+        }
     },
     components: {
         MuiStack: {

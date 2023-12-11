@@ -58,10 +58,18 @@ const EventsPage = () => {
                         </Stack>
                     <Stack sx={{ width: '50%' }}>
                         <Typography variant='nostalgiaSubHeader2'>{event.title}</Typography>
-                            <Typography variant='eventTitle'>Cecilla Chapman 711-288 Nulla St.Mankato Mississippi</Typography>
-                            <Typography variant='eventTitle'>{event.time}</Typography>
+                            <Typography sx={{ fontSize: '22' }}>
+                                Cecilla Chapman 711-288 Nulla St.Mankato Mississippi
+                            </Typography>
+                            <Typography sx={{ fontSize: '22' }}>{event.time}</Typography>
                             <Typography variant='eventDetails'>{event.details}</Typography>
-                        <Divider sx={{ height: '2px', backgroundColor: '#5E0916', margin: '1rem 0' }} />
+                        <Divider 
+                            sx={{ 
+                                height: '2px', 
+                                backgroundColor: '#5E0916', 
+                                margin: '1rem 0' 
+                            }} 
+                        />
                         <Typography sx={{ color: '#5E0916' }} >View Event Details ➔</Typography>
                     </Stack>
                 </Box>
