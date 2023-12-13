@@ -7,6 +7,10 @@ import '@fontsource/roboto';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@emotion/react';
+import { BrowserRouter } from "react-router-dom";
+import "@fontsource/comfortaa";
+// import "@fontsource/comfortaa/400.css";
+// import "@fontsource/comfortaa/400-italic.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

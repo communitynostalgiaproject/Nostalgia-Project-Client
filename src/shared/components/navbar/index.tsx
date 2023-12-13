@@ -3,7 +3,7 @@ import DesktopNav from './desktop';
 import MobileNav from './mobile';
 import { useMediaQuery, useTheme } from '@mui/material';
 
-const Navbar = () => {
+const pages: string[] = ['The Research', 'The Team', 'Events', 'About', 'Coming Soon'];
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down(1024));
