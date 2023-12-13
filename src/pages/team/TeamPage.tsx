@@ -3,10 +3,8 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import TeamCard from '../../components/team-card/TeamCard';
 import Typography from '@mui/material/Typography';
-
-import TutorialModal from '../../components/tutorialModal/TutorialModal' 
+import TeamCard from '../../shared/components/team-card/TeamCard';
 
 const parvati = require('../../assets/Parvati.png');
 
@@ -126,7 +124,6 @@ const TeamPage = () => {
             margin: '0',
         }}
     >
-        <TutorialModal />
         <Typography variant='h2' sx={{ color: '#5E0916', fontFamily: 'comfortaa' }} >
             MEET THE TEAM
         </Typography>

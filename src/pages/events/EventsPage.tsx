@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
-import EventCard from '../../components/event-card/EventCard';
+import EventCard from '../../shared/components/event-card/EventCard';
 
 type Event = {
     id: number,

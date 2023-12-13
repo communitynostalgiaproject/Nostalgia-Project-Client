@@ -10,7 +10,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 type Anchor = 'left' | 'right';
 
-export default function SwipeableTemporaryDrawer() {
+export default function SideDrawer() {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -83,4 +83,4 @@ export default function SwipeableTemporaryDrawer() {
       </React.Fragment>
     </div>
   );
-}
+};

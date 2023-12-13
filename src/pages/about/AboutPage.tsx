@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import FacetCard from '../../components/facet-card/FacetCard';
+import FacetCard from '../../shared/components/facet-card/FacetCard';
 
 type Facet = {
     id: number,

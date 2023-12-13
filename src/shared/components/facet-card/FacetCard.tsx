@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-const familyPhoto = require('../../assets/Food-with-Family.png');
+const familyPhoto = require('../../../assets/Food-with-Family.png');
 
 type Props = {
   id: number,

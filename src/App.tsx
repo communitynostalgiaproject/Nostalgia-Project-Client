@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./shared/components/navbar"; 
+import Navbar from "./shared/components/navbar";
 import LandingPage from "./pages/landingPage";
 import ResearchPage from "./pages/research/ResearchPage";
 import TeamPage from "./pages/team/TeamPage";
