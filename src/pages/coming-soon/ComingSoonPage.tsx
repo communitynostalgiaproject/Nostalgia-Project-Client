@@ -27,7 +27,7 @@ const ComingSoonPage = () => {
                     width: '50%', 
                     zIndex: '2', 
                     left: '0%', 
-                    backgroundColor: 'rgba(94, 9, 22, 0.4)' 
+                    backgroundColor: 'rgba(94, 9, 22, 0.85)' 
                 }}>
             </div>
             <Box 

@@ -118,7 +118,7 @@ const TeamPage = () => {
     <Container
         sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: { xs: "column", md: "row" },
             justifyContent: 'space-between',
             alignItems: 'center',
             minWidth: '100%',
@@ -130,7 +130,7 @@ const TeamPage = () => {
         <Typography variant='h2' sx={{ color: '#5E0916', fontFamily: 'comfortaa' }} >
             MEET THE TEAM
         </Typography>
-        <Box sx={{ width: '80%' }} >
+        <Box sx={{ width: { sm: '100%', md: '80%', lg: '80%' } }} >
             <List
                 sx={{                    
                     maxHeight: '75vh',

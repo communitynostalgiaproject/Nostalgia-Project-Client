@@ -18,7 +18,7 @@ export default function TeamCard({ name, title, content, photo }: Props) {
     <Card 
       sx={{ 
         display: 'flex', 
-        flexDirection: 'row', 
+        flexDirection: { xs: "column", md: "row" },
         maxWidth: '100%', 
         boxShadow: 'none',
     }}>
@@ -26,14 +26,32 @@ export default function TeamCard({ name, title, content, photo }: Props) {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                paddingTop: '0.5rem'
+                alignItems: { 
+                    xs: "center", 
+                    sm: "center", 
+                    md: 'flex-start' 
+                },
+                paddingTop: '0.5rem',
+                width: '100%',
             }}
         >
-            <Box sx={{ display: 'flex', marginBottom: '0.5rem' }} >
+            <Box 
+                sx={{ 
+                    display: 'flex', 
+                    marginBottom: '0.5rem', 
+                }} 
+            >
                 <Typography variant="h4" >
                     {name}
                 </Typography>
-                &nbsp;<Divider variant='middle' orientation="vertical" flexItem sx={{ backgroundColor: 'black' }} />&nbsp;
+                    &nbsp;
+                    <Divider 
+                        variant='middle' 
+                        orientation="vertical" 
+                        flexItem 
+                        sx={{ backgroundColor: 'black' }} 
+                    />
+                    &nbsp;
                 <Typography variant="h4" color="text.secondary">
                     {title}
                 </Typography>
@@ -41,13 +59,15 @@ export default function TeamCard({ name, title, content, photo }: Props) {
             <CardMedia
                 image={photo}
                 title="Family enjoying dinner together"
-                sx={{ 
-                    width: '225px',
-                    height: '245px',
-                }}
+                sx={{ width: '225px', height: '245px' }}
             />
         </Box>
-        <CardContent sx={{ maxWidth: '70%', paddingTop: '2%' }}>
+        <CardContent 
+            sx={{ 
+                maxWidth: { sm: '100%', md: '70%' }, 
+                paddingTop: '2%', 
+            }
+        }>
             <Typography>
                 {content}
             </Typography>

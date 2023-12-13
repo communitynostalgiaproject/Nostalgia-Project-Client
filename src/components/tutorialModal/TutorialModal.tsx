@@ -60,30 +60,37 @@ export default function TransitionsModal() {
             }}
           >
           <img src={modal.icon} />
-          <Typography id="transition-modal-title" variant="h2" sx={{ fontFamily: 'San Sarif', color: '#5E0916' }}>
+          <Typography 
+            id="transition-modal-title" 
+            variant="h2" 
+            sx={{ fontFamily: 'San Sarif', color: '#5E0916' }}
+          >
             {modal.id + 1}
           </Typography>
           <Typography id="transition-modal-description">
             {modal.text}
           </Typography>
-          <Stack direction="row" spacing={2} sx={{ height: '15%', justifyContent: 'center', marginTop: '1rem' }}>
+          <Stack 
+            direction="row" 
+            spacing={2} 
+            sx={{ 
+              height: '15%', 
+              justifyContent: 'center', 
+              marginTop: '1rem' 
+            }}
+          >
             <Button 
               size='small' 
               href='' 
-              sx={{ 
-                color: openModal === 0 ? '#5E0916' : '#8E525B'
-              }} 
-              onClick={() => setOpenModal(0)
-              } 
+              sx={{ color: openModal === 0 ? '#5E0916' : '#8E525B' }} 
+              onClick={() => setOpenModal(0)} 
             >
               <CircleIcon />
             </Button>
             <Button 
               size='small' 
               href='' 
-              sx={{ 
-                color: openModal === 1 ? '#5E0916' : '#8E525B'
-              }} 
+              sx={{ color: openModal === 1 ? '#5E0916' : '#8E525B' }} 
               onClick={() => setOpenModal(1)
               } 
             >
@@ -92,12 +99,13 @@ export default function TransitionsModal() {
             <Button 
               size='small' 
               href='' 
-              sx={{ 
-                color: openModal === 2 ? '#5E0916' : '#8E525B'
-              }} 
+              sx={{ color: openModal === 2 ? '#5E0916' : '#8E525B' }} 
               onClick={() => setOpenModal(2)
               
-              } ><CircleIcon /></Button>
+              } 
+            >
+              <CircleIcon />
+            </Button>
           </Stack>
           </Box>
         </Box>

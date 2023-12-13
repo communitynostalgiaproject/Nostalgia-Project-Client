@@ -3,9 +3,9 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import Box from '@mui/material/Box';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
+import EventCard from '../../components/event-card/EventCard';
 
 type Event = {
     id: number,
@@ -50,34 +50,12 @@ const EventsPage = () => {
 
     const displayEvents = DUMMY_DATA.map(event => {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '5rem' }}>
-                    <Stack>
-                        <Typography variant='nostalgiaSubHeader2'>NOV</Typography>
-                            <Divider sx={{ height: '2px', backgroundColor: '#5E0916' }} />
-                            <Typography variant='nostalgiaSubHeader2'>7</Typography>
-                        </Stack>
-                    <Stack sx={{ width: '50%' }}>
-                        <Typography variant='nostalgiaSubHeader2'>{event.title}</Typography>
-                            <Typography sx={{ fontSize: '22' }}>
-                                Cecilla Chapman 711-288 Nulla St.Mankato Mississippi
-                            </Typography>
-                            <Typography sx={{ fontSize: '22' }}>{event.time}</Typography>
-                            <Typography variant='eventDetails'>{event.details}</Typography>
-                        <Divider 
-                            sx={{ 
-                                height: '2px', 
-                                backgroundColor: '#5E0916', 
-                                margin: '1rem 0' 
-                            }} 
-                        />
-                        <Typography sx={{ color: '#5E0916' }} >View Event Details ➔</Typography>
-                    </Stack>
-                </Box>
+            <EventCard event={event} />
         );
     });
 
     return (
-        <Container sx={{ marginTop: '10rem' }}>
+        <Container sx={{ width: '100%', marginTop: '10rem' }}>
             <Stack 
                 direction='row' 
                 useFlexGap 
