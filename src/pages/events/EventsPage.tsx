@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import EventCard from '../../shared/components/event-card/EventCard';
+import AddEventsDialog from './AddEventsDialog';
 
 type Event = {
     id: number,
@@ -80,6 +81,7 @@ const EventsPage = () => {
             <div>
                 <GridViewIcon sx={{ color: '#5E0916' }} />
                 <TableRowsIcon sx={{ marginLeft: '0.5rem', color: '#5E0916' }} />
+                <AddEventsDialog />
             </div>
             </Stack>
             <Divider 
