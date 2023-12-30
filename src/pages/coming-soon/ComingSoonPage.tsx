@@ -68,8 +68,7 @@ const ComingSoonPage = () => {
                 </Typography>
                 <Box sx={{ flex: '1' }}>
                     <Typography sx={{ marginLeft: '2rem', fontSize: '1rem', color: '#fff' }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi odit quaerat vero eveniet accusantium sit praesentium earum quidem voluptate dolor quia ea, ipsa obcaecati ut porro voluptatem maiores ad rem!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi odit quaerat vero eveniet accusantium sit praesentium earum quidem voluptate dolor quia ea, ipsa obcaecati ut porro voluptatem maiores ad rem!
+                        In February, we will launch the Community Nostalgia Initiative website where you can share your experiences of food nostalgia with the world and participate in local events geared towards understanding and exploring the science and art of nostalgia.
                     </Typography>
                 </Box>
             </Box>

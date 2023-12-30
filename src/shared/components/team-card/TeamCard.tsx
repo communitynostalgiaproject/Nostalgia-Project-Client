@@ -18,14 +18,21 @@ export default function TeamCard({ name, title, content, photo }: Props) {
     <Card 
       sx={{ 
         display: 'flex', 
-        flexDirection: { xs: "column", md: "row" },
+        flexDirection: "column",
         maxWidth: '100%', 
+        marginBottom: '3rem',
         boxShadow: 'none',
     }}>
+        <Typography variant="h4" >
+            {name}
+        </Typography>
+        <Typography variant="h4" color="text.secondary">
+            {title}
+        </Typography>
         <Box 
             sx={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row',
                 alignItems: { 
                     xs: "center", 
                     sm: "center", 
@@ -35,9 +42,10 @@ export default function TeamCard({ name, title, content, photo }: Props) {
                 width: '100%',
             }}
         >
-            <Box 
+            {/* <Box 
                 sx={{ 
                     display: 'flex', 
+                    flexDirection: 'column',
                     marginBottom: '0.5rem', 
                 }} 
             >
@@ -54,24 +62,19 @@ export default function TeamCard({ name, title, content, photo }: Props) {
                     &nbsp;
                 <Typography variant="h4" color="text.secondary">
                     {title}
-                </Typography>
-            </Box>
+                </Typography> 
+            </Box> */}
             <CardMedia
                 image={photo}
                 title="Family enjoying dinner together"
-                sx={{ width: '225px', height: '245px' }}
+                sx={{ width: '225px', height: '245px', marginTop: '1rem' }}
             />
+            <CardContent sx={{ maxWidth: { sm: '100%', md: '70%' } }}>
+                <Typography >
+                    {content}
+                </Typography>
+            </CardContent>
         </Box>
-        <CardContent 
-            sx={{ 
-                maxWidth: { sm: '100%', md: '70%' }, 
-                paddingTop: '2%', 
-            }
-        }>
-            <Typography>
-                {content}
-            </Typography>
-        </CardContent>
     </Card>
   );
 };
