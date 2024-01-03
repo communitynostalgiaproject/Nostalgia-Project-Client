@@ -3,6 +3,14 @@ import { responsiveFontSizes } from '@mui/material';
 import React from "react";
 
 declare module '@mui/material/styles' {
+    interface Palette {
+        nostalgia: Palette['primary']
+    }
+
+    interface PaletteOptions {
+        nostalgia?: PaletteOptions['primary']
+    }
+
     interface TypographyVariants {
         nostalgiaHeader: React.CSSProperties;
         eventDetails: React.CSSProperties;
@@ -16,21 +24,34 @@ declare module '@mui/material/styles' {
     interface ButtonVariants {
         modalButton: React.CSSProperties;
     }
+};
 
-    interface ButtonVariansOptions {
-        modalButton: true
-    }
-  };
-  
-  declare module '@mui/material/Typography' {
+declare module '@mui/material/Typography' {
     interface TypographyPropsVariantOverrides {
         nostalgiaHeader: true;
         eventDetails: true,
     }
-};
-  
+}
+
+declare module '@mui/material/Button' {
+    interface ButtonVariantsOptions {
+        modalButton: true
+    }
+}
+
+declare module '@mui/material/Fab' {
+    interface FabPropsColorOverrides {
+        nostalgia: true
+    }
+}
 
 const theme = createTheme({
+    palette: {
+        nostalgia: {
+            main: '#5E0916',
+            light: '#A00D23'
+        }
+    },
     typography: {
         fontFamily: 'Open Sans',    
         h4: {
