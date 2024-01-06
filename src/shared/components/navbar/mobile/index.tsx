@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { Drawer, List, ListItemText, ListItemButton, IconButton, Box, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
+import LoginButton from '../../../../components/login/loginButton';
 import useStyles from './styles';
 
 interface MobileNavProps {
@@ -56,13 +57,14 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
             </div>
             <Box className={classes.navItemBox}>
               <List className={classes.navItemGroup}>
-              {
-                navItems.map((item: string) => (
-                    <ListItemButton key={item}  component={Link} to={`/${item.toLowerCase()}`} onClick={handleListItemClick} className={classes.navItem}>
-                      <ListItemText primary={item} />
-                    </ListItemButton>
-                ))
-              }
+                {
+                  navItems.map((item: string) => (
+                      <ListItemButton key={item}  component={Link} to={`/${item.toLowerCase()}`} onClick={handleListItemClick} className={classes.navItem}>
+                        <ListItemText primary={item} />
+                      </ListItemButton>
+                  ))
+                }
+                <LoginButton />
               </List>
             </Box>
           </Box>
