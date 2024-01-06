@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useState } from 'react';
 import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import useStyles from './styles';
+import useUserSession from '../../../../hooks/useUserSession';
 import LoginButton from '../../../../components/login/loginButton';
 
 interface DesktopNavProps {
@@ -9,7 +10,7 @@ interface DesktopNavProps {
 }
 
 const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
-
+    const user = useUserSession();
     const classes = useStyles();
 
     const [value, setValue] = useState(0)
@@ -40,7 +41,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 ))
                             }
                         </Tabs>
-                        <LoginButton />
+                        {user ? null : <LoginButton />}
                     </Box>
                 </Toolbar>
             </Container>
