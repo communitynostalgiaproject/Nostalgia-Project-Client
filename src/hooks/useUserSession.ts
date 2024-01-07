@@ -5,10 +5,14 @@ const useUserSession = () => {
   const [user, setUser] = useState<any>();
 
   const fetchUser = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/fetchData`, {withCredentials: true});
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/fetchData`, {withCredentials: true});
 
-    sessionStorage.setItem("user", JSON.stringify(res.data));
-    setUser(res.data);
+      sessionStorage.setItem("user", JSON.stringify(res.data));
+      setUser(res.data);
+    } catch(err){
+      console.log(`Unable to fetch user data: ${err}`);
+    }
   };
 
   useEffect(() => {
@@ -19,11 +23,7 @@ const useUserSession = () => {
       return; 
     }
 
-    try {
-      fetchUser();
-    } catch(err) {
-      console.log("Unable to fetch user");
-    }
+    fetchUser();
   }, []);
 
   return user;
