@@ -12,7 +12,6 @@ export class CRUDBaseClass {
             let response = await axios.post(`${getApiBase()}/${this.model}`, reqBody, {
                 headers: HEADERS
             });
-            
             return response.data
 
         } catch(error) {
@@ -25,7 +24,6 @@ export class CRUDBaseClass {
             let response = await axios.get(`${getApiBase()}/${this.model}/${pathParam}`, {
                 headers: HEADERS
             });
-
             return response.data;
 
         } catch(error) {
@@ -39,7 +37,6 @@ export class CRUDBaseClass {
                 params: { limit: queryParam },
                 headers: HEADERS
             });
-
             return response.data;
             
         } catch(error) {

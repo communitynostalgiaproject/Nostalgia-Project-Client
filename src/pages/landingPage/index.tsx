@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import ExperienceRequest from '../../api/experiences.request'
+import ReactionRequest from '../../api/reactions.request'
 import AppVector from '../../shared/components/stadiaMap/index';
 
 const LandingPage: React.FC = () => {
 
     useEffect(() => {
-        const createExperience = async() => {
-            let deleted = await ExperienceRequest.delete("659c2be7198da1cbcf8d41ce")
+        const createReaction = async() => {
+            let deleted = await ReactionRequest.post({
+                reaction: "meToo",
+                userId: "6541795c8c2ca0edcda512df",
+                experienceId: "659c2be7198da1cbcf8d41d6",
+                createdDate: "2023-01-08"
+            })
             return deleted
         };
 
-        createExperience().then(res => console.log(res));
+        createReaction().then(res => console.log(res));
     }, []);
 
     return (
