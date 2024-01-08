@@ -1,4 +1,4 @@
-import { CRUDBaseClass } from "./CRUDBaseClass";
+import { CRUDBaseClass } from "./CRUDRequestClass";
 
 export class UserRequest extends CRUDBaseClass {
 
