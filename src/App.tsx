@@ -14,7 +14,7 @@ const App = () => {
                     display: 'flex', 
                     justifyContent: 'center', 
                     alignItems: { sm: 'center' },
-                    height: '1get rid of 00%', 
+                    height: '100%', 
                     backgroundColor: '#5E0916' 
                 }}
             >
