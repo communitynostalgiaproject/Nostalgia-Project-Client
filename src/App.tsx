@@ -118,7 +118,7 @@ const App = () => {
             </Box>
         </Box>   
         </main>        
-    );
+    )
 };
  
 export default App;
