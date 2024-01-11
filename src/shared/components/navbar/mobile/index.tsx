@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Drawer, List, ListItemText, ListItemButton, IconButton, Box, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import LoginButton from '../../../../components/login/loginButton';
-import useUserSession from '../../../../hooks/useUserSession';
 import useStyles from './styles';
 
 interface MobileNavProps {
@@ -11,7 +12,11 @@ interface MobileNavProps {
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
-  const user = useUserSession();
+  const { error, data: user} = useQuery("user", async () => {
+    const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/fetchData`, { withCredentials: true });
+
+    return res.data;
+  });
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -25,8 +30,9 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
   };
 
   useEffect(() => {
+    if (error) console.error(`Error fetching user: ${error}`);
     console.log(`user: ${JSON.stringify(user)}`);
-  }, [user]);
+  }, [error, user]);
 
   return (
 

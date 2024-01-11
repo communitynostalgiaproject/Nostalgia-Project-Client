@@ -7,16 +7,21 @@ import '@fontsource/roboto';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@emotion/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-        <App />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+          <App />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
