@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import ReactionRequest from '../../api/reactions.request'
+import CommentRequest from '../../api/comments.request'
 import AppVector from '../../shared/components/stadiaMap/index';
 
 const LandingPage: React.FC = () => {
 
     useEffect(() => {
-        const getReactions = async() => {
-            let reactions = await ReactionRequest.get(2);
-            return reactions
+        const postFlag = async() => {
+            for(let i = 1; i < 6; i++) {
+                await CommentRequest.post({
+                    experienceId: "659c2be7198da1cbcf8d41d6",
+                    text: `sting post ${i}`,
+                    createdDate: "2024-1-12",
+                    creatorId: "6541795c8c2ca0edcda512df"
+                });
+            }
         };
 
-        getReactions().then((res) => console.log(res));
+        postFlag();
     }, []);
 
     return (
