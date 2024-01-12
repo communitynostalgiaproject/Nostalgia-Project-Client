@@ -5,12 +5,12 @@ import AppVector from '../../shared/components/stadiaMap/index';
 const LandingPage: React.FC = () => {
 
     useEffect(() => {
-        const createReaction = async() => {
-            let reaction = await ReactionRequest.getById("659c3809fcb2d898d87818d7")
-            return reaction
+        const getReactions = async() => {
+            let reactions = await ReactionRequest.get(2);
+            return reactions
         };
 
-        createReaction().then(res => console.log(res));
+        getReactions().then((res) => console.log(res));
     }, []);
 
     return (
