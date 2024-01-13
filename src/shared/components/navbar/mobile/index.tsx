@@ -13,7 +13,7 @@ interface MobileNavProps {
 
 const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
   const { error, data: user} = useQuery("user", async () => {
-    const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/users/fetchData`, { withCredentials: true });
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
     return res.data;
   });
