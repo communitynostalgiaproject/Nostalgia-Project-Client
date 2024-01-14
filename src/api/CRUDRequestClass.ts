@@ -8,78 +8,62 @@ export class CRUDBaseClass {
     }
 
     post = async(reqBody: {}) => { 
-        try {
-            let response = await axios.post(`${getApiBase()}/${this.model}`, reqBody, {
-                headers: HEADERS
-            });
-            return response.data
+        let response = await axios.post(`${getApiBase()}/${this.model}`, reqBody, {
+            headers: HEADERS,
+            withCredentials: true
+        });
 
-        } catch(error) {
-            return error
-        }
+        return response.data
     }
 
-    getById = async(pathParam: string) => {
-        try {
-            let response = await axios.get(`${getApiBase()}/${this.model}/${pathParam}`, {
-                headers: HEADERS
-            });
-            return response.data;
+    getById = async(objectId: string) => {
+        let response = await axios.get(`${getApiBase()}/${this.model}/${objectId}`, {
+            headers: HEADERS,
+            withCredentials: true
+        });
 
-        } catch(error) {
-            return error
-        }
+        return response.data;
     }
 
-    get = async(queryParam: string | number) => {
-        try {
+    get = async(queryParams: {}) => {
             let response = await axios.get(`${getApiBase()}/${this.model}`, {
-                params: { limit: queryParam },
-                headers: HEADERS
+                params: queryParams,
+                headers: HEADERS,
+                withCredentials: true
             });
+
             return response.data;
-            
-        } catch(error) {
-            return error
-        }
     }
 
     patch = async(reqBody: { _id: string, __v?: number, [key: string]: any }) => {
-        try {
-            let response = await axios.patch(`${getApiBase()}/${this.model}/${reqBody._id}`, reqBody, {
-                headers: HEADERS
-            });
+        let response = await axios.patch(`${getApiBase()}/${this.model}/${reqBody._id}`, reqBody, {
+            headers: HEADERS,
+            withCredentials: true
+        });
 
-            if(response.status === 200) {
-                let updatedDocument = await this.getById(reqBody._id);
+        if(response.status === 200) {
+            let updatedDocument = await this.getById(reqBody._id);
 
-                return updatedDocument;
-            } 
-            
-        } catch(error) {
-            return error
-        }
+            return updatedDocument;
+        } 
     }
 
-    delete = async(pathParam: string) => { 
-        try {
-            let response = await axios.get(`${getApiBase()}/${this.model}/${pathParam}`, {
-                headers: HEADERS
-            });
+    delete = async(objectId: string) => { 
+        let response = await axios.get(`${getApiBase()}/${this.model}/${objectId}`, {
+            headers: HEADERS,
+            withCredentials: true
+        });
 
-            let deletedDocument = await axios.delete(`${getApiBase()}/${this.model}/${pathParam}`, {
-                headers: HEADERS
-            });
+        let deletedDocument = await axios.delete(`${getApiBase()}/${this.model}/${objectId}`, {
+            headers: HEADERS,
+            withCredentials: true
+        });
 
-            return {
-                data: { 
-                    doc_deletion: response.data, 
-                    status: deletedDocument.status,
-                }
+        return {
+            data: { 
+                doc_deletion: response.data, 
+                status: deletedDocument.status,
             }
-
-        } catch(error) {
-            return error
-        }    
+        }
     }
 }
