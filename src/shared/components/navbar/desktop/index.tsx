@@ -1,21 +1,33 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 import useStyles from './styles';
+import LoginButton from '../../../../components/login/loginButton';
 
 interface DesktopNavProps {
     navItems: string[]
 }
 
 const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
+    const { error, data: user} = useQuery("user", async () => {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
+      return res.data;
+    });
     const classes = useStyles();
 
     const [value, setValue] = useState(0)
 
     const handleChange = (event: SyntheticEvent, newValue: number) => {
         setValue(newValue)
-    }
+    };
+
+    useEffect(() => {
+      if (error) console.error(`Error fetching user: ${error}`);
+      console.log(`user: ${JSON.stringify(user)}`);
+    }, [error, user]);
 
     return (
         <AppBar className={classes.navBar}>
@@ -39,6 +51,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 ))
                             }
                         </Tabs>
+                        {user ? null : <LoginButton />}
                     </Box>
                 </Toolbar>
             </Container>

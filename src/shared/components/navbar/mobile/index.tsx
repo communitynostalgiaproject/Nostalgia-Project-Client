@@ -1,7 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Drawer, List, ListItemText, ListItemButton, IconButton, Box, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import LoginButton from '../../../../components/login/loginButton';
 import useStyles from './styles';
 
 interface MobileNavProps {
@@ -9,7 +12,11 @@ interface MobileNavProps {
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
+  const { error, data: user} = useQuery("user", async () => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
+    return res.data;
+  });
   const classes = useStyles();
 
   const [open, setOpen] = useState(false);
@@ -21,6 +28,11 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
   const handleListItemClick = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (error) console.error(`Error fetching user: ${error}`);
+    console.log(`user: ${JSON.stringify(user)}`);
+  }, [error, user]);
 
   return (
 
@@ -56,13 +68,14 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
             </div>
             <Box className={classes.navItemBox}>
               <List className={classes.navItemGroup}>
-              {
-                navItems.map((item: string) => (
-                    <ListItemButton key={item}  component={Link} to={`/${item.toLowerCase()}`} onClick={handleListItemClick} className={classes.navItem}>
-                      <ListItemText primary={item} />
-                    </ListItemButton>
-                ))
-              }
+                {
+                  navItems.map((item: string) => (
+                      <ListItemButton key={item}  component={Link} to={`/${item.toLowerCase()}`} onClick={handleListItemClick} className={classes.navItem}>
+                        <ListItemText primary={item} />
+                      </ListItemButton>
+                  ))
+                }
+                {user ? null : <LoginButton />}
               </List>
             </Box>
           </Box>
