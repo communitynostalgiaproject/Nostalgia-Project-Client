@@ -6,7 +6,7 @@ export class CommentRequest extends CRUDBaseClass {
         super(model);
     };
 };
-
-    // Will rework to coincide with experience class
+    // Still considering the use of comments per Hetvi's suggestion.
+    // Will rework to coincide with experience class when functionality is added to backend endpoints.
 
 export default new CommentRequest("comments");
