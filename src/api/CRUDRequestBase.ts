@@ -1,43 +1,40 @@
 import axios from 'axios';
 import { getApiBase, HEADERS } from './helpers';
 
-export class CRUDBaseClass {
+export class CRUDRequestBase {
 
     constructor(public model: string) {
         this.model = model
     }
 
-    post = async(reqBody: {}) => { 
+    post = async(reqBody: {}, headers?: {}) => { 
         let response = await axios.post(`${getApiBase()}/${this.model}`, reqBody, {
-            headers: HEADERS,
+            headers: headers,
             withCredentials: true
         });
 
         return response.data
     }
 
-    getById = async(objectId: string) => {
+    getById = async(objectId: string, headers?: {}) => {
         let response = await axios.get(`${getApiBase()}/${this.model}/${objectId}`, {
-            headers: HEADERS,
             withCredentials: true
         });
 
         return response.data;
     }
 
-    get = async(queryParams: {}) => {
+    get = async(queryParams: {}, headers?: {}) => {
             let response = await axios.get(`${getApiBase()}/${this.model}`, {
                 params: queryParams,
-                headers: HEADERS,
                 withCredentials: true
             });
 
             return response.data;
     }
 
-    patch = async(reqBody: { _id: string, __v?: number, [key: string]: any }) => {
+    patch = async(reqBody: { _id: string, __v?: number, [key: string]: any }, headers?: {}) => {
         let response = await axios.patch(`${getApiBase()}/${this.model}/${reqBody._id}`, reqBody, {
-            headers: HEADERS,
             withCredentials: true
         });
 
@@ -48,22 +45,13 @@ export class CRUDBaseClass {
         } 
     }
 
-    delete = async(objectId: string) => { 
-        let response = await axios.get(`${getApiBase()}/${this.model}/${objectId}`, {
-            headers: HEADERS,
+    delete = async(objectId: string, headers?: {}) => { 
+        let response = await this.getById(objectId);
+
+        await axios.delete(`${getApiBase()}/${this.model}/${objectId}`, {
             withCredentials: true
         });
 
-        let deletedDocument = await axios.delete(`${getApiBase()}/${this.model}/${objectId}`, {
-            headers: HEADERS,
-            withCredentials: true
-        });
-
-        return {
-            data: { 
-                doc_deletion: response.data, 
-                status: deletedDocument.status,
-            }
-        }
+        return response.data
     }
 }

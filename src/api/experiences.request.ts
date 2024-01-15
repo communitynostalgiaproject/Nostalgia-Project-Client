@@ -1,6 +1,6 @@
-import { CRUDBaseClass } from "./CRUDRequestClass";
+import { CRUDRequestBase } from "./CRUDRequestBase";
 
-export class ExperienceRequest extends CRUDBaseClass {
+export class ExperienceRequest extends CRUDRequestBase {
 
     constructor(model:string) {
         super(model);
