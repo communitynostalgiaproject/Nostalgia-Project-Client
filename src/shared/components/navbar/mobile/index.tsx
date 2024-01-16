@@ -3,7 +3,7 @@ import { Drawer, List, ListItemText, ListItemButton, IconButton, Box, Typography
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import experiencesRequest from '../../../../api/experiences.request';
+import usersRequest from '../../../../api/users.request';
 import LoginButton from '../../../../components/login/loginButton';
 import useStyles from './styles';
 
@@ -13,7 +13,7 @@ interface MobileNavProps {
 
 const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
   const { error, data: user} = useQuery("user", async () => {
-    return await experiencesRequest.fetchData();
+    return await usersRequest.fetchData();
   });
   const classes = useStyles();
 
