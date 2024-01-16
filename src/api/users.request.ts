@@ -1,4 +1,6 @@
 import { CRUDRequestBase } from "./CRUDRequestBase";
+import { getApiBase } from "./helpers";
+import axios from "axios";
 
 export class UserRequest extends CRUDRequestBase {
 
@@ -6,6 +8,13 @@ export class UserRequest extends CRUDRequestBase {
         super(model);
     };
 
+    fetchData = async () => {
+      let response = await axios.get(`${getApiBase()}/${this.model}/fetchData`, {
+          withCredentials: true
+      });
+
+      return response.data;
+    }
 };
 
 export default new UserRequest("users");

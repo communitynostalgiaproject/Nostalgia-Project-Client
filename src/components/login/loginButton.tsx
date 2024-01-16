@@ -1,9 +1,10 @@
 import React from "react";
+import { getApiBase } from "../../api/helpers";
 import { Button } from "@mui/material";
 
 const LoginButton = () => {
   const handleLogin = () => {
-    window.location.href = `${process.env.REACT_APP_BACKEND_URL}/auth/google`;
+    window.location.href = `${getApiBase()}/auth/google`;
   };
 
   return (
