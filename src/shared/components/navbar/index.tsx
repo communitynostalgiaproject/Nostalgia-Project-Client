@@ -7,7 +7,6 @@ const Navbar = () => {
 
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.down(1024));
-    console.log(matches)
 
     const pages: string[] = [
         "Research",

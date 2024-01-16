@@ -7,9 +7,9 @@ import EventsPage from "./components/events/EventsPage";
 import AboutPage from "./components/about/AboutPage";
 
 import "./App.css";
-import { Container } from "@mui/material";
 
-const App = () => {
+const App: React.FC = () => {
+
     return (
         <Router>
             <Navbar />
