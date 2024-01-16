@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useState, useEffect } from 'react';
 import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import axios from 'axios';
+import experiencesRequest from '../../../../api/experiences.request';
 import useStyles from './styles';
 import LoginButton from '../../../../components/login/loginButton';
 
@@ -12,9 +12,7 @@ interface DesktopNavProps {
 
 const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
     const { error, data: user} = useQuery("user", async () => {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
-
-      return res.data;
+      return await experiencesRequest.fetchData();
     });
     const classes = useStyles();
 
