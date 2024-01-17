@@ -7,26 +7,18 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
 
-interface LocationFeature {
-  geometry: {
-    type: string;
-    coordinates: any[];
-  };
-  properties: any;
-}
-
 interface LocationSearchParams {
   setLocation: (location: any) => void;
-  location?: LocationFeature;
+  currentLocation?: string;
   focus?: { lat: number, long: number };
 }
 
 const LocationSearch: React.FC<LocationSearchParams> = ({ 
   setLocation,
-  location,
+  currentLocation,
   focus
 }) => {
-  const [inputText, setInputText] = useState<string>(location?.properties?.label || "");
+  const [inputText, setInputText] = useState<string>(currentLocation || "");
   const [searchText, setSearchText] = useState<string>("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [doSearch, setDoSearch] = useState<boolean>(true);
@@ -77,8 +69,21 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
         variant="outlined"
       />
       {suggestions.length > 0 && (
-        <Paper style={{ maxHeight: 200, overflow: 'auto' }}>
-          <List component="nav">
+        <Paper 
+          style={{ 
+            position: 'absolute', 
+            width: '100%', 
+            maxHeight: 200, 
+            overflow: 'auto', 
+            zIndex: 5,
+            backgroundColor: "rgba(255,255,255,1)",
+            opacity: 1
+          }}
+          elevation={3}
+        >
+          <List
+            component="nav"
+          >
             {suggestions.map((suggestion, index) => (
               <ListItem 
                 button 
