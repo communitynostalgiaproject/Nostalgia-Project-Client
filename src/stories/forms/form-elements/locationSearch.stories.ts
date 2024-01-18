@@ -54,12 +54,42 @@ export const InputTest: Story = {
 
     const inputElement = within(inputContainer).getByRole('textbox');
 
-    await userEvent.type(inputElement, 'Ne', { delay: 100 });
+    await userEvent.type(inputElement, 'Ne', { delay: 300 });
 
     await canvas.findByTestId('LocationSearch-SuggestionListContainer');
     const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
     await expect(suggestions.length).toBeGreaterThan(0);
     await expect(suggestions[0].textContent).toBe('New York');
+  }
+};
+
+export const ClickTest: Story = {
+  loaders: [mswLoader],
+  parameters: {
+    msw: {
+      handlers: {
+        autocomplete: [autocompleteHandler]
+      }
+    }
+  },
+  play: async ({ canvasElement }) => {
+    // Suggestion list should disappear when user selects an item
+    const canvas = within(canvasElement);
+    const inputContainer = canvas.getByTestId('LocationSearch-InputField');
+
+    expect(inputContainer).toBeInTheDocument();
+
+    const inputElement = within(inputContainer).getByRole('textbox');
+
+    await userEvent.type(inputElement, 'Ne', { delay: 900 });
+
+    const suggestionList = await canvas.findByTestId('LocationSearch-SuggestionListContainer');
+    const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
+    await expect(suggestions.length).toBeGreaterThan(0);
+    await expect(suggestions[0].textContent).toBe('New York');
+
+    await userEvent.click(suggestions[0]);
+    expect(suggestionList).not.toBeInTheDocument(); 
   }
 };
 
@@ -81,7 +111,7 @@ export const BlurTest: Story = {
 
     const inputElement = within(inputContainer).getByRole('textbox');
 
-    await userEvent.type(inputElement, 'Ne', { delay: 100 });
+    await userEvent.type(inputElement, 'Ne', { delay: 900 });
 
     const suggestionList = await canvas.findByTestId('LocationSearch-SuggestionListContainer');
     const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
