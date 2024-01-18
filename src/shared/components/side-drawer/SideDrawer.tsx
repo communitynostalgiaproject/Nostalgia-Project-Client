@@ -4,9 +4,10 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import ImageList from '@mui/material/ImageList';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import PostedImagesList from './PostedImagesList';
 
 type Anchor = 'left' | 'right';
 
@@ -35,19 +36,24 @@ export default function SideDrawer() {
 
   const list = (anchor: Anchor) => (
     <Box
-      sx={{ width: 350 }}
+      sx={{ 
+        display: 'flex',
+        alignItems: 'center',
+        width: 500, 
+        backgroundColor: '#272A40', 
+        height: '100%',
+      }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        {['List of events that exists at the same location'].map((text, index) => (
+      <List sx={{ color: '#fff', padding: '1rem' }}>
+        {[''].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text} />
-            </ListItemButton>
+            <ListItemText primary={text} />
           </ListItem>
         ))}
+        <PostedImagesList />
       </List>
     </Box>
   );
@@ -61,7 +67,7 @@ export default function SideDrawer() {
             top: '50%',
             right: '0px',
             borderRadius: '150px 0 0 150px',
-            backgroundColor: '#5E0916',
+            backgroundColor: '#272A40',
           }}
           onClick={toggleDrawer('right', true)}
         >
