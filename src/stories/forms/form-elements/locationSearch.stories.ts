@@ -46,6 +46,7 @@ export const InputTest: Story = {
     }
   },
   play: async ({ canvasElement }) => {
+    // Should display a list of suggested locations when a user types in the box
     const canvas = within(canvasElement);
     const inputContainer = canvas.getByTestId('LocationSearch-InputField');
 
@@ -59,5 +60,35 @@ export const InputTest: Story = {
     const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
     await expect(suggestions.length).toBeGreaterThan(0);
     await expect(suggestions[0].textContent).toBe('New York');
+  }
+};
+
+export const BlurTest: Story = {
+  loaders: [mswLoader],
+  parameters: {
+    msw: {
+      handlers: {
+        autocomplete: [autocompleteHandler]
+      }
+    }
+  },
+  play: async ({ canvasElement }) => {
+    // Suggestion list should disappear when the search box loses focus
+    const canvas = within(canvasElement);
+    const inputContainer = canvas.getByTestId('LocationSearch-InputField');
+
+    expect(inputContainer).toBeInTheDocument();
+
+    const inputElement = within(inputContainer).getByRole('textbox');
+
+    await userEvent.type(inputElement, 'Ne', { delay: 100 });
+
+    const suggestionList = await canvas.findByTestId('LocationSearch-SuggestionListContainer');
+    const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
+    await expect(suggestions.length).toBeGreaterThan(0);
+    await expect(suggestions[0].textContent).toBe('New York');
+
+    await userEvent.tab();
+    expect(suggestionList).not.toBeInTheDocument(); 
   }
 };
