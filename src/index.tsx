@@ -7,22 +7,21 @@ import '@fontsource/roboto';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@emotion/react';
-import { BrowserRouter } from "react-router-dom";
-import "@fontsource/comfortaa";
-// import "@fontsource/comfortaa/400.css";
-// import "@fontsource/comfortaa/400-italic.css";
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
           <App />
       </ThemeProvider>
-    </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>
 );
 

@@ -9,7 +9,8 @@ import AboutPage from "./pages/about/AboutPage";
 import ComingSoonPage from "./pages/coming-soon/ComingSoonPage";
 import "./App.css";
 
-const App = () => {
+const App: React.FC = () => {
+
     return (
         <main style={{ height: '100vh' }}>
             <Navbar />

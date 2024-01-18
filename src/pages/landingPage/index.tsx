@@ -1,7 +1,9 @@
+import React, { useEffect, useState } from 'react';
+import FlagRequest from '../../api/flags.request'
 import AppVector from '../../shared/components/stadiaMap/index';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 
-const LandingPage = () => {
+const LandingPage: React.FC = () => {
     return (
         <>
             <AppVector/>
