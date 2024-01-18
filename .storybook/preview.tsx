@@ -1,10 +1,12 @@
 import type { Preview } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { initialize, mswLoader } from 'msw-storybook-addon';
 import { ThemeProvider } from '@emotion/react';
 import theme from "../src/theme";
 import React from "react";
 
 const queryClient = new QueryClient();
+initialize(); // Initialize MSW
 
 const AppDecorator = (storyFn) => {
   return (
@@ -26,7 +28,8 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [AppDecorator]
+  decorators: [AppDecorator],
+  loaders: [mswLoader]
 };
 
 export default preview;

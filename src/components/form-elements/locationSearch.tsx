@@ -55,6 +55,11 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
     debouncedChangeHandler(e.target.value);
   };
 
+  const handleOnBlur = () => {
+    setInputText("");
+    setSuggestions([]);
+  };
+
   useEffect(() => {
     if (searchText.length >= 2 && doSearch) refetch();
   }, [searchText, refetch]);
@@ -65,8 +70,10 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
         fullWidth
         value={inputText}
         onChange={handleChange}
+        onBlur={handleOnBlur}
         placeholder="Search for a location"
         variant="outlined"
+        data-testid="LocationSearch-InputField"
       />
       {suggestions.length > 0 && (
         <Paper 
@@ -80,6 +87,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
             opacity: 1
           }}
           elevation={3}
+          data-testid="LocationSearch-SuggestionListContainer"
         >
           <List
             component="nav"
@@ -89,6 +97,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
                 button 
                 key={index} 
                 onClick={() => selectSuggestion(suggestion)}
+                data-testid="LocationSearch-SuggestionListItem"
               >
                 {suggestion.properties.label}
               </ListItem>
