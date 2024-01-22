@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useQuery } from "react-query";
 import { debounce } from "lodash";
+import { Place } from "../../types/experience";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
+import { PeliasGeoJSONFeature } from "@stadiamaps/api";
 
 interface LocationSearchParams {
-  setLocation: (location: any) => void;
+  setLocation: (location: Place) => void;
   currentLocation?: string;
   focus?: { lat: number, long: number };
 }
@@ -20,8 +22,8 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
 }) => {
   const [inputText, setInputText] = useState<string>(currentLocation || "");
   const [searchText, setSearchText] = useState<string>("");
-  const [suggestions, setSuggestions] = useState<any[]>([]);
-  const [doSearch, setDoSearch] = useState<boolean>(true);
+  const [doSearch, setDoSearch] = useState<boolean>(false);
+  const [suggestions, setSuggestions] = useState<PeliasGeoJSONFeature[]>([]);
   const api_key = process.env.REACT_APP_GEOCODE_API_KEY;
   const { refetch } = useQuery("suggestions", async () => {
     const res = await axios.get(`https://api.geocode.earth/v1/autocomplete`, {
@@ -33,16 +35,18 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
       }
     });
 
-    setSuggestions(res.data.features);
+    setSuggestions(res.data.features as PeliasGeoJSONFeature[]);
   }, {
     enabled: false
   });
 
-  const selectSuggestion = (location: any) => {
-    setLocation(location);
-    setDoSearch(false);
-    setInputText(location.properties.label);
-    setSuggestions([]);
+  const selectSuggestion = (location: PeliasGeoJSONFeature) => {
+    console.log(`Selected location: ${location.properties?.label}`);
+    const place = {
+      address: location.properties || {},
+      location: location.geometry
+    } as Place;
+    setLocation(place);
   };
 
   const debouncedChangeHandler = useCallback(debounce((text) => {
@@ -50,19 +54,30 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
   }, 150), []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!doSearch) setDoSearch(true);
     setInputText(e.target.value);
     debouncedChangeHandler(e.target.value);
   };
 
-  const handleOnBlur = () => {
+  const handleFocus = () => {
+    setDoSearch(true);
     setInputText("");
-    setSuggestions([]);
+  };
+
+  const handleOnBlur = () => {
+    setDoSearch(false);
+    setInputText(currentLocation || "");
+    setTimeout(() => {
+      setSuggestions([]);
+    }, 150);
   };
 
   useEffect(() => {
     if (searchText.length >= 2 && doSearch) refetch();
   }, [searchText, refetch]);
+  
+  useEffect(() => {
+    setInputText(currentLocation || "");
+  }, [currentLocation]);
 
   return (
     <div>
@@ -70,6 +85,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
         fullWidth
         value={inputText}
         onChange={handleChange}
+        onFocus={handleFocus}
         onBlur={handleOnBlur}
         placeholder="Search for a location"
         variant="outlined"
@@ -99,7 +115,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
                 onClick={() => selectSuggestion(suggestion)}
                 data-testid="LocationSearch-SuggestionListItem"
               >
-                {suggestion.properties.label}
+                {suggestion.properties?.label}
               </ListItem>
             ))}
           </List>
