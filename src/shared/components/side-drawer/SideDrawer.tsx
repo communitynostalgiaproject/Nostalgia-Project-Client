@@ -5,18 +5,18 @@ import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ImageList from '@mui/material/ImageList';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import PostedImagesList from './PostedImagesList';
 
 type Anchor = 'left' | 'right';
 
 export default function SideDrawer() {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
+  const [sidebar, setSidebar] = React.useState({
+    top: true,
+    left: true,
+    bottom: true,
+    right: true,
   });
 
   const toggleDrawer =
@@ -31,17 +31,35 @@ export default function SideDrawer() {
         return;
       }
 
-      setState({ ...state, [anchor]: open });
+      setSidebar({ ...sidebar, [anchor]: open });
     };
 
   const list = (anchor: Anchor) => (
+    <React.Fragment>
+    <Button
+      style={{ 
+        position: 'fixed',
+        top: '50%', 
+        right: '29%',
+        borderRadius: '150px 0 0 150px',
+        backgroundColor: '#272A40',
+      }}
+      onClick={toggleDrawer('right', false)}
+    >
+      <ArrowForwardIosIcon
+        style={{
+          fontSize: '48px',
+          color: '#fff'
+        }} 
+      />
+    </Button>
     <Box
       sx={{ 
         display: 'flex',
         alignItems: 'center',
         width: 500, 
-        backgroundColor: '#272A40', 
         height: '100%',
+        backgroundColor: '#272A40', 
       }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -56,37 +74,36 @@ export default function SideDrawer() {
         <PostedImagesList />
       </List>
     </Box>
+    </React.Fragment>
   );
 
   return (
-    <div>
-      <React.Fragment key={'sidebar'}>
-        <Button
-          style={{ 
-            position: 'fixed',
-            top: '50%',
-            right: '0px',
-            borderRadius: '150px 0 0 150px',
-            backgroundColor: '#272A40',
-          }}
-          onClick={toggleDrawer('right', true)}
-        >
-          <ArrowBackIosIcon
-            style={{
-              fontSize: '48px',
-              color: '#fff'
-            }} 
-          />
-        </Button>
-        <SwipeableDrawer
-          anchor={'right'}
-          open={state['right']}
-          onClose={toggleDrawer('right', false)}
-          onOpen={toggleDrawer('right', true)}
-        >
-          {list('right')}
-        </SwipeableDrawer>
-      </React.Fragment>
-    </div>
+    <React.Fragment key={'sidebar'}>
+      <Button
+        style={{ 
+          position: 'fixed',
+          top: '50%',
+          right: '0px',
+          borderRadius: '150px 0 0 150px',
+          backgroundColor: '#272A40',
+        }}
+        onClick={toggleDrawer('right', true)}
+      >
+        <ArrowBackIosIcon
+          style={{
+            fontSize: '48px',
+            color: '#fff'
+          }} 
+        />
+      </Button>
+      <SwipeableDrawer
+        anchor={'right'}
+        open={sidebar['right']}
+        onClose={toggleDrawer('right', false)}
+        onOpen={toggleDrawer('right', true)}
+      >
+        {list('right')}
+      </SwipeableDrawer>
+    </React.Fragment> 
   );
 };
