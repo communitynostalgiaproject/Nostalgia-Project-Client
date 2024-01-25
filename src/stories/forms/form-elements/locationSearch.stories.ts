@@ -37,6 +37,13 @@ export const Blank: Story = {
 };
 
 export const InputTest: Story = {
+  args: {
+    setLocation: (location: any) => {
+      console.log(`location geometry: ${JSON.stringify(location.geometry)}`)
+    },
+    currentLocation: undefined,
+    focus: undefined
+  },
   loaders: [mswLoader],
   parameters: {
     msw: {
@@ -64,6 +71,13 @@ export const InputTest: Story = {
 };
 
 export const ClickTest: Story = {
+  args: {
+    setLocation: (location: any) => {
+      console.log(`location geometry: ${JSON.stringify(location.geometry)}`)
+    },
+    currentLocation: undefined,
+    focus: undefined
+  },
   loaders: [mswLoader],
   parameters: {
     msw: {
@@ -94,6 +108,13 @@ export const ClickTest: Story = {
 };
 
 export const BlurTest: Story = {
+  args: {
+    setLocation: (location: any) => {
+      console.log(`location geometry: ${JSON.stringify(location.geometry)}`)
+    },
+    currentLocation: undefined,
+    focus: undefined
+  },
   loaders: [mswLoader],
   parameters: {
     msw: {

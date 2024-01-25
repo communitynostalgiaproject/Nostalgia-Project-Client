@@ -3,22 +3,28 @@ import { useQuery } from "react-query";
 import { debounce } from "lodash";
 import { Place } from "../../types/experience";
 import axios from "axios";
-import TextField from "@mui/material/TextField";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Paper from "@mui/material/Paper";
+import {
+  TextField,
+  List,
+  ListItem,
+  Paper,
+  Box
+} from "@mui/material";
 import { PeliasGeoJSONFeature } from "@stadiamaps/api";
+import { error } from "console";
 
 interface LocationSearchParams {
   setLocation: (location: Place) => void;
   currentLocation?: string;
   focus?: { lat: number, long: number };
+  error?: boolean;
 }
 
 const LocationSearch: React.FC<LocationSearchParams> = ({ 
   setLocation,
   currentLocation,
-  focus
+  focus,
+  error
 }) => {
   const [inputText, setInputText] = useState<string>(currentLocation || "");
   const [searchText, setSearchText] = useState<string>("");
@@ -80,7 +86,11 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
   }, [currentLocation]);
 
   return (
-    <div>
+    <Box
+      sx={{
+        width: "100%"
+      }}
+    >
       <TextField
         fullWidth
         value={inputText}
@@ -90,6 +100,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
         placeholder="Search for a location"
         variant="outlined"
         data-testid="LocationSearch-InputField"
+        error={error}
       />
       {suggestions.length > 0 && (
         <Paper 
@@ -121,7 +132,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
           </List>
         </Paper>
       )}
-    </div>
+    </Box>
   );
 };
 

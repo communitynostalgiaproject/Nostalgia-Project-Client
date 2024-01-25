@@ -6,17 +6,23 @@ import {
   ArrowForward as ArrowForwardIcon,
   ArrowBack as ArrowBackIcon
 } from '@mui/icons-material';
-import { Experience, Place } from '../../../types/experience';
+import { Experience } from '../../../types/experience';
 import { Page1, Page2, Page3, Page4 } from './pages';
 import axios from "axios";
 
-const ExperienceForm: React.FC = () => {
-  const [experience, setExperience] = useState({});
+interface ExperienceFormProps {
+  existingExperience?: Experience
+}
+
+const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) => {
+  const [experience, setExperience] = useState(existingExperience || {
+    _id: null,
+    creatorId: null
+  });
   const [foodPhoto, setFoodPhoto] = useState<File | null>(null);
   const [personPhoto, setPersonPhoto] = useState<File | null>(null);
   const [error, setError] = useState<String>("");
   const [pageIndex, setPageIndex] = useState<number>(0);
-  const [pageValid, setPageValid] = useState<boolean>(false);
   const [validationTrigger, setValidationTrigger] = useState<boolean>(false);
 
   const { data: user } = useQuery("users", async () => {
@@ -24,10 +30,6 @@ const ExperienceForm: React.FC = () => {
 
     return res.data;
   });
-
-  useEffect(() => {
-    console.log(`experience: ${JSON.stringify(experience)}`);
-  }, [experience]);
 
   const handlePageBack = () => {
     if (pageIndex > 0) {
@@ -44,8 +46,8 @@ const ExperienceForm: React.FC = () => {
     const formData = new FormData();
     const stringifiedExperience = JSON.stringify({
       ...experience,
-      creatorId: user._id
-    } as Experience)
+      creatorId: experience.creatorId || user._id
+    } as Experience);
     formData.append("experience", stringifiedExperience);
     if (foodPhoto) {
       formData.append("foodPhoto", foodPhoto);
@@ -55,9 +57,13 @@ const ExperienceForm: React.FC = () => {
     }
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/experiences`, formData, {
-        withCredentials: true
-      });
+      experience._id  // If the experience already exists (i.e. has an _id), call update endpoint. Otherwise, create new
+        ? await axios.patch(`${process.env.REACT_APP_API_URL}/experiences/${experience._id}`, formData, {
+            withCredentials: true
+          })
+        : await axios.post(`${process.env.REACT_APP_API_URL}/experiences`, formData, {
+          withCredentials: true
+        });
     } catch(err) {
       console.log(`Could not complete post: ${err}`);
     }
@@ -126,10 +132,8 @@ const ExperienceForm: React.FC = () => {
     return (
       <Button
         type="submit"
-        fullWidth
         variant="contained"
         color="primary"
-        style={{ marginTop: 20 }}
         onClick={() => setValidationTrigger(true)}
       >
         Submit
@@ -155,12 +159,31 @@ const ExperienceForm: React.FC = () => {
           {error}
         </Alert>
       </Snackbar> : null}
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          gap: "10px"
+        }}
+      >
         {pages[pageIndex]}
-        <Box>
-          {pageIndex > 0 ? <BackButton /> : null}
-          {pageIndex < pages.length - 1 ? <ForwardButton /> : null}
-          {pageIndex === pages.length - 1 ? <SubmitButton /> : null}
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: "20px"
+          }}
+        >
+          <Box>
+            {pageIndex > 0 ? <BackButton /> : null}
+          </Box>
+          <Box>
+            {pageIndex < pages.length - 1 ? <ForwardButton /> : null}
+            {pageIndex === pages.length - 1 ? <SubmitButton /> : null}
+          </Box>
         </Box>
       </Box>
     </Container>

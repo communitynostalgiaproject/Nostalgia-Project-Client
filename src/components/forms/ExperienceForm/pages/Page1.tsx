@@ -4,6 +4,7 @@ import { FormPageProps } from '../formPageProps';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Place } from '../../../../types/experience';
 import LocationSearch from '../../../form-elements/locationSearch';
+import { useValidation, ValidationRule } from '../../../../hooks/useValidation';
 import React, { useEffect, ChangeEvent } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -45,44 +46,35 @@ const Page1: React.FC<FormPageProps> = ({
   const validationRules = [
     {
       errorCondition: !experience.title,
-      message: "Please enter a title for your experience"
+      message: "Please enter a title for your experience",
+      fieldName: "title"
     },
     {
       errorCondition: !experience.description,
-      message: "Please enter an experience description"
+      message: "Please enter an experience description",
+      fieldName: "description"
     },
     {
       errorCondition: !experience.experienceDate,
-      message: "Please enter a date for the experience"
+      message: "Please enter a date for the experience",
+      fieldName: "experienceDate"
     },
     {
       errorCondition: !experience.place,
-      message: "Please select a location for the experience"
+      message: "Please select a location for the experience",
+      fieldName: "location"
     }
-  ];
-
-  const validateFields = () => {
-    let valid = true;
-
-    for (let i = 0; i < validationRules.length; i++) {
-      const { errorCondition, message } = validationRules[i];
-
-      if (errorCondition) {
-        setError(message);
-        valid = false;
-        break;
-      }
-    }
-
-    if (valid) {
-      setError("");
-      onValidationSuccess();
-    };
-  };
+  ] as ValidationRule[];
+  
+  const { errorFields, validateFields } = useValidation(
+    ["title", "description", "experienceDate", "location"], 
+    validationRules, 
+    setError, 
+    onValidationSuccess
+  );
 
   useEffect(() => {
     if (validationTrigger) {
-      console.log("Validating page fields");
       validateFields();
       setValidationTrigger(false);
     }
@@ -99,6 +91,7 @@ const Page1: React.FC<FormPageProps> = ({
           value={experience.title}
           autoFocus
           onChange={handleChange}
+          error={errorFields.title}
       />
       <TextField
           variant="outlined"
@@ -111,6 +104,7 @@ const Page1: React.FC<FormPageProps> = ({
           value={experience.description}
           autoFocus
           onChange={handleChange}
+          error={errorFields.description}
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
@@ -123,6 +117,7 @@ const Page1: React.FC<FormPageProps> = ({
       <LocationSearch
         setLocation={handleLocationChange}
         currentLocation={experience.place?.address.label}
+        error={errorFields.location}
       />
     </>
   );
