@@ -28,7 +28,7 @@ const Page3: React.FC<FormPageProps> = ({
         variant="outlined"
         margin="normal"
         fullWidth
-        label="Who does this food remind you of?"
+        label="Person it reminds you of"
         name="personItRemindsThemOf"
         value={experience.personItRemindsThemOf}
         autoFocus
@@ -38,14 +38,14 @@ const Page3: React.FC<FormPageProps> = ({
         variant="outlined"
         margin="normal"
         fullWidth
-        label="What period of life do you associate with this food?"
+        label="Period of life"
         name="periodOfLifeAssociation"
         value={experience.periodOfLifeAssociation}
         autoFocus
         onChange={handleChange}
       />  
       <TextField
-        label="What mood(s) do you associate with this food?"
+        label="Mood"
         name="mood"
         value={experience.mood}
         onChange={handleChange}
