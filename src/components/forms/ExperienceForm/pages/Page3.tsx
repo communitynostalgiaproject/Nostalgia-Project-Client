@@ -41,7 +41,6 @@ const Page3: React.FC<FormPageProps> = ({
         label="Period of life"
         name="periodOfLifeAssociation"
         value={experience.periodOfLifeAssociation}
-        autoFocus
         onChange={handleChange}
       />  
       <TextField

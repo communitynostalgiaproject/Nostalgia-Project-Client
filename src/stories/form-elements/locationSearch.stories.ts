@@ -44,7 +44,6 @@ export const InputTest: Story = {
     currentLocation: undefined,
     focus: undefined
   },
-  loaders: [mswLoader],
   parameters: {
     msw: {
       handlers: {
@@ -78,7 +77,6 @@ export const ClickTest: Story = {
     currentLocation: undefined,
     focus: undefined
   },
-  loaders: [mswLoader],
   parameters: {
     msw: {
       handlers: {
@@ -115,7 +113,6 @@ export const BlurTest: Story = {
     currentLocation: undefined,
     focus: undefined
   },
-  loaders: [mswLoader],
   parameters: {
     msw: {
       handlers: {

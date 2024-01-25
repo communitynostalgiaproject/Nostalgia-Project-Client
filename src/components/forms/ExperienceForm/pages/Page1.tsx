@@ -81,7 +81,7 @@ const Page1: React.FC<FormPageProps> = ({
   }, [validationTrigger, setValidationTrigger, validateFields]);
 
   return (
-    <>
+    <form>
       <TextField
           variant="outlined"
           margin="normal"
@@ -89,8 +89,8 @@ const Page1: React.FC<FormPageProps> = ({
           label="Experience Title"
           name="title"
           value={experience.title}
-          autoFocus
           onChange={handleChange}
+          autoFocus
           error={errorFields.title}
       />
       <TextField
@@ -102,7 +102,6 @@ const Page1: React.FC<FormPageProps> = ({
           rows={10}
           multiline
           value={experience.description}
-          autoFocus
           onChange={handleChange}
           error={errorFields.description}
       />
@@ -119,7 +118,7 @@ const Page1: React.FC<FormPageProps> = ({
         currentLocation={experience.place?.address.label}
         error={errorFields.location}
       />
-    </>
+    </form>
   );
 };
 
