@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
-import { expect, jest } from '@storybook/jest';
+import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { expect } from '@storybook/jest';
 import { rest } from 'msw';
 import { Experience } from '../../types/experience';
 import fs from 'fs';
@@ -148,11 +148,13 @@ export const CreateExperienceTest: Story = {
     await userEvent.click(suggestions[0]);
 
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
-    await expect(errorMessage).not.toBeInTheDocument();
-    expect(titleField).not.toBeInTheDocument();
-    expect(descriptionField).not.toBeInTheDocument();
-    expect(experienceDateField).not.toBeInTheDocument();
-    expect(locationField).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(errorMessage).not.toBeInTheDocument();
+      expect(titleField).not.toBeInTheDocument();
+      expect(descriptionField).not.toBeInTheDocument();
+      expect(experienceDateField).not.toBeInTheDocument();
+      expect(locationField).not.toBeInTheDocument();
+    });
 
     // Page 2
     const recipeField = canvas.getByTestId("ExperienceForm-RecipeField");
@@ -163,7 +165,9 @@ export const CreateExperienceTest: Story = {
     const recipeInput = within(recipeField).getByRole('textbox');
     await userEvent.type(recipeInput, "- Boil water\n- Dunk tea bag", {delay: 100});
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
-    expect(recipeField).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(recipeField).not.toBeInTheDocument();
+    });
 
     // Page 3
     const personItRemindsThemOfField = canvas.getByTestId("ExperienceForm-PersonItRemindsThemOfField");
@@ -181,11 +185,14 @@ export const CreateExperienceTest: Story = {
     expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
 
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
-    expect(personItRemindsThemOfField).not.toBeInTheDocument();
-    expect(periodOfLifeField).not.toBeInTheDocument();
-    expect(moodField).not.toBeInTheDocument();
-    expect(foodTypeField).not.toBeInTheDocument();
-    expect(flavourProfileField).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(personItRemindsThemOfField).not.toBeInTheDocument();
+      expect(periodOfLifeField).not.toBeInTheDocument();
+      expect(moodField).not.toBeInTheDocument();
+      expect(foodTypeField).not.toBeInTheDocument();
+      expect(flavourProfileField).not.toBeInTheDocument();
+    });
+
 
     // Page 4
     const uploadFoodPhotoButton = canvas.getByTestId("ExperienceForm-UploadFoodPhotoButton");
@@ -207,10 +214,12 @@ export const CreateExperienceTest: Story = {
     await userEvent.upload(uploadFoodPhotoInput, mockImageFile);
     await userEvent.click(canvas.getByTestId("ExperienceForm-SubmitButton"));
 
-    expect(uploadFoodPhotoButton).not.toBeInTheDocument();
-    expect(uploadPersonPhotoButton).not.toBeInTheDocument();
-    expect(backButton).not.toBeInTheDocument();
-    expect(submitButton).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(uploadFoodPhotoButton).not.toBeInTheDocument();
+      expect(uploadPersonPhotoButton).not.toBeInTheDocument();
+      expect(backButton).not.toBeInTheDocument();
+      expect(submitButton).not.toBeInTheDocument();
+    });
 
     // Thank You Message
     const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");

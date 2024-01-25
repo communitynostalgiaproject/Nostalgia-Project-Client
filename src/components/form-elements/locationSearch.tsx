@@ -11,7 +11,6 @@ import {
   Box
 } from "@mui/material";
 import { PeliasGeoJSONFeature } from "@stadiamaps/api";
-import { error } from "console";
 
 interface LocationSearchParams {
   setLocation: (location: Place) => void;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { rest } from 'msw';
@@ -60,7 +60,7 @@ export const InputTest: Story = {
 
     const inputElement = within(inputContainer).getByRole('textbox');
 
-    await userEvent.type(inputElement, 'Ne', { delay: 300 });
+    await userEvent.type(inputElement, 'Ne', { delay: 400 });
 
     await canvas.findByTestId('LocationSearch-SuggestionListContainer');
     const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
@@ -93,7 +93,7 @@ export const ClickTest: Story = {
 
     const inputElement = within(inputContainer).getByRole('textbox');
 
-    await userEvent.type(inputElement, 'Ne', { delay: 900 });
+    await userEvent.type(inputElement, 'Ne', { delay: 400 });
 
     const suggestionList = await canvas.findByTestId('LocationSearch-SuggestionListContainer');
     const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
@@ -101,7 +101,9 @@ export const ClickTest: Story = {
     await expect(suggestions[0].textContent).toBe('New York');
 
     await userEvent.click(suggestions[0]);
-    expect(suggestionList).not.toBeInTheDocument(); 
+    await waitFor(() => {
+      expect(canvas.queryByTestId('LocationSearch-SuggestionListContainer')).not.toBeInTheDocument();
+    });
   }
 };
 
@@ -129,7 +131,7 @@ export const BlurTest: Story = {
 
     const inputElement = within(inputContainer).getByRole('textbox');
 
-    await userEvent.type(inputElement, 'Ne', { delay: 900 });
+    await userEvent.type(inputElement, 'Ne', { delay: 400 });
 
     const suggestionList = await canvas.findByTestId('LocationSearch-SuggestionListContainer');
     const suggestions = await canvas.findAllByTestId('LocationSearch-SuggestionListItem');
@@ -137,6 +139,8 @@ export const BlurTest: Story = {
     await expect(suggestions[0].textContent).toBe('New York');
 
     await userEvent.tab();
-    expect(suggestionList).not.toBeInTheDocument(); 
+    await waitFor(() => {
+      expect(canvas.queryByTestId('LocationSearch-SuggestionListContainer')).not.toBeInTheDocument();
+    });
   }
 };
