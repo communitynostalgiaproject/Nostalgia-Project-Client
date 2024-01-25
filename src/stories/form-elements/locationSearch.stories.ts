@@ -4,7 +4,7 @@ import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { rest } from 'msw';
 import { mswLoader } from 'msw-storybook-addon';
-import LocationSearch from '../../../components/form-elements/locationSearch';
+import LocationSearch from '../../components/form-elements/locationSearch';
 
 const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete', (_req, res, ctx) => {
     console.log("In autocompleteWorker");
