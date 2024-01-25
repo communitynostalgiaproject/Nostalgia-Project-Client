@@ -81,7 +81,7 @@ const Page1: React.FC<FormPageProps> = ({
   }, [validationTrigger, setValidationTrigger, validateFields]);
 
   return (
-    <form>
+    <>
       <TextField
           variant="outlined"
           margin="normal"
@@ -92,6 +92,7 @@ const Page1: React.FC<FormPageProps> = ({
           onChange={handleChange}
           autoFocus
           error={errorFields.title}
+          data-testid="ExperienceForm-TitleField"
       />
       <TextField
           variant="outlined"
@@ -104,21 +105,33 @@ const Page1: React.FC<FormPageProps> = ({
           value={experience.description}
           onChange={handleChange}
           error={errorFields.description}
+          data-testid="ExperienceForm-DescriptionField"
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          onChange={handleDateChange}
-          value={experience.experienceDate ? dayjs(experience.experienceDate) : undefined}
-          name="experienceDate"
-          label="Date of experience"
-        />
+        <div
+          data-testid="ExperienceForm-ExperienceDateField"
+        >
+          <DatePicker
+            onChange={handleDateChange}
+            value={experience.experienceDate ? dayjs(experience.experienceDate) : undefined}
+            name="experienceDate"
+            label="Date of experience"
+          />
+        </div>
       </LocalizationProvider>
-      <LocationSearch
-        setLocation={handleLocationChange}
-        currentLocation={experience.place?.address.label}
-        error={errorFields.location}
-      />
-    </form>
+      <div
+        style={{
+          marginTop: "10px"
+        }}
+        data-testid="ExperienceForm-LocationField"
+      >
+        <LocationSearch
+          setLocation={handleLocationChange}
+          currentLocation={experience.place?.address.label}
+          error={errorFields.location}
+        />
+      </div>
+    </>
   );
 };
 

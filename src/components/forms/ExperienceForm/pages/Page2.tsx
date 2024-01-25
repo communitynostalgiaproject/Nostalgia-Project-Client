@@ -25,20 +25,21 @@ const Page2: React.FC<FormPageProps> = ({
   return (
     <>
       <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          multiline
-          rows={10}
-          label="Recipe"
-          name="recipe"
-          placeholder="How is this food prepared? (Optional)"
-          value={experience.recipe}
-          autoFocus
-          onChange={handleChange}
-          InputLabelProps={{
-            shrink: true
-          }}
+        variant="outlined"
+        margin="normal"
+        fullWidth
+        multiline
+        rows={10}
+        label="Recipe"
+        name="recipe"
+        placeholder="How is this food prepared? (Optional)"
+        value={experience.recipe}
+        autoFocus
+        onChange={handleChange}
+        InputLabelProps={{
+          shrink: true
+        }}
+        data-testid="ExperienceForm-RecipeField"
       />
     </>
   );

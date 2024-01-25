@@ -128,6 +128,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
     return (
       <Button
         onClick={handlePageBack}
+        data-testid="ExperienceForm-BackButton"
       >
         <ArrowBackIcon />
       </Button>
@@ -138,6 +139,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
     return (
       <Button
         onClick={() => setValidationTrigger(true)}
+        data-testid="ExperienceForm-ForwardButton"
       >
         <ArrowForwardIcon />
       </Button>
@@ -151,6 +153,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
         variant="contained"
         color="primary"
         onClick={() => setValidationTrigger(true)}
+        data-testid="ExperienceForm-SubmitButton"
       >
         Submit
       </Button>
@@ -189,6 +192,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
           justifyContent: "center",
           gap: "20px"
         }}
+        data-testid="ExperienceForm-ThankYouMessage"
       >
         <CheckCircleIcon
           color="success"
@@ -215,12 +219,12 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
             horizontal: "center"
           }}
           open
-          data-testid="ExperienceForm-ErrorMessage"
           color="red"
       >
         <Alert
           severity="error"
           variant="filled"
+          data-testid="ExperienceForm-ErrorMessage"
         >
           {error}
         </Alert>

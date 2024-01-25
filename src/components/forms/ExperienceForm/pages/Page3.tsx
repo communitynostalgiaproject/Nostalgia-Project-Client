@@ -33,6 +33,7 @@ const Page3: React.FC<FormPageProps> = ({
         value={experience.personItRemindsThemOf}
         autoFocus
         onChange={handleChange}
+        data-testid="ExperienceForm-PersonItRemindsThemOfField"
       />  
       <TextField
         variant="outlined"
@@ -42,6 +43,7 @@ const Page3: React.FC<FormPageProps> = ({
         name="periodOfLifeAssociation"
         value={experience.periodOfLifeAssociation}
         onChange={handleChange}
+        data-testid="ExperienceForm-PeriodOfLifeField"
       />  
       <TextField
         label="Mood"
@@ -49,6 +51,7 @@ const Page3: React.FC<FormPageProps> = ({
         value={experience.mood}
         onChange={handleChange}
         fullWidth
+        data-testid="ExperienceForm-MoodField"
       />
       <TextField
         label="Food Type"
@@ -56,6 +59,7 @@ const Page3: React.FC<FormPageProps> = ({
         value={experience.foodtype}
         onChange={handleChange}
         fullWidth
+        data-testid="ExperienceForm-FoodTypeField"
       />
       <TextField
         label="Flavour Profile"
@@ -63,6 +67,7 @@ const Page3: React.FC<FormPageProps> = ({
         value={experience.flavourProfile}
         onChange={handleChange}
         fullWidth
+        data-testid="ExperienceForm-FlavourProfileField"
       />
     </>
   );

@@ -112,12 +112,14 @@ const Page4: React.FC<ImageUploadPageProps> = ({
               id="food-photo-upload"
               type="file"
               onChange={(event) => handleFileUpload(event, 'food')}
+              data-testid="ExperienceForm-UploadFoodPhotoInput"
             />
             <Button
               variant="contained"
               color="primary"
               component="span"
               startIcon={<CloudUploadIcon />}
+              data-testid="ExperienceForm-UploadFoodPhotoButton"
             >
               Food Photo
             </Button>
@@ -133,12 +135,14 @@ const Page4: React.FC<ImageUploadPageProps> = ({
               id="person-photo-upload"
               type="file"
               onChange={(event) => handleFileUpload(event, 'person')}
+              data-testid="ExperienceForm-UploadPersonPhotoInput"
             />
             <Button
               variant="contained"
               color="primary"
               component="span"
               startIcon={<CloudUploadIcon />}
+              data-testid="ExperienceForm-UploadPersonPhotoButton"
             >
               Person Photo
             </Button>
