@@ -366,3 +366,62 @@ export const UpdateExperienceTest: Story = {
     expect(thankYouMessageText).toBeInTheDocument();
   }
 };
+
+export const PagingFunctionalityTest: Story = {
+  args: {
+    existingExperience: mockExperience
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        submitUpdate: [submitUpdateHandler],
+        getUserData: [getUserDataHandler],
+        autoComplete: [autocompleteHandler]
+      }
+    }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Verify paging starts at page 1
+    const titleField = canvas.getByTestId("ExperienceForm-TitleField");
+    const descriptionField = canvas.getByTestId("ExperienceForm-DescriptionField");
+    const experienceDateField = canvas.getByTestId("ExperienceForm-ExperienceDateField");
+    const locationField = canvas.getByTestId("ExperienceForm-LocationField");
+    const forwardButton = canvas.getByTestId("ExperienceForm-ForwardButton");
+    expect(titleField).toBeInTheDocument();
+    expect(descriptionField).toBeInTheDocument();
+    expect(experienceDateField).toBeInTheDocument();
+    expect(locationField).toBeInTheDocument();
+    expect(forwardButton).toBeInTheDocument();
+
+    // Verify page 2 appears and page 1 disappears when forward button is pressed
+    await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
+    await waitFor(() => {
+      expect(titleField).not.toBeInTheDocument();
+      expect(descriptionField).not.toBeInTheDocument();
+      expect(experienceDateField).not.toBeInTheDocument();
+      expect(locationField).not.toBeInTheDocument();
+    });
+ 
+    const recipeField = canvas.getByTestId("ExperienceForm-RecipeField");
+    expect(recipeField).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
+
+    // Verify pressing the back button makes page 2 disappear and page 1 re-appear
+    await userEvent.click(canvas.getByTestId("ExperienceForm-BackButton"));
+    await waitFor(() => {
+      expect(recipeField).not.toBeInTheDocument();
+    });
+
+    expect(canvas.getByTestId("ExperienceForm-TitleField")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-DescriptionField")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-ExperienceDateField")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-LocationField")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(canvas.queryByTestId("ExperienceForm-BackButton")).not.toBeInTheDocument();
+    });
+  }
+};
