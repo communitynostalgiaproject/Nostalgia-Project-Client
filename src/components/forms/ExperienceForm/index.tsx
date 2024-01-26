@@ -54,7 +54,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
     const stringifiedExperience = editing 
       ? JSON.stringify({
           ...experience,
-          creatorId: user._id
+          creatorId: user ? user._id : undefined
         } as Experience)
       : JSON.stringify(experience);
     formData.append("experience", stringifiedExperience);

@@ -105,7 +105,7 @@ const Page4: React.FC<ImageUploadPageProps> = ({
       >
         {/* Upload and preview for food photo */}
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {experience.foodPhotoUrl && <ImagePreview src={experience.foodPhotoUrl} alt="Food preview" />}
+          {experience.foodPhotoUrl && <ImagePreview src={experience.foodPhotoUrl} alt="Food preview" data-testid="ExperienceForm-FoodPhotoPreview" />}
           <label htmlFor="food-photo-upload">
             <Input
               accept="image/*"
@@ -128,7 +128,7 @@ const Page4: React.FC<ImageUploadPageProps> = ({
 
         {/* Upload and preview for person photo */}
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {experience.personPhotoUrl && <ImagePreview src={experience.personPhotoUrl} alt="Person preview" />}
+          {experience.personPhotoUrl && <ImagePreview src={experience.personPhotoUrl} alt="Person preview" data-testid="ExperienceForm-PersonPhotoPreview" />}
           <label htmlFor="person-photo-upload">
             <Input
               accept="image/*"

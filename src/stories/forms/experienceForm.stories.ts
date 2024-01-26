@@ -60,6 +60,19 @@ const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete'
     return res(ctx.json({ features: [{ properties: { label: 'New York' } }] }));
 });
 
+const formatISOToAmericanDate = (isoDate: string) => {
+  const date = new Date(isoDate);
+  const month = date.getMonth() + 1; // getMonth() returns 0-11
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  // Pad the month and day with leading zeros if necessary
+  const formattedMonth = month.toString().padStart(2, '0');
+  const formattedDay = day.toString().padStart(2, '0');
+
+  return `${formattedMonth}/${formattedDay}/${year}`;
+}
+
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -213,7 +226,6 @@ export const CreateExperienceTest: Story = {
     const uploadFoodPhotoInput = canvas.getByTestId("ExperienceForm-UploadFoodPhotoInput");
     await userEvent.upload(uploadFoodPhotoInput, mockImageFile);
     await userEvent.click(canvas.getByTestId("ExperienceForm-SubmitButton"));
-
     await waitFor(() => {
       expect(uploadFoodPhotoButton).not.toBeInTheDocument();
       expect(uploadPersonPhotoButton).not.toBeInTheDocument();
@@ -224,6 +236,132 @@ export const CreateExperienceTest: Story = {
     // Thank You Message
     const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");
     const thankYouMessageText = within(thankYouMessageContainer).getByText("Thank you for submitting your experience");
+    expect(thankYouMessageContainer).toBeInTheDocument();
+    expect(thankYouMessageText).toBeInTheDocument();
+  }
+};
+
+export const UpdateExperienceTest: Story = {
+  args: {
+    existingExperience: mockExperience
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        submitUpdate: [submitUpdateHandler],
+        getUserData: [getUserDataHandler],
+        autoComplete: [autocompleteHandler]
+      }
+    }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Verify page 1 fields are present and already contain info from provided experience.
+    const titleField = canvas.getByTestId("ExperienceForm-TitleField");
+    const descriptionField = canvas.getByTestId("ExperienceForm-DescriptionField");
+    const experienceDateField = canvas.getByTestId("ExperienceForm-ExperienceDateField");
+    const locationField = canvas.getByTestId("ExperienceForm-LocationField");
+    const forwardButton = canvas.getByTestId("ExperienceForm-ForwardButton");
+    expect(titleField).toBeInTheDocument();
+    expect(descriptionField).toBeInTheDocument();
+    expect(experienceDateField).toBeInTheDocument();
+    expect(locationField).toBeInTheDocument();
+    expect(forwardButton).toBeInTheDocument();
+
+    const titleInput = within(titleField).getByRole('textbox');
+    const descriptionInput = within(descriptionField).getByRole('textbox');
+    const experienceDateInput = within(experienceDateField).getByRole('textbox');
+    const locationInput = within(locationField).getByRole('textbox');
+    expect(titleInput).toHaveValue(mockExperience.title);
+    expect(descriptionInput).toHaveValue(mockExperience.description);
+    expect(experienceDateInput).toHaveValue(formatISOToAmericanDate(mockExperience.experienceDate));
+    expect(locationInput).toHaveValue(mockExperience.place.address.label);
+
+    await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
+    await waitFor(() => {
+      expect(titleField).not.toBeInTheDocument();
+      expect(descriptionField).not.toBeInTheDocument();
+      expect(experienceDateField).not.toBeInTheDocument();
+      expect(locationField).not.toBeInTheDocument();
+    });
+
+    // Verify page 2 fields and values
+    const recipeField = canvas.getByTestId("ExperienceForm-RecipeField");
+    expect(recipeField).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
+
+    const recipeInput = within(recipeField).getByRole('textbox');
+    expect(recipeInput).toHaveValue(mockExperience.recipe);
+
+    await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
+    await waitFor(() => {
+      expect(recipeField).not.toBeInTheDocument();
+    });
+
+    // Verify page 3 fields and values
+    const personItRemindsThemOfField = canvas.getByTestId("ExperienceForm-PersonItRemindsThemOfField");
+    const periodOfLifeField = canvas.getByTestId("ExperienceForm-PeriodOfLifeField");
+    const moodField = canvas.getByTestId("ExperienceForm-MoodField");
+    const foodTypeField = canvas.getByTestId("ExperienceForm-FoodTypeField");
+    const flavourProfileField = canvas.getByTestId("ExperienceForm-FlavourProfileField");
+    expect(personItRemindsThemOfField).toBeInTheDocument();
+    expect(periodOfLifeField).toBeInTheDocument();
+    expect(moodField).toBeInTheDocument();
+    expect(foodTypeField).toBeInTheDocument();
+    expect(flavourProfileField).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
+
+    const personItRemindsThemOfInput = within(personItRemindsThemOfField).getByRole('textbox');
+    const periodOfLifeInput = within(periodOfLifeField).getByRole('textbox');
+    const moodInput = within(moodField).getByRole('textbox');
+    const foodTypeInput = within(foodTypeField).getByRole('textbox');
+    const flavourProfileInput = within(flavourProfileField).getByRole('textbox');
+    expect(personItRemindsThemOfInput).toHaveValue(mockExperience.personItRemindsThemOf);
+    expect(periodOfLifeInput).toHaveValue(mockExperience.periodOfLifeAssociation);
+    expect(moodInput).toHaveValue(mockExperience.mood);
+    expect(foodTypeInput).toHaveValue(mockExperience.foodtype);
+    expect(flavourProfileInput).toHaveValue(mockExperience.flavourProfile);
+
+    await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
+    await waitFor(() => {
+      expect(personItRemindsThemOfField).not.toBeInTheDocument();
+      expect(periodOfLifeField).not.toBeInTheDocument();
+      expect(moodField).not.toBeInTheDocument();
+      expect(foodTypeField).not.toBeInTheDocument();
+      expect(flavourProfileField).not.toBeInTheDocument();
+    });
+
+    // Verify page 4 fields
+    const foodPhotoPreview = canvas.getByTestId("ExperienceForm-FoodPhotoPreview");
+    const personPhotoPreview = canvas.getByTestId("ExperienceForm-PersonPhotoPreview");
+    const uploadFoodPhotoButton = canvas.getByTestId("ExperienceForm-UploadFoodPhotoButton");
+    const uploadPersonPhotoButton = canvas.getByTestId("ExperienceForm-UploadPersonPhotoButton");
+    const backButton = canvas.getByTestId("ExperienceForm-BackButton");
+    const submitButton = canvas.getByTestId("ExperienceForm-SubmitButton");
+    expect(foodPhotoPreview).toBeInTheDocument();
+    expect(personPhotoPreview).toBeInTheDocument();
+    expect(uploadFoodPhotoButton).toBeInTheDocument();
+    expect(uploadPersonPhotoButton).toBeInTheDocument();
+    expect(backButton).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
+
+    expect(foodPhotoPreview).toHaveAttribute('src', mockExperience.foodPhotoUrl);
+    expect(personPhotoPreview).toHaveAttribute('src', mockExperience.personPhotoUrl);
+    
+    await userEvent.click(canvas.getByTestId("ExperienceForm-SubmitButton"));
+    await waitFor(() => {
+      expect(uploadFoodPhotoButton).not.toBeInTheDocument();
+      expect(uploadPersonPhotoButton).not.toBeInTheDocument();
+      expect(backButton).not.toBeInTheDocument();
+      expect(submitButton).not.toBeInTheDocument();
+    });
+
+    // Verify Thank You page appears with the correct message
+    const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");
+    const thankYouMessageText = within(thankYouMessageContainer).getByText("Your experience has been updated");
     expect(thankYouMessageContainer).toBeInTheDocument();
     expect(thankYouMessageText).toBeInTheDocument();
   }
