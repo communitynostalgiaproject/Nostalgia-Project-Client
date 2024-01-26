@@ -249,7 +249,6 @@ export const UpdateExperienceTest: Story = {
     msw: {
       handlers: {
         submitUpdate: [submitUpdateHandler],
-        getUserData: [getUserDataHandler],
         autoComplete: [autocompleteHandler]
       }
     }
@@ -375,7 +374,6 @@ export const PagingFunctionalityTest: Story = {
     msw: {
       handlers: {
         submitUpdate: [submitUpdateHandler],
-        getUserData: [getUserDataHandler],
         autoComplete: [autocompleteHandler]
       }
     }
