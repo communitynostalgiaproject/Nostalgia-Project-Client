@@ -52,11 +52,11 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
   const handleSubmit = async () => {
     const formData = new FormData();
     const stringifiedExperience = editing 
-      ? JSON.stringify({
-          ...experience,
-          creatorId: user ? user._id : undefined
-        } as Experience)
-      : JSON.stringify(experience);
+      ? JSON.stringify(experience)
+      : JSON.stringify({
+        ...experience,
+        creatorId: user ? user._id : undefined
+      } as Experience);
     formData.append("experience", stringifiedExperience);
     if (foodPhoto) {
       formData.append("foodPhoto", foodPhoto);
