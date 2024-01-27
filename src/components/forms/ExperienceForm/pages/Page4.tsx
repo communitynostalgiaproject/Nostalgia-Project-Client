@@ -40,6 +40,7 @@ const Page4: React.FC<ImageUploadPageProps> = ({
   const MAX_IMAGE_SIZE = 1024 * 1024 * 2;
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>, photoType: 'food' | 'person') => {
+    setError("");
     const file = event.target.files ? event.target.files[0] : null;
 
     if (!file) {

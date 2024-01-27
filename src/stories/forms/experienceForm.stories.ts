@@ -3,8 +3,6 @@ import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { rest } from 'msw';
 import { Experience } from '../../types/experience';
-import fs from 'fs';
-import path from 'path';
 import ExperienceForm from '../../components/forms/ExperienceForm';
 
 const mockExperience = {
@@ -45,7 +43,10 @@ const submitCreateHandler = rest.post(`${process.env.REACT_APP_API_URL}/experien
 });
 
 const submitUpdateHandler = rest.patch(`${process.env.REACT_APP_API_URL}/experiences/${mockExperience._id}`, (_req, res, ctx) => {
-  return res(ctx.status(200));
+  return res(
+    ctx.delay(2500),
+    ctx.status(200)
+  );
 });
 
 const getUserDataHandler = rest.get(

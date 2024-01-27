@@ -4,9 +4,9 @@ import {
   Typography,
   Container,
   Box,
-  Icon,
   Snackbar,
-  Alert
+  Alert,
+  CircularProgress
 } from '@mui/material';
 import { useQuery } from 'react-query';
 import {
@@ -31,6 +31,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [validationTrigger, setValidationTrigger] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+  const [submitPending, setSubmitPending] = useState<boolean>(false);
 
   const { data: user } = useQuery("users", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
@@ -66,6 +67,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
     }
 
     try {
+      setSubmitPending(true);
       editing
         ? await axios.patch(`${process.env.REACT_APP_API_URL}/experiences/${experience._id}`, formData, {
             withCredentials: true
@@ -78,6 +80,8 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
     } catch(err) {
       console.error(`Could not complete submit request: ${err}`);
       setError("There was an error with your request.");
+    } finally {
+      setSubmitPending(false);
     }
   };
 
@@ -148,15 +152,26 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
 
   const SubmitButton = () => {
     return (
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        onClick={() => setValidationTrigger(true)}
-        data-testid="ExperienceForm-SubmitButton"
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "5px"
+        }}
       >
-        Submit
-      </Button>
+        { submitPending ? <CircularProgress color="info" size={24} /> :  null}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={() => setValidationTrigger(true)}
+          data-testid="ExperienceForm-SubmitButton"
+          disabled={submitPending}
+        >
+          Submit
+        </Button>
+      </Box>
     );
   };
 
