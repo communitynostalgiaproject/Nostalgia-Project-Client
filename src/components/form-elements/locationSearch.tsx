@@ -99,6 +99,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
         placeholder="Search for a location"
         variant="outlined"
         data-testid="LocationSearch-InputField"
+        label="Location"
         error={error}
       />
       {suggestions.length > 0 && (

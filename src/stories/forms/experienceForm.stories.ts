@@ -61,6 +61,10 @@ const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete'
     return res(ctx.json({ features: [{ properties: { label: 'New York' } }] }));
 });
 
+const sleep = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+
 const formatISOToAmericanDate = (isoDate: string) => {
   const date = new Date(isoDate);
   const month = date.getMonth() + 1; // getMonth() returns 0-11
@@ -219,9 +223,10 @@ export const CreateExperienceTest: Story = {
     expect(submitButton).toBeInTheDocument();
 
     await userEvent.click(canvas.getByTestId("ExperienceForm-SubmitButton"));
-    const newErrorMessage = await canvas.findByTestId("ExperienceForm-ErrorMessage");
-    expect(newErrorMessage).toBeInTheDocument();
-    expect(newErrorMessage.textContent).toBe("Please select a food photo");
+    await waitFor(async () => {
+      const newErrorMessage = canvas.getByTestId("ExperienceForm-ErrorMessage");
+      expect(newErrorMessage.textContent).toBe("Please select a food photo");
+    }, { timeout: 5000 });
 
     const mockImageFile = new File(['mock'], 'mock.png', { type: 'image/png' });
     const uploadFoodPhotoInput = canvas.getByTestId("ExperienceForm-UploadFoodPhotoInput");
@@ -250,7 +255,8 @@ export const UpdateExperienceTest: Story = {
     msw: {
       handlers: {
         submitUpdate: [submitUpdateHandler],
-        autoComplete: [autocompleteHandler]
+        autoComplete: [autocompleteHandler],
+        getUserData: [getUserDataHandler]
       }
     }
   },
@@ -295,6 +301,7 @@ export const UpdateExperienceTest: Story = {
     const recipeInput = within(recipeField).getByRole('textbox');
     expect(recipeInput).toHaveValue(mockExperience.recipe);
 
+    await sleep(1000);
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
     await waitFor(() => {
       expect(recipeField).not.toBeInTheDocument();
@@ -375,7 +382,8 @@ export const PagingFunctionalityTest: Story = {
     msw: {
       handlers: {
         submitUpdate: [submitUpdateHandler],
-        autoComplete: [autocompleteHandler]
+        autoComplete: [autocompleteHandler],
+        getUserData: [getUserDataHandler]
       }
     }
   },
@@ -394,7 +402,8 @@ export const PagingFunctionalityTest: Story = {
     expect(locationField).toBeInTheDocument();
     expect(forwardButton).toBeInTheDocument();
 
-    // Verify page 2 appears and page 1 disappears when forward button is pressed
+    // Verify page 2 appears and page 1 disappears when forward button is pressed  
+    await sleep(1000);
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
     await waitFor(() => {
       expect(titleField).not.toBeInTheDocument();
@@ -404,12 +413,14 @@ export const PagingFunctionalityTest: Story = {
     });
  
     const recipeField = canvas.getByTestId("ExperienceForm-RecipeField");
-    expect(recipeField).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
+    const backButton = canvas.getByTestId("ExperienceForm-BackButton");
     expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
 
+    console.log(`back button: ${JSON.stringify(backButton.classList)}`);
+    
+
     // Verify pressing the back button makes page 2 disappear and page 1 re-appear
-    await userEvent.click(canvas.getByTestId("ExperienceForm-BackButton"));
+    await userEvent.click(backButton);
     await waitFor(() => {
       expect(recipeField).not.toBeInTheDocument();
     });

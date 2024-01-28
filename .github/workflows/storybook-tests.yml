@@ -4,15 +4,11 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container: dwight9339/storybook_testing_env
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
-      - name: Install Playwright
-        run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
