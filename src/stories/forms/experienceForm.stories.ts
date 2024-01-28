@@ -38,11 +38,11 @@ const mockUser = {
   "displayName": "Test User"
 };
 
-const submitCreateHandler = rest.post(`${process.env.REACT_APP_API_URL}/experiences`, (_req, res, ctx) => {
+const submitCreateHandler = rest.post(/^.+\/experiences/, (_req, res, ctx) => {
   return res(ctx.status(201));
 });
 
-const submitUpdateHandler = rest.patch(`${process.env.REACT_APP_API_URL}/experiences/${mockExperience._id}`, (_req, res, ctx) => {
+const submitUpdateHandler = rest.patch(/^.+\/experiences\/.+$/, (_req, res, ctx) => {
   return res(
     ctx.delay(2500),
     ctx.status(200)
@@ -50,7 +50,7 @@ const submitUpdateHandler = rest.patch(`${process.env.REACT_APP_API_URL}/experie
 });
 
 const getUserDataHandler = rest.get(
-  `${process.env.REACT_APP_API_URL}/users/fetchData`,
+  /^.+\/users\/fetchData/,
   (_req, res, ctx) => {
     return res(ctx.json(mockUser));
   }
@@ -357,7 +357,7 @@ export const UpdateExperienceTest: Story = {
       expect(uploadPersonPhotoButton).not.toBeInTheDocument();
       expect(backButton).not.toBeInTheDocument();
       expect(submitButton).not.toBeInTheDocument();
-    });
+    }, {timeout: 5000});
 
     // Verify Thank You page appears with the correct message
     const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");
