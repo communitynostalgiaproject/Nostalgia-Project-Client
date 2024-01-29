@@ -24,7 +24,7 @@ export class CRUDRequestBase {
         return response.data;
     }
 
-    get = async(queryParams: {}, headers?: {}) => {
+    get = async(queryParams?: {}, headers?: {}) => {
             let response = await axios.get(`${getApiBase()}/${this.model}`, {
                 params: queryParams,
                 withCredentials: true

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import FlagRequest from '../../api/flags.request'
-import AppVector from '../../shared/components/stadiaMap/index';
+import React from 'react';
+import AppVector from '../../shared/components/appVector/index';
 
 const LandingPage: React.FC = () => {
     return (

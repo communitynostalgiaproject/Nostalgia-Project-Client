@@ -1,3 +1,7 @@
+import React, { useEffect } from 'react';
+import { useQuery } from 'react-query';
+import experiencesRequest from '../../../api/experiences.request';
+
 import './App.css';
 import 'leaflet/dist/leaflet.css';
 import {MapContainer, Marker, Popup} from 'react-leaflet';
@@ -14,7 +18,15 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 
-const AppVector = () => {
+const AppVector = () => {  
+  const { error, data: experiences } = useQuery("experiences", async() => {
+    return await experiencesRequest.get()
+  });
+
+  useEffect(() => {
+    if (error) console.error(`Error fetching user: ${error}`);
+      console.log(`user: ${JSON.stringify(experiences)}`);
+  }, [error, experiences])
 
   return (
     <div className="App">
@@ -32,15 +44,13 @@ const AppVector = () => {
 
         />
         <MarkerClusterGroup>
-          {arcades.features.map((arcade, index) => (
+          {experiences.map((experience, index) => (
             <Marker
-              key={arcade.properties['@id']}
-              position={[arcade.geometry.coordinates[1], arcade.geometry.coordinates[0]]}
+              key={experience['_id']}
+              position={[experience.place.location.coordinates[1], experience.place.location.coordinates[0]]}
             >
               <Popup>
-                {arcade.properties.name}
-                <br />
-                {arcade.properties['name:en']} 
+                {experience.title}
               </Popup>
             </Marker>
             ))}
