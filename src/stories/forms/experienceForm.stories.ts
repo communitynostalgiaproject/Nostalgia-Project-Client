@@ -76,7 +76,7 @@ const formatISOToAmericanDate = (isoDate: string) => {
   const formattedDay = day.toString().padStart(2, '0');
 
   return `${formattedMonth}/${formattedDay}/${year}`;
-}
+};
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export

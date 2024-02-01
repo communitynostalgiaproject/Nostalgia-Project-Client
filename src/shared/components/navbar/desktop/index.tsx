@@ -11,7 +11,7 @@ interface DesktopNavProps {
 }
 
 const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
-    const { error, data: user} = useQuery("user", async () => {
+    const { error, data: user} = useQuery("currentUser", async () => {
       return await usersRequest.fetchData();
     });
     const classes = useStyles();
