@@ -33,10 +33,21 @@ const mockExperience = {
   "personPhotoUrl": "https://i.imgur.com/yoOp5xN.png",
 } as Experience;
 
-const getCreatorUser = rest.get('https://api.geocode.earth/v1/autocomplete', (_req, res, ctx) => {
-    console.log("In autocompleteWorker");
-    return res(ctx.json({ features: [{ properties: { label: 'New York' } }] }));
-});
+const mockUser = {
+  "_id": "11212121",
+  "googleId": "12121212",
+  "email": "faker@test.com",
+  "displayName": "Test User"
+};
+
+const createUserFetchHandler = (user: any) => {
+  return rest.get(
+    /^.+\/users\/fetchData/,
+    (_req, res, ctx) => {
+      return res(ctx.json(user));
+    }
+  );
+};
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -55,6 +66,39 @@ type Story = StoryObj<typeof meta>;
 
 export const NotLoggedInAsCreator: Story = {
   args: {
-    experience: mockExperience
+    experience: mockExperience,
+    onDelete: async () => {
+      console.log("You shouldn't be able to call this if you're not logged in as the experience creator");
+      return false;
+    }
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchNonCreatorUserData: [createUserFetchHandler(mockUser)]
+      }
+    }
+  }
+};
+
+export const LoggedInAsCreator: Story = {
+  args: {
+    experience: mockExperience,
+    onDelete: async () => {
+      console.log("Called onDelete");
+      return true;
+    }
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchNonCreatorUserData: [
+          createUserFetchHandler({
+            ...mockUser,
+            _id: mockExperience.creatorId
+          })
+        ]
+      }
+    }
   }
 };

@@ -244,6 +244,14 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
           {error}
         </Alert>
       </Snackbar> : null}
+      <Typography
+        variant="h5"
+        sx={{
+          marginBottom: "15px"
+        }}
+      >
+        { editing ? "Edit Experience" : "Create Experience" }
+      </Typography>
       <Box
         sx={{
           display: "flex",

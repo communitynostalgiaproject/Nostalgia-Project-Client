@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Experience } from "../../types/experience";
 import { useQuery } from "react-query";
 import {
@@ -6,16 +6,25 @@ import {
   CardContent,
   Typography,
   CardMedia,
+  IconButton,
   Button,
-  Box
+  Box,
+  Snackbar,
+  Alert
 } from "@mui/material";
+import {
+  Delete as DeleteIcon,
+  Edit as EditIcon
+} from "@mui/icons-material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { richTextFromMarkdown } from "@contentful/rich-text-from-markdown";
-import { Document } from "@contentful/rich-text-types";
+import CardModal from "../modal/CardModal";
+import ExperienceForm from "../forms/ExperienceForm";
 import axios from "axios";
 
 interface ExperienceViewProps {
   experience: Experience;
+  onDelete: () => Promise<boolean>;
 }
 
 const formatISOToAmericanDate = (isoDate: string) => {
@@ -31,8 +40,10 @@ const formatISOToAmericanDate = (isoDate: string) => {
   return `${month} ${formattedDay}, ${year}`;
 };
 
-const ExperienceView: React.FC<ExperienceViewProps> = ({ experience }) => {
+const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete }) => {
   const [ formattedRecipeText, setFormattedRecipeText ] = useState<React.ReactNode | null>(null);
+  const [ editModalOpen, setEditModalOpen ] = useState<boolean>(false);
+  const [ deleteModalOpen, setDeleteModalOpen ] = useState<boolean>(false);
   const { data: currentUser } = useQuery("currentUser", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
@@ -51,6 +62,122 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience }) => {
     }
   }, [formattedRecipeText, setFormattedRecipeText]);
 
+  const toggleEditModal = () => setEditModalOpen((current) => !current);
+  const toggleDeleteModal = () => setDeleteModalOpen((current) => !current);
+
+  const handleDelete = async () => {
+
+  };
+ 
+  const EditModal = () => {
+    return (
+      <CardModal
+        open={editModalOpen}
+        onClose={toggleEditModal}
+        cardProps={{
+          sx: {
+            width: "90%",
+            maxWidth: "600px",
+            paddingBottom: "30px"
+          }
+        }}
+      >
+        <ExperienceForm
+          existingExperience={experience}
+        />
+      </CardModal>
+    )
+  };
+
+  const DeleteModal = () => {
+    const [ showDeleteError, setShowDeleteError ] = useState<boolean>(false);
+    const [ deleteButtonDisabled, setDeleteButtonDisabled ] = useState<boolean>(false);
+
+    const handleDelete = async () => {
+      setDeleteButtonDisabled(true);
+
+      const deleteSuccess = await onDelete();
+
+      if (!deleteSuccess) {
+        setShowDeleteError(true);
+        setDeleteButtonDisabled(false);
+        return;
+      }
+
+      setDeleteModalOpen(false);
+    };
+
+    return (
+      <CardModal
+        open={deleteModalOpen}
+        onClose={toggleDeleteModal}
+        cardProps={{
+          sx: {
+            width: "90%",
+            maxWidth: "500px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "25px",
+            paddingBottom: "40px"
+          }
+        }}
+      >
+        <>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center"
+          }}
+          open={showDeleteError}
+          color="red"
+      >
+        <Alert
+          severity="error"
+          variant="filled"
+          data-testid="ExperienceForm-ErrorMessage"
+        >
+          There was an error deleting the experience
+        </Alert>
+      </Snackbar> 
+          <Typography
+            variant="h5"
+            component="p"
+            sx={{
+              textAlign: "center"
+            }}
+          >
+            Are you sure you want to delete this experience?
+          </Typography>
+          <Box
+            sx={{
+              width: "80%",
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "10px"
+            }}
+          >
+            <Button
+              variant="text"
+              onClick={toggleDeleteModal}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleDelete}
+              disabled={deleteButtonDisabled}
+            >
+              Delete
+            </Button>
+          </Box>
+        </>
+      </CardModal>
+    )
+  };
+
   return (
     <Card className="experience-view" variant="outlined">
       <CardContent
@@ -64,37 +191,58 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience }) => {
           sx={{
             display: "flex",
             alignItems: "flex-start",
+            justifyContent: "space-between",
             gap: "35px"
           }}
         >
-          <CardMedia
-            component="img"
-            sx={{
-              maxWidth: "250px"
-            }}
-            image={experience.foodPhotoUrl}
-            alt="Food Photo"
-          />
-          <Box
-            sx={{
-              marginTop: "20px"
-            }}
-          >
-            <Typography variant="h5" component="div">
-              {experience.title}
-            </Typography>
-            <Typography color="textSecondary">
-              {experience.place.address.label}
-            </Typography>
-            <Typography color="textSecondary">
-              {formatISOToAmericanDate(experience.experienceDate)}
-            </Typography>
+          <Box>
+            <CardMedia
+              component="img"
+              sx={{
+                maxWidth: "250px"
+              }}
+              image={experience.foodPhotoUrl}
+              alt="Food Photo"
+            />
+            <Box
+              sx={{
+                marginTop: "20px"
+              }}
+            >
+              <Typography variant="h5" component="div">
+                {experience.title}
+              </Typography>
+              <Typography color="textSecondary">
+                {experience.place.address.label}
+              </Typography>
+              <Typography color="textSecondary">
+                {formatISOToAmericanDate(experience.experienceDate)}
+              </Typography>
+            </Box>
+          </Box>
+          <Box>
+            { isUserCreator && (
+                <Box>
+                  <IconButton
+                    onClick={toggleEditModal}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={toggleDeleteModal}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              )
+            }
           </Box>
         </Box>
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "center",
             flexWrap: "wrap",
             gap: "15px"
           }}
@@ -170,27 +318,23 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience }) => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "10px"
             }}
           >
-            <Typography variant="h5" component="h2">
+            <Typography
+              variant="h5"
+              component="h2"
+              sx={{
+                marginBottom: "10px"
+              }}
+            >
               Recipe:
             </Typography>
             {formattedRecipeText}
           </Box>
         )}
-
-        {isUserCreator && (
-          <div>
-            <Button variant="contained" color="primary">
-              Edit
-            </Button>
-            <Button variant="contained" color="secondary">
-              Delete
-            </Button>
-          </div>
-        )}
       </CardContent>
+      <EditModal />
+      <DeleteModal />
     </Card>
   );
 };
