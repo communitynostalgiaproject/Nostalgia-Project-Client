@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Experience } from "../../types/experience";
 import { useQuery } from "react-query";
 import {
-  Card,
-  CardContent,
+  Container,
   Typography,
   CardMedia,
   IconButton,
@@ -49,7 +48,12 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
 
     return res.data;
   });
-  const isUserCreator = currentUser?._id === experience.creatorId;
+  const { data: creatorUser } = useQuery("creatorUser", async () => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/${experience.creatorId}`, { withCredentials: true });
+
+    return res.data;
+  });
+  const isUserCreator = currentUser && `${currentUser._id}` === `${experience.creatorId}`;
 
   const formatMarkdownText = async (text: string) => {
     const formattedText = documentToReactComponents(await richTextFromMarkdown(text));
@@ -64,10 +68,6 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
 
   const toggleEditModal = () => setEditModalOpen((current) => !current);
   const toggleDeleteModal = () => setDeleteModalOpen((current) => !current);
-
-  const handleDelete = async () => {
-
-  };
  
   const EditModal = () => {
     return (
@@ -179,8 +179,8 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
   };
 
   return (
-    <Card className="experience-view" variant="outlined">
-      <CardContent
+    <Container>
+      <Box
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -217,6 +217,9 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
               </Typography>
               <Typography color="textSecondary">
                 {formatISOToAmericanDate(experience.experienceDate)}
+              </Typography>
+              <Typography color="textSecondary">
+                Created by: {creatorUser ? creatorUser.displayName : "Anonymous"}
               </Typography>
             </Box>
           </Box>
@@ -332,10 +335,10 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
             {formattedRecipeText}
           </Box>
         )}
-      </CardContent>
+      </Box>
       <EditModal />
       <DeleteModal />
-    </Card>
+    </Container>
   );
 };
 

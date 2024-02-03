@@ -33,16 +33,32 @@ const mockExperience = {
   "personPhotoUrl": "https://i.imgur.com/yoOp5xN.png",
 } as Experience;
 
-const mockUser = {
+const mockUser1 = {
   "_id": "11212121",
-  "googleId": "12121212",
+  "googleId": "yadayada",
   "email": "faker@test.com",
-  "displayName": "Test User"
+  "displayName": "Test User 1"
+};
+
+const mockUser2 = {
+  "_id": mockExperience.creatorId,
+  "googleId": "whatever",
+  "email": "faker@test.com",
+  "displayName": "Test User 2"
 };
 
 const createUserFetchHandler = (user: any) => {
   return rest.get(
     /^.+\/users\/fetchData/,
+    (_req, res, ctx) => {
+      return res(ctx.json(user));
+    }
+  );
+};
+
+const createUserGetHandler = (user: any) => {
+  return rest.get(
+    /^.+\/users\/[0-9a-zA-Z]+$/,
     (_req, res, ctx) => {
       return res(ctx.json(user));
     }
@@ -75,7 +91,8 @@ export const NotLoggedInAsCreator: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(mockUser)]
+        fetchNonCreatorUserData: [createUserFetchHandler(mockUser1)],
+        getCreatorUserData: [createUserGetHandler(mockUser2)]
       }
     }
   }
@@ -86,19 +103,56 @@ export const LoggedInAsCreator: Story = {
     experience: mockExperience,
     onDelete: async () => {
       console.log("Called onDelete");
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    
       return true;
     }
   },
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [
-          createUserFetchHandler({
-            ...mockUser,
-            _id: mockExperience.creatorId
-          })
-        ]
+        fetchNonCreatorUserData: [createUserFetchHandler(mockUser2)],
+        getCreatorUser: [createUserGetHandler(mockUser2)]
       }
     }
   }
 };
+
+export const CreatorNotFound: Story = {
+  args: {
+    experience: mockExperience,
+    onDelete: async () => {
+      console.log("You shouldn't be able to call this if you're not logged in as the experience creator");
+      return false;
+    }
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchNonCreatorUserData: [createUserFetchHandler(mockUser1)]
+      }
+    }
+  }
+};
+
+// export const NonCreatorUserRenderingTest: Story = {
+//   args: {
+//     experience: mockExperience,
+//     onDelete: async () => {
+//       console.log("You shouldn't be able to call this if you're not logged in as the experience creator");
+//       return false;
+//     }
+//   },
+//   parameters: {
+//     msw: {
+//       handlers: {
+//         fetchNonCreatorUserData: [createUserFetchHandler(mockUser)]
+//       }
+//     }
+//   },
+//   play: async ({ canvasElement }) => {
+//     const canvas = within(canvasElement);
+
+//     const 
+//   }
+// };
