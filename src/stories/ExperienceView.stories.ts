@@ -4,6 +4,8 @@ import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { rest } from 'msw';
 import { Experience } from '../types/experience';
+import { createQueryClientDecorator } from './assets/StorybookDecorators';
+import { QueryClient } from 'react-query';
 import ExperienceView from '../components/ExperienceView';
 
 const mockExperience = {
@@ -95,7 +97,8 @@ export const NotLoggedInAsCreator: Story = {
         getCreatorUserData: [createUserGetHandler(mockUser2)]
       }
     }
-  }
+  },
+  decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
 export const LoggedInAsCreator: Story = {
@@ -115,7 +118,8 @@ export const LoggedInAsCreator: Story = {
         getCreatorUser: [createUserGetHandler(mockUser2)]
       }
     }
-  }
+  },
+  decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
 export const CreatorNotFound: Story = {
@@ -132,7 +136,8 @@ export const CreatorNotFound: Story = {
         fetchNonCreatorUserData: [createUserFetchHandler(mockUser1)]
       }
     }
-  }
+  },
+  decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
 // export const NonCreatorUserRenderingTest: Story = {
