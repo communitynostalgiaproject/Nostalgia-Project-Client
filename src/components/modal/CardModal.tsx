@@ -41,6 +41,7 @@ const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
               sx={{
                 marginRight: "20px"
               }}
+              data-testid="CardModal-CloseButton"
             >
               <CloseIcon />
             </IconButton>

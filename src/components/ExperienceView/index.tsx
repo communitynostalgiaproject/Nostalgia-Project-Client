@@ -81,6 +81,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
             paddingBottom: "30px"
           }
         }}
+        data-testid="ExperienceView-EditModal"
       >
         <ExperienceForm
           existingExperience={experience}
@@ -122,6 +123,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
             paddingBottom: "40px"
           }
         }}
+        data-testid="ExperienceView-DeleteModal"
       >
         <>
         <Snackbar
@@ -135,7 +137,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
         <Alert
           severity="error"
           variant="filled"
-          data-testid="ExperienceForm-ErrorMessage"
+          data-testid="ExperienceView-DeleteModalErrorMessage"
         >
           There was an error deleting the experience
         </Alert>
@@ -146,6 +148,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
             sx={{
               textAlign: "center"
             }}
+            data-testid="ExperienceView-DeleteModalText"
           >
             Are you sure you want to delete this experience?
           </Typography>
@@ -161,6 +164,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
             <Button
               variant="text"
               onClick={toggleDeleteModal}
+              data-testid="ExperienceView-DeleteModalCancelButton"
             >
               Cancel
             </Button>
@@ -169,6 +173,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
               color="error"
               onClick={handleDelete}
               disabled={deleteButtonDisabled}
+              data-testid="ExperienceView-DeleteModalDeleteButton"
             >
               Delete
             </Button>
@@ -203,36 +208,54 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
               }}
               image={experience.foodPhotoUrl}
               alt="Food Photo"
+              data-testid="ExperienceView-FoodPhotoImage"
             />
             <Box
               sx={{
                 marginTop: "20px"
               }}
             >
-              <Typography variant="h5" component="div">
+              <Typography
+                variant="h5"
+                component="div"
+                data-testid="ExperienceView-ExperienceTitle"
+              >
                 {experience.title}
               </Typography>
-              <Typography color="textSecondary">
+              <Typography
+                color="textSecondary"
+                data-testid="ExperienceView-ExperienceLocationLabel"
+              >
                 {experience.place.address.label}
               </Typography>
-              <Typography color="textSecondary">
+              <Typography
+                color="textSecondary"
+                data-testid="ExperienceView-ExperienceDateText"
+              >
                 {formatISOToAmericanDate(experience.experienceDate)}
               </Typography>
-              <Typography color="textSecondary">
+              <Typography
+                color="textSecondary"
+                data-testid="ExperienceView-CreatedBy"
+              >
                 Created by: {creatorUser ? creatorUser.displayName : "Anonymous"}
               </Typography>
             </Box>
           </Box>
           <Box>
             { isUserCreator && (
-                <Box>
+                <Box
+                  data-testid="ExperienceView-EditButtonsContainer"
+                >
                   <IconButton
                     onClick={toggleEditModal}
+                    data-testid="ExperienceView-EditButton"
                   >
                     <EditIcon />
                   </IconButton>
                   <IconButton
                     onClick={toggleDeleteModal}
+                    data-testid="ExperienceView-DeleteButton"
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -259,6 +282,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
             <Typography
               variant="body2"
               component="p"
+              data-testid="ExperienceView-Description"
             >
               {decodeURIComponent(experience.description)}
             </Typography>
@@ -273,6 +297,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
               justifyContent: "flex-start",
               gap: "10px"
             }}
+            data-testid="ExperienceView-PersonItRemindsThemOfContainer"
           >
             {experience.personItRemindsThemOf && (
               <>
@@ -287,30 +312,49 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
                     sx={{
                       maxWidth: "200px"
                     }}
+                    data-testid="ExperienceView-PersonPhoto"
                   />
                 )}
-                <Typography>
+                <Typography
+                  data-testid="ExperienceView-PersonText"
+                >
                   {experience.personItRemindsThemOf}
                 </Typography>
               </>
             )}
             {experience.foodtype && (
-              <Typography variant="body2" component="p">
+              <Typography
+                variant="body2"
+                component="p"
+                data-testid="ExperienceView-FoodType"  
+              >
                 Food Type: {experience.foodtype}
               </Typography>
             )}
             {experience.flavourProfile && (
-              <Typography variant="body2" component="p">
+              <Typography
+                variant="body2"
+                component="p"
+                data-testid="ExperienceView-FlavourProfile"  
+              >
                 Flavor Profile: {experience.flavourProfile}
               </Typography>
             )}
             {experience.mood && (
-              <Typography variant="body2" component="p">
+              <Typography
+                variant="body2"
+                component="p"
+                data-testid="ExperienceView-Mood"  
+              >
                 Mood: {experience.mood}
               </Typography>
             )}
-            {experience.mood && (
-              <Typography variant="body2" component="p">
+            {experience.periodOfLifeAssociation && (
+              <Typography
+                variant="body2"
+                component="p"
+                data-testid="ExperienceView-PeriodOfLife"
+              >
                 Period of Life Association: {experience.periodOfLifeAssociation}
               </Typography>
             )}         
@@ -322,6 +366,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
               display: "flex",
               flexDirection: "column",
             }}
+            data-testid="ExperienceView-RecipeContainer"
           >
             <Typography
               variant="h5"

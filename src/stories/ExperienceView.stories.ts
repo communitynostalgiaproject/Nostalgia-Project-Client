@@ -1,5 +1,5 @@
 import React from 'react';
-import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { rest } from 'msw';
@@ -65,6 +65,10 @@ const createUserGetHandler = (user: any) => {
       return res(ctx.json(user));
     }
   );
+};
+
+const sleep = (ms: number) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -140,24 +144,115 @@ export const CreatorNotFound: Story = {
   decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
-// export const NonCreatorUserRenderingTest: Story = {
-//   args: {
-//     experience: mockExperience,
-//     onDelete: async () => {
-//       console.log("You shouldn't be able to call this if you're not logged in as the experience creator");
-//       return false;
-//     }
-//   },
-//   parameters: {
-//     msw: {
-//       handlers: {
-//         fetchNonCreatorUserData: [createUserFetchHandler(mockUser)]
-//       }
-//     }
-//   },
-//   play: async ({ canvasElement }) => {
-//     const canvas = within(canvasElement);
+export const NonCreatorViewTest: Story = {
+  args: {
+    experience: mockExperience,
+    onDelete: async () => true,
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchNonCreatorUserData: [createUserFetchHandler(mockUser1)],
+        getCreatorUser: [createUserGetHandler(mockUser2)]
+      }
+    }
+  },
+  decorators: [createQueryClientDecorator(new QueryClient())],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-//     const 
-//   }
-// };
+    expect(canvas.getByTestId("ExperienceView-FoodPhotoImage")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceView-ExperienceTitle").textContent).toBe(mockExperience.title);
+    expect(canvas.getByTestId("ExperienceView-Description").textContent).toBe(decodeURIComponent(mockExperience.description));
+    expect(canvas.getByTestId("ExperienceView-ExperienceLocationLabel").textContent).toBe(mockExperience.place.address.label);
+    expect(canvas.getByTestId("ExperienceView-ExperienceDateText")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceView-PersonPhoto")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceView-FoodType").textContent).toContain(mockExperience.foodtype);
+    expect(canvas.getByTestId("ExperienceView-FlavourProfile").textContent).toContain(mockExperience.flavourProfile);
+    expect(canvas.getByTestId("ExperienceView-Mood").textContent).toContain(mockExperience.mood);
+    expect(canvas.getByTestId("ExperienceView-PeriodOfLife").textContent).toContain(mockExperience.periodOfLifeAssociation);
+    expect(canvas.getByTestId("ExperienceView-RecipeContainer")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(canvas.getByTestId("ExperienceView-CreatedBy").textContent).toContain(`Created by: ${mockUser2.displayName}`);
+      expect(canvas.queryByTestId("ExperienceView-EditButton")).not.toBeInTheDocument();
+      expect(canvas.queryByTestId("ExperienceView-DeleteButton")).not.toBeInTheDocument();
+      expect(canvas.queryByTestId("ExperienceView-EditModal")).not.toBeInTheDocument();
+      expect(canvas.queryByTestId("ExperienceView-DeleteModal")).not.toBeInTheDocument();
+    });
+  }
+};
+
+export const CreatorViewTest: Story = {
+  args: {
+    experience: mockExperience,
+    onDelete: async () => true,
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchNonCreatorUserData: [createUserFetchHandler(mockUser2)],
+        getCreatorUser: [createUserGetHandler(mockUser2)]
+      }
+    }
+  },
+  decorators: [createQueryClientDecorator(new QueryClient())],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    expect(canvas.getByTestId("ExperienceView-FoodPhotoImage")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceView-ExperienceTitle").textContent).toBe(mockExperience.title);
+    expect(canvas.getByTestId("ExperienceView-Description").textContent).toBe(decodeURIComponent(mockExperience.description));
+    expect(canvas.getByTestId("ExperienceView-ExperienceLocationLabel").textContent).toBe(mockExperience.place.address.label);
+    expect(canvas.getByTestId("ExperienceView-ExperienceDateText")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceView-CreatedBy").textContent).toContain("Created by:");
+    expect(canvas.getByTestId("ExperienceView-PersonPhoto")).toBeInTheDocument();
+    expect(canvas.getByTestId("ExperienceView-FoodType").textContent).toContain(mockExperience.foodtype);
+    expect(canvas.getByTestId("ExperienceView-FlavourProfile").textContent).toContain(mockExperience.flavourProfile);
+    expect(canvas.getByTestId("ExperienceView-Mood").textContent).toContain(mockExperience.mood);
+    expect(canvas.getByTestId("ExperienceView-PeriodOfLife").textContent).toContain(mockExperience.periodOfLifeAssociation);
+    expect(canvas.getByTestId("ExperienceView-RecipeContainer")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(canvas.getByTestId("ExperienceView-EditButton")).toBeInTheDocument();
+      expect(canvas.getByTestId("ExperienceView-DeleteButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(canvas.getByTestId("ExperienceView-EditButton"));
+    await waitFor(() => {
+      const editModal = screen.getByTestId("ExperienceView-EditModal");
+      const modal = within(editModal);
+
+      expect(editModal).toBeInTheDocument();
+      expect(modal.getByTestId("ExperienceForm-TitleField")).toBeInTheDocument();
+      expect(modal.getByTestId("ExperienceForm-DescriptionField")).toBeInTheDocument();
+      expect(modal.getByTestId("ExperienceForm-ExperienceDateField")).toBeInTheDocument();
+      expect(modal.getByTestId("ExperienceForm-LocationField")).toBeInTheDocument();
+      expect(modal.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
+
+      expect(screen.getByTestId("CardModal-CloseButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("CardModal-CloseButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("ExperienceView-EditModal")).not.toBeInTheDocument();
+    });
+
+    await userEvent.click(canvas.getByTestId("ExperienceView-DeleteButton"));
+    await waitFor(() => {
+      const deleteModal = screen.getByTestId("ExperienceView-DeleteModal");
+      const modal = within(deleteModal);
+
+      expect(deleteModal).toBeInTheDocument();
+      expect(modal.queryByTestId("ExperienceView-DeleteModalText")).toBeInTheDocument();
+      expect(modal.queryByTestId("ExperienceView-DeleteModalCancelButton")).toBeInTheDocument();
+      expect(modal.queryByTestId("ExperienceView-DeleteModalDeleteButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("CardModal-CloseButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("ExperienceView-DeleteModalCancelButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("ExperienceView-DeleteModal")).not.toBeInTheDocument();
+    });
+  }
+};
