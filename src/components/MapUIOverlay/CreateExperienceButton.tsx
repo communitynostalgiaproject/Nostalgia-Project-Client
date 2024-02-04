@@ -34,7 +34,7 @@ const CreateExperienceButton: React.FC = () => {
         color='error'
         sx={{
           position: 'relative',
-          left: '10px',
+          left: '10%',
           top: '90%'
         }}
         onClick={toggleModalOpen}

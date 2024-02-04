@@ -1,6 +1,5 @@
 import { Container } from '@mui/material';
 import React from 'react';
-import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import CreateExperienceButton from './CreateExperienceButton';
 
 const MapUIOverlay: React.FC = () => {
@@ -9,11 +8,11 @@ const MapUIOverlay: React.FC = () => {
       sx={{
         width: '100%',
         height: '100%',
-        position: 'fixed'
+        position: 'fixed',
+        zIndex: 800,
       }}
     >
       <CreateExperienceButton />
-      <SideDrawer />
     </Container>
   );
 };
