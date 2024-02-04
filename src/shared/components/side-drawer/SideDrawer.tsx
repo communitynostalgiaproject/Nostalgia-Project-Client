@@ -43,6 +43,7 @@ export default function SideDrawer() {
         right: '29%',
         borderRadius: '150px 0 0 150px',
         backgroundColor: '#272A40',
+        pointerEvents: 'auto'
       }}
       onClick={toggleDrawer('right', false)}
       data-testid="SideDrawer-ToggleClosedButton"
@@ -67,7 +68,11 @@ export default function SideDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List
-        sx={{ color: '#fff', padding: '1rem' }}
+        sx={{
+          color: '#fff',
+          padding: '1rem',
+          pointerEvents: 'auto'
+        }}
         data-testid="SideDrawer-FoodPhotoList"  
       >
         {[''].map((text, index) => (
@@ -107,6 +112,10 @@ export default function SideDrawer() {
         open={sidebar['right']}
         onClose={toggleDrawer('right', false)}
         onOpen={toggleDrawer('right', true)}
+        hideBackdrop
+        sx={{
+          pointerEvents: 'none'
+        }}
       >
         {list('right')}
       </SwipeableDrawer>

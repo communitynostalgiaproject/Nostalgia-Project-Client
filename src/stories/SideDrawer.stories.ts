@@ -1,10 +1,6 @@
 import { userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { rest } from 'msw';
-import { Experience } from '../types/experience';
-import { createQueryClientDecorator } from './assets/StorybookDecorators';
-import { QueryClient } from 'react-query';
 import SideDrawer from '../shared/components/side-drawer/SideDrawer';
 
 const meta = {
