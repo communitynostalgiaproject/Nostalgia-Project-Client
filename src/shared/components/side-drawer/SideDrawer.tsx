@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Button from '@mui/material/Button';
+import { IconButton } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -36,7 +36,7 @@ export default function SideDrawer() {
 
   const list = (anchor: Anchor) => (
     <React.Fragment>
-    <Button
+    <IconButton
       style={{ 
         position: 'fixed',
         top: '50%', 
@@ -45,6 +45,7 @@ export default function SideDrawer() {
         backgroundColor: '#272A40',
       }}
       onClick={toggleDrawer('right', false)}
+      data-testid="SideDrawer-ToggleClosedButton"
     >
       <ArrowForwardIosIcon
         style={{
@@ -52,7 +53,7 @@ export default function SideDrawer() {
           color: '#fff'
         }} 
       />
-    </Button>
+    </IconButton>
     <Box
       sx={{ 
         display: 'flex',
@@ -65,7 +66,10 @@ export default function SideDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List sx={{ color: '#fff', padding: '1rem' }}>
+      <List
+        sx={{ color: '#fff', padding: '1rem' }}
+        data-testid="SideDrawer-FoodPhotoList"  
+      >
         {[''].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemText primary={text} />
@@ -79,15 +83,17 @@ export default function SideDrawer() {
 
   return (
     <React.Fragment key={'sidebar'}>
-      <Button
+      <IconButton
         style={{ 
           position: 'fixed',
           top: '50%',
           right: '0px',
           borderRadius: '150px 0 0 150px',
           backgroundColor: '#272A40',
+          display: sidebar.right ? "none" : "block"
         }}
         onClick={toggleDrawer('right', true)}
+        data-testid="SideDrawer-ToggleOpenButton"
       >
         <ArrowBackIosIcon
           style={{
@@ -95,7 +101,7 @@ export default function SideDrawer() {
             color: '#fff'
           }} 
         />
-      </Button>
+      </IconButton>
       <SwipeableDrawer
         anchor={'right'}
         open={sidebar['right']}
