@@ -1,4 +1,4 @@
-import { CRUDRequestBase } from "./CRUDRequestBase";
+import { CRUDRequestBase } from "./base/CRUDRequestBase";
 import { getApiBase } from "./helpers";
 import axios from "axios";
 

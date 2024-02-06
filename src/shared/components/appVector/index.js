@@ -26,6 +26,7 @@ const AppVector = () => {
   useEffect(() => {
     if (error) console.error(`Error fetching user: ${error}`);
       console.log(`user: ${JSON.stringify(experiences)}`);
+     
   }, [error, experiences])
 
   return (
@@ -44,7 +45,7 @@ const AppVector = () => {
 
         />
         <MarkerClusterGroup>
-          {experiences.map((experience, index) => (
+          {experiences && experiences.map((experience, index) => (
             <Marker
               key={experience['_id']}
               position={[experience.place.location.coordinates[1], experience.place.location.coordinates[0]]}

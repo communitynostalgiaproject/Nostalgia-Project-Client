@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getApiBase } from './helpers';
+import { getApiBase } from '../helpers';
 
 export class CRUDRequestBase {
 
