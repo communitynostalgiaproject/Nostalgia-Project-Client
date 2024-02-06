@@ -10,6 +10,7 @@ const MapUIOverlay: React.FC = () => {
         height: '100%',
         position: 'fixed',
         zIndex: 800,
+        pointerEvents: 'none'
       }}
     >
       <CreateExperienceButton />
