@@ -35,7 +35,8 @@ const CreateExperienceButton: React.FC = () => {
         sx={{
           position: 'relative',
           left: '10%',
-          top: '90%'
+          top: '90%',
+          pointerEvents: 'auto'
         }}
         onClick={toggleModalOpen}
         data-testid="CreateExperienceButton-Button"
