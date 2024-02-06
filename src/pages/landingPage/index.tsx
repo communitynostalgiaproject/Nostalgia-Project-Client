@@ -1,12 +1,14 @@
 import React from 'react';
-import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import AppVector from '../../shared/components/appVector/index';
+import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
+import MapUIOverlay from '../../components/MapUIOverlay';
 
 const LandingPage: React.FC = () => {
     return (
         <>
-            <AppVector/>
-            <SideDrawer />
+          <MapUIOverlay />
+          <SideDrawer />
+          <AppVector/>
         </>
     )
 }

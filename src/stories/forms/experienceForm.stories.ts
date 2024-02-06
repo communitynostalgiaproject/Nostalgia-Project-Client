@@ -3,6 +3,8 @@ import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { rest } from 'msw';
 import { Experience } from '../../types/experience';
+import { createQueryClientDecorator } from "../assets/StorybookDecorators";
+import { QueryClient } from 'react-query';
 import ExperienceForm from '../../components/forms/ExperienceForm';
 
 const mockExperience = {
@@ -76,12 +78,12 @@ const formatISOToAmericanDate = (isoDate: string) => {
   const formattedDay = day.toString().padStart(2, '0');
 
   return `${formattedMonth}/${formattedDay}/${year}`;
-}
+};
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Experience Form',
+  title: 'forms/Experience Form',
   component: ExperienceForm,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -98,7 +100,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const NewExperience: Story = {};
+export const NewExperience: Story = {
+  decorators: [createQueryClientDecorator(new QueryClient())]
+};
 export const UpdateExperience: Story = {
   args: {
     existingExperience: mockExperience
@@ -111,6 +115,7 @@ export const UpdateExperience: Story = {
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
 export const CreateExperienceTest: Story = {
@@ -123,6 +128,7 @@ export const CreateExperienceTest: Story = {
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -260,6 +266,7 @@ export const UpdateExperienceTest: Story = {
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -387,6 +394,7 @@ export const PagingFunctionalityTest: Story = {
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
