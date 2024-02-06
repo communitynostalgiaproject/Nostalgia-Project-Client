@@ -2,13 +2,12 @@ import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import experiencesRequest from '../../../api/experiences.request';
 
-import './App.css';
+import useStyles from './styles';
 import 'leaflet/dist/leaflet.css';
 import {MapContainer, Marker, Popup} from 'react-leaflet';
 import L from 'leaflet';
 import MarkerClusterGroup from "react-leaflet-cluster";
 import LeafletTileLayer from './leafletTileLayer';
-import arcades from "../../geoData/arcades.json";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -19,6 +18,8 @@ L.Icon.Default.mergeOptions({
 });
 
 const AppVector = () => {  
+  const classes = useStyles()
+
   const { error, data: experiences } = useQuery("experiences", async() => {
     return await experiencesRequest.get()
   });
@@ -32,8 +33,8 @@ const AppVector = () => {
   return (
     <div className="App">
       <MapContainer
-        className="full-screen-map"
-        center={[38, 139.69222]}
+        className={classes.fullScreenMap}
+        center={[38.9072, 139.69222]}
         zoom={6}
         minZoom={3}
         maxZoom={19}
@@ -51,7 +52,17 @@ const AppVector = () => {
               position={[experience.place.location.coordinates[1], experience.place.location.coordinates[0]]}
             >
               <Popup>
-                {experience.title}
+                <div className={classes.popupGroup}>
+                  <div className={classes.experienceTitle}>
+                    {experience.title}
+                  </div>
+                  <div className={classes.experienceImageGroup}>
+                    <img src={experience.foodPhotoUrl} alt={`${experience.title}`} className={classes.experienceImage}/>
+                  </div>
+                  <div className={classes.reactionGroup}>
+
+                  </div>
+                </div>
               </Popup>
             </Marker>
             ))}
