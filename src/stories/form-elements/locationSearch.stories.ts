@@ -2,15 +2,10 @@ import React from 'react';
 import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { rest } from 'msw';
 import { createQueryClientDecorator } from "../assets/StorybookDecorators";
+import { createGeocodeEarthAutocompleteHandler } from '../util/mswHandlers';
 import { QueryClient } from 'react-query';
 import LocationSearch from '../../components/form-elements/locationSearch';
-
-const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete', (_req, res, ctx) => {
-    console.log("In autocompleteWorker");
-    return res(ctx.json({ features: [{ properties: { label: 'New York' } }] }));
-});
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -49,7 +44,18 @@ export const InputTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        autocomplete: [autocompleteHandler]
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
@@ -83,7 +89,18 @@ export const ClickTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        autocomplete: [autocompleteHandler]
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
@@ -122,7 +139,18 @@ export const BlurTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        autocomplete: [autocompleteHandler]
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
