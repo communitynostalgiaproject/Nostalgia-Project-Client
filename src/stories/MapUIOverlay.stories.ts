@@ -33,7 +33,7 @@ export const LoggedIn: Story = {
   decorators: [createQueryClientDecorator(new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 30 * 1000
+        staleTime: 3 * 1000
       }
     }
   }))]

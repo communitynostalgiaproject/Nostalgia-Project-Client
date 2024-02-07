@@ -46,10 +46,6 @@ const mockUser = {
   "displayName": "Test User"
 };
 
-const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete', (_req, res, ctx) => {
-    return res(ctx.json({ features: [{ properties: { label: 'New York' } }] }));
-});
-
 const sleep = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };

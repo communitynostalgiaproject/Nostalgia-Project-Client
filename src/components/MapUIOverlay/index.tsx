@@ -1,6 +1,8 @@
 import { Container } from '@mui/material';
 import { useQuery } from 'react-query';
-import React from 'react';
+import React, { useState } from 'react';
+import CardModal from '../modal/CardModal';
+import ExperienceForm from '../forms/ExperienceForm';
 import CreateExperienceButton from './CreateExperienceButton';
 import axios from 'axios';
 
@@ -10,6 +12,11 @@ const MapUIOverlay: React.FC = () => {
 
     return res.data;
   });
+  const [ newExperienceModalOpen, setNewExperienceModalOpen ] = useState<boolean>(false);
+
+  const toggleNewExperienceModal = () => {
+    setNewExperienceModalOpen((prev) => !prev);
+  };
 
   return (
     <Container
@@ -21,7 +28,21 @@ const MapUIOverlay: React.FC = () => {
         pointerEvents: 'none'
       }}
     >
-      { user ? <CreateExperienceButton /> : null }
+      <CardModal
+        open={newExperienceModalOpen}
+        onClose={toggleNewExperienceModal}
+        cardProps={{
+          sx: {
+            width: "90%",
+            maxWidth: "600px",
+            paddingBottom: "30px"
+          }
+        }}
+        data-testid="CreateExperienceButton-CreateExperienceModal"
+      >
+        <ExperienceForm />
+      </CardModal>
+      { user ? <CreateExperienceButton toggleModal={toggleNewExperienceModal} /> : null }
     </Container>
   );
 };
