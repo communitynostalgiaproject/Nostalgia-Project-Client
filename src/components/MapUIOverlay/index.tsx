@@ -1,8 +1,16 @@
 import { Container } from '@mui/material';
+import { useQuery } from 'react-query';
 import React from 'react';
 import CreateExperienceButton from './CreateExperienceButton';
+import axios from 'axios';
 
 const MapUIOverlay: React.FC = () => {
+  const { data: user } = useQuery("currentUser", async () => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
+
+    return res.data;
+  });
+
   return (
     <Container
       sx={{
@@ -13,7 +21,7 @@ const MapUIOverlay: React.FC = () => {
         pointerEvents: 'none'
       }}
     >
-      <CreateExperienceButton />
+      { user ? <CreateExperienceButton /> : null }
     </Container>
   );
 };

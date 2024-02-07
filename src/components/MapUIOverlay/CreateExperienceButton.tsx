@@ -6,7 +6,11 @@ import ExperienceForm from '../forms/ExperienceForm';
 const CreateExperienceButton: React.FC = () => {
   const [ newExperienceModalOpen, setNewExperienceModalOpen ] = useState<boolean>(false);
 
-  const toggleModalOpen = () => setNewExperienceModalOpen((prev) => !prev);
+  const toggleModalOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setNewExperienceModalOpen((prev) => !prev);
+  };
+  
 
   const NewExperienceModal: React.FC = () => {
     return (

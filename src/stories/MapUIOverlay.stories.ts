@@ -30,7 +30,13 @@ export const LoggedIn: Story = {
       }
     }
   },
-  decorators: [createQueryClientDecorator(new QueryClient())]
+  decorators: [createQueryClientDecorator(new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 30 * 1000
+      }
+    }
+  }))]
 };
 
 export const LoggedOut: Story = {
@@ -45,7 +51,13 @@ export const LoggedOut: Story = {
 };
 
 export const CreateExperienceButtonLoggedInTest: Story = {
-  decorators: [createQueryClientDecorator(new QueryClient())],
+  decorators: [createQueryClientDecorator(new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000
+      }
+    }
+  }))],
   parameters: {
     msw: {
       handlers: {
@@ -54,7 +66,9 @@ export const CreateExperienceButtonLoggedInTest: Story = {
     }
   },
   play: async () => {
-    expect(screen.getByTestId("CreateExperienceButton-Button")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("CreateExperienceButton-Button")).toBeInTheDocument();
+    });
 
     await userEvent.click(screen.getByTestId("CreateExperienceButton-Button"));
     await waitFor(() => {

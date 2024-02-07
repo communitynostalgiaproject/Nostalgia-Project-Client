@@ -33,7 +33,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
   const [submitPending, setSubmitPending] = useState<boolean>(false);
 
-  const { data: user } = useQuery("users", async () => {
+  const { data: user } = useQuery("currentUser", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
     return res.data;
