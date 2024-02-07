@@ -40,7 +40,7 @@ const MapUIOverlay: React.FC = () => {
         }}
         data-testid="CreateExperienceButton-CreateExperienceModal"
       >
-        <ExperienceForm />
+        <ExperienceForm user={user} />
       </CardModal>
       { user ? <CreateExperienceButton toggleModal={toggleNewExperienceModal} /> : null }
     </Container>

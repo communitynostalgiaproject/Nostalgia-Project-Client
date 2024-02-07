@@ -85,6 +85,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
       >
         <ExperienceForm
           existingExperience={experience}
+          user={currentUser}
         />
       </CardModal>
     )
