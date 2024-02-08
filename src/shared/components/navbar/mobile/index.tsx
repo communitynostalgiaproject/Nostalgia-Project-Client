@@ -12,7 +12,7 @@ interface MobileNavProps {
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
-  const { error, data: user} = useQuery("user", async () => {
+  const { error, data: user} = useQuery("currentUser", async () => {
     return await usersRequest.fetchData();
   });
   const classes = useStyles();

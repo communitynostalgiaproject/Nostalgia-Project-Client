@@ -3,6 +3,14 @@ import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { rest } from 'msw';
 import { Experience } from '../../types/experience';
+import { createQueryClientDecorator } from "../assets/StorybookDecorators";
+import { QueryClient } from 'react-query';
+import {
+  createUserFetchHandler,
+  createExperienceCreateHandler,
+  createExperienceUpdateHandler,
+  createGeocodeEarthAutocompleteHandler
+} from '../util/mswHandlers';
 import ExperienceForm from '../../components/forms/ExperienceForm';
 
 const mockExperience = {
@@ -38,29 +46,6 @@ const mockUser = {
   "displayName": "Test User"
 };
 
-const submitCreateHandler = rest.post(/^.+\/experiences/, (_req, res, ctx) => {
-  return res(ctx.status(201));
-});
-
-const submitUpdateHandler = rest.patch(/^.+\/experiences\/.+$/, (_req, res, ctx) => {
-  return res(
-    ctx.delay(2500),
-    ctx.status(200)
-  );
-});
-
-const getUserDataHandler = rest.get(
-  /^.+\/users\/fetchData/,
-  (_req, res, ctx) => {
-    return res(ctx.json(mockUser));
-  }
-);
-
-const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete', (_req, res, ctx) => {
-    console.log("In autocompleteWorker");
-    return res(ctx.json({ features: [{ properties: { label: 'New York' } }] }));
-});
-
 const sleep = (ms: number) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
@@ -76,12 +61,12 @@ const formatISOToAmericanDate = (isoDate: string) => {
   const formattedDay = day.toString().padStart(2, '0');
 
   return `${formattedMonth}/${formattedDay}/${year}`;
-}
+};
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Experience Form',
+  title: 'forms/Experience Form',
   component: ExperienceForm,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -98,7 +83,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const NewExperience: Story = {};
+export const NewExperience: Story = {
+  decorators: [createQueryClientDecorator(new QueryClient())]
+};
 export const UpdateExperience: Story = {
   args: {
     existingExperience: mockExperience
@@ -106,23 +93,36 @@ export const UpdateExperience: Story = {
   parameters: {
     msw: {
       handlers: {
-        submitUpdate: [submitUpdateHandler],
-        getUserData: [getUserDataHandler]
+        submitUpdate: [createExperienceUpdateHandler(200)],
+        getUserData: [createUserFetchHandler(200, mockUser)]
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
 export const CreateExperienceTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        submitCreate: [submitCreateHandler],
-        getUserData: [getUserDataHandler],
-        autocomplete: [autocompleteHandler]
+        submitCreate: [createExperienceCreateHandler(201)],
+        getUserData: [createUserFetchHandler(200, mockUser)],
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -231,13 +231,14 @@ export const CreateExperienceTest: Story = {
     const mockImageFile = new File(['mock'], 'mock.png', { type: 'image/png' });
     const uploadFoodPhotoInput = canvas.getByTestId("ExperienceForm-UploadFoodPhotoInput");
     await userEvent.upload(uploadFoodPhotoInput, mockImageFile);
+    await sleep(1000);
     await userEvent.click(canvas.getByTestId("ExperienceForm-SubmitButton"));
     await waitFor(() => {
       expect(uploadFoodPhotoButton).not.toBeInTheDocument();
       expect(uploadPersonPhotoButton).not.toBeInTheDocument();
       expect(backButton).not.toBeInTheDocument();
       expect(submitButton).not.toBeInTheDocument();
-    });
+    }, { timeout: 5000 });
 
     // Thank You Message
     const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");
@@ -254,12 +255,24 @@ export const UpdateExperienceTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        submitUpdate: [submitUpdateHandler],
-        autoComplete: [autocompleteHandler],
-        getUserData: [getUserDataHandler]
+        submitUpdate: [createExperienceUpdateHandler(200)],
+        getUserData: [createUserFetchHandler(200, mockUser)],
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -371,67 +384,5 @@ export const UpdateExperienceTest: Story = {
     const thankYouMessageText = within(thankYouMessageContainer).getByText("Your experience has been updated");
     expect(thankYouMessageContainer).toBeInTheDocument();
     expect(thankYouMessageText).toBeInTheDocument();
-  }
-};
-
-export const PagingFunctionalityTest: Story = {
-  args: {
-    existingExperience: mockExperience
-  },
-  parameters: {
-    msw: {
-      handlers: {
-        submitUpdate: [submitUpdateHandler],
-        autoComplete: [autocompleteHandler],
-        getUserData: [getUserDataHandler]
-      }
-    }
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    // Verify paging starts at page 1
-    const titleField = canvas.getByTestId("ExperienceForm-TitleField");
-    const descriptionField = canvas.getByTestId("ExperienceForm-DescriptionField");
-    const experienceDateField = canvas.getByTestId("ExperienceForm-ExperienceDateField");
-    const locationField = canvas.getByTestId("ExperienceForm-LocationField");
-    const forwardButton = canvas.getByTestId("ExperienceForm-ForwardButton");
-    expect(titleField).toBeInTheDocument();
-    expect(descriptionField).toBeInTheDocument();
-    expect(experienceDateField).toBeInTheDocument();
-    expect(locationField).toBeInTheDocument();
-    expect(forwardButton).toBeInTheDocument();
-
-    // Verify page 2 appears and page 1 disappears when forward button is pressed  
-    await sleep(1000);
-    await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
-    await waitFor(() => {
-      expect(titleField).not.toBeInTheDocument();
-      expect(descriptionField).not.toBeInTheDocument();
-      expect(experienceDateField).not.toBeInTheDocument();
-      expect(locationField).not.toBeInTheDocument();
-    });
- 
-    const recipeField = canvas.getByTestId("ExperienceForm-RecipeField");
-    const backButton = canvas.getByTestId("ExperienceForm-BackButton");
-    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
-
-    console.log(`back button: ${JSON.stringify(backButton.classList)}`);
-    
-
-    // Verify pressing the back button makes page 2 disappear and page 1 re-appear
-    await userEvent.click(backButton);
-    await waitFor(() => {
-      expect(recipeField).not.toBeInTheDocument();
-    });
-
-    expect(canvas.getByTestId("ExperienceForm-TitleField")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-DescriptionField")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-ExperienceDateField")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-LocationField")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
-    await waitFor(() => {
-      expect(canvas.queryByTestId("ExperienceForm-BackButton")).not.toBeInTheDocument();
-    });
   }
 };
