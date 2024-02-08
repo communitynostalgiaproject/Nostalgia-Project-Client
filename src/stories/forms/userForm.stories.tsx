@@ -6,7 +6,6 @@ import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
 import { StoryFn } from '@storybook/react';
 import UserForm from '../../components/forms/UserForm';
 import axios from 'axios';
-import { Box } from '@mui/material';
 import React from 'react';
 
 const mockUser = {
