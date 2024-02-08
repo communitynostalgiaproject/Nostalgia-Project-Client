@@ -6,8 +6,6 @@ import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
 import TeamCard from '../../shared/components/team-card/TeamCard';
 
-const parvati = require('../../assets/Parvati.png');
-
 type TeamMember = {
     id: number,
     name: string,
@@ -15,6 +13,20 @@ type TeamMember = {
     content: string,
     photo: any
 };
+
+const Parvati = require('../../assets/Parvati.png');
+const Hetvi = require('../../assets/Hetvi_Doshi.png');
+const Mary = require('../../assets/MacMillan_Mary.jpg');
+const Summer = require('../../assets/Summer LaPointe.jpg');
+const Mukunthg = require('../../assets/mukunthg.png');
+const David = require('../../assets/David_White.png');
+const Charles = require('../../assets/Charles.jpg');
+const Joan = require('../../assets/Joan_Joseph.jpg');
+const Andrew = require('../../assets/Andrew_Lee.jpg');
+const Ivy = require('../../assets/Ivy.png');
+const Walker = require('../../assets/Walker.png');
+const Emi = require('../../assets/Emi Labbe.png');
+const Rebekka = require('../../assets/Rebekka.jpg');
 
 const DUMMY_DATA: TeamMember[] = [
     {
@@ -64,7 +76,7 @@ const DUMMY_DATA: TeamMember[] = [
         name: 'Charles Nesmith',
         title: 'Full-Stack Developer',
         content: "",
-        photo: Parvati
+        photo: Charles
     },
     {
         id: 8,
@@ -77,8 +89,8 @@ const DUMMY_DATA: TeamMember[] = [
         id: 9,
         name: 'Emiline',
         title: 'Exhibition Curator & Research Assistant',
-        content: "I recently joined the lab to better understand the relationship between experience and nostalgia. Throughout the Spring 2024 semester, I aim to both examine how the senses evoke feelings of nostalgia and develop a sensory exhibit with the CNI science team to communicate the impact of nostalgia.",
-        photo: Parvati
+        content: "I am interested in how our emotions interact with our physical bodies. I joined the lab to understand what nostalgia is on a neural level. I also joined because I believe research should be shared, and the Community Nostalgia Initiative aims to make our findings accessible and digestible to the Ithaca community. I hope to do this by presenting information in engaging formats and by collaborating with local artists to explain nostalgia through more than data points.",
+        photo: Emi
     },
     {
         id: 10,
@@ -101,6 +113,27 @@ const DUMMY_DATA: TeamMember[] = [
         content: `Since Fall 2023, I have been working alongside Hetvi to deepen my interests and understanding of how the olfactory and gustatory networks evoke comforting memories and emotions. Throughout this journey, I aim to not only delve into the academic research of nostalgia but to also develop a sensory exhibition that offers an immersive journey of nostalgia for the Ithaca community. As a curator in the Community Neuroscience Initiative’s sensory exhibition team, I hope to integrate all five human senses (smell, sight, sound, taste, and touch) into our museum so that our diverse community members can fully relive their childhood and cultures and evoke their buried memories and emotions. In doing so, we hope that our visitors can embrace a stronger sense of self, connectedness, and personal growth.`,
         photo: Ivy
     },
+    {
+        id: 12,
+        name: 'Walker Strauss',
+        title: 'Community Liaison & Research Assistant',
+        content: "I have been working alongside Hetvi since Fall 2023 using fMRI scans as a method of deepening our understanding of the social, developmental, emotional, and mnemonic functions of food nostalgia. In collaboration with the other research assistants in the lab, I am responsible for making sure that our fMRI scans run smoothly. Additionally, I am part of the arts team for the Community Nostalgia Initiative, where we are organizing an arts exhibit that explores the power of art in evoking feelings of food nostalgia. I am passionate about creating an exhibit that clearly communicates the emotional and mnemonic abilities of food nostalgia.",
+        photo: Walker
+    },
+    {
+        id: 13,
+        name: 'Yael Spector',
+        title: 'Exhibition Curator & Research Assistant',
+        content: "I am interested in using fMRI to explore the nutritional implications of emotional connections to food. I appreciate the intersection between neuroscience and human behavior/emotions. I am passionate about community engagement and believe it is valuable to present science in an engaging and innovative way to the public. As one of the sensory exhibition curators, I am designing and executing a sensory exhibition that evokes feelings of nostalgia in the audience. The goal of this exhibit is to emphasize the influence of shared nostalgic experiences among individuals with diverse backgrounds.",
+        photo: Parvati
+    },
+    {
+        id: 14,
+        name: 'Rebekka Kivimae',
+        title: 'Muralist Liaison & Research Assistant',
+        content: "Over the last year, I have investigated nostalgia in relation to comfort foods and memory through survey-based studies and fMRI. I am fascinated by the intersection of neuroscience, emotion, and memory, exploring how these manifest in diverse ways across the lifespan. On the Arts Team for the Community Nostalgia Initiative, I initiate outreach with local Ithaca muralists. Our goal is to paint a mural in the Ithaca Commons representing nostalgia in relation to the changing identity of Ithaca; alongside meeting with muralists, I assist with developing community partnerships, incorporating local groups in the painting of the mural.",
+        photo: Rebekka
+    }
 ];  
 
 const TeamPage = () => {
@@ -120,32 +153,32 @@ const TeamPage = () => {
     });
 
     return (
-    <Container
-        sx={{
-            display: 'flex',
-            flexDirection: { xs: "column", md: "row" },
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            minWidth: '100%',
-            padding: '0',
-            margin: '0',
-        }}
-    >
-        <Typography variant='h2' sx={{ color: '#5E0916', fontFamily: 'comfortaa' }} >
-            MEET THE TEAM
-        </Typography>
-        <Box sx={{ width: { sm: '100%', md: '80%', lg: '80%' } }} >
-            <List
-                sx={{                    
-                    maxHeight: '75vh',
-                    overflow: 'auto',
-                    '&::-webkit-scrollbar': { display: 'none' }
-                }}
-            >
-                {displayTeamMembers}
-            </List>
-        </Box>
-    </Container>
+        <Container
+            sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                minWidth: '100%',
+                padding: '0',
+                marginTop: {xs: '35%', md: '10%'},   
+            }}
+        >
+            <Typography variant='h2' sx={{ color: '#5E0916', fontFamily: 'comfortaa' }} >
+                MEET THE TEAM
+            </Typography>
+            <Box sx={{ width: { sm: '100%', md: '80%', lg: '80%' } }} >
+                <List
+                    sx={{                    
+                        maxHeight: '75vh',
+                        overflow: 'auto',
+                        '&::-webkit-scrollbar': { display: 'none' }
+                    }}
+                >
+                    {displayTeamMembers}
+                </List>
+            </Box>
+        </Container>
     );
 };
 

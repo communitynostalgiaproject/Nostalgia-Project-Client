@@ -7,71 +7,78 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
 type Props = {
-  name: string,
-  title: string,
-  content: string,
-  photo: any
+    name: string,
+    title: string,
+    content: string,
+    photo: any
 };
 
 export default function TeamCard({ name, title, content, photo }: Props) {
   return ( 
     <Card 
       sx={{ 
-        display: 'flex', 
-        flexDirection: { xs: "column", md: "row" },
-        maxWidth: '100%', 
-        boxShadow: 'none',
-    }}>
+            display: 'flex', 
+            flexDirection: 'column',
+            maxWidth: '100%', 
+            boxShadow: 'none',
+        }}
+    >
+        <Box 
+            sx={{ 
+                display: 'flex', 
+                width: '100%',
+                marginBottom: '0.5rem', 
+            }} 
+        >
+            <Typography variant="h4" >
+                {name}
+            </Typography>
+                &nbsp;
+                <Divider 
+                    variant='middle' 
+                    orientation="vertical" 
+                    flexItem 
+                    sx={{ backgroundColor: 'black' }} 
+                />
+                &nbsp;
+            <Typography variant="h4" color="text.secondary">
+                {title}
+            </Typography>
+        </Box>
         <Box 
             sx={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: { xs: 'column', md: 'row' },
                 alignItems: { 
                     xs: "center", 
                     sm: "center", 
                     md: 'flex-start' 
                 },
                 paddingTop: '0.5rem',
-                width: '100%',
+                width: '100%'
             }}
         >
-            <Box 
-                sx={{ 
-                    display: 'flex', 
-                    marginBottom: '0.5rem', 
-                }} 
-            >
-                <Typography variant="h4" >
-                    {name}
-                </Typography>
-                    &nbsp;
-                    <Divider 
-                        variant='middle' 
-                        orientation="vertical" 
-                        flexItem 
-                        sx={{ backgroundColor: 'black' }} 
-                    />
-                    &nbsp;
-                <Typography variant="h4" color="text.secondary">
-                    {title}
-                </Typography>
-            </Box>
             <CardMedia
                 image={photo}
                 title="Family enjoying dinner together"
-                sx={{ width: '225px', height: '245px' }}
+                sx={{ 
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    minWidth: { xs: '200px', md: '225px' }, 
+                    height: '245px',
+                }}
             />
-        </Box>
-        <CardContent 
-            sx={{ 
-                maxWidth: { sm: '100%', md: '70%' }, 
-                paddingTop: '2%', 
-            }
-        }>
+            <CardContent 
+                sx={{ 
+                    width: { sm: '40%', md: '70%' }, 
+                    paddingTop: '0', 
+                }}
+            >
             <Typography>
                 {content}
             </Typography>
         </CardContent>
+        </Box>
     </Card>
   );
 };
