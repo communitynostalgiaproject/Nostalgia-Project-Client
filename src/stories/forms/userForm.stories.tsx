@@ -25,7 +25,7 @@ const QueryContextWrapper: StoryFn= ({ children }) => {
   );
 };
 
-const UserFormWrapper: React.FC = ({ ...args }) => {
+const UserFormWrapper: React.FC = () => {
   const { data: user } = useQuery("currentUser", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
     return res.data;
