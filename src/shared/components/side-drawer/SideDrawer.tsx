@@ -35,46 +35,45 @@ export default function SideDrawer() {
     };
 
   const list = (anchor: Anchor) => (
-    <React.Fragment>
-    <Button
-      style={{ 
-        position: 'fixed',
-        top: '50%', 
-        right: '29%',
-        borderRadius: '150px 0 0 150px',
-        backgroundColor: '#272A40',
-      }}
-      onClick={toggleDrawer('right', false)}
-    >
-      <ArrowForwardIosIcon
-        style={{
-          fontSize: '48px',
-          color: '#fff'
-        }} 
-      />
-    </Button>
-    <Box
-      sx={{ 
-        display: 'flex',
-        alignItems: 'center',
-        width: 500, 
-        height: '100%',
-        backgroundColor: '#272A40', 
-      }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List sx={{ color: '#fff', padding: '1rem' }}>
-        {[''].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-        <PostedImagesList />
-      </List>
+    <Box 
+      sx={{ backgroundColor: '#272A40', height: '100%' }}>
+      <Button
+        style={{ 
+          width: '5rem', 
+          marginTop: '2.5rem', 
+          backgroundColor: '#272A40' 
+        }}
+        onClick={toggleDrawer('right', false)}
+      >
+        <ArrowForwardIosIcon
+          style={{
+            fontSize: '48px',
+            color: '#fff'
+          }} 
+        />
+      </Button>
+      <Box
+        sx={{ 
+          display: 'flex',
+          alignItems: 'center',
+          width: 500, 
+          height: '100%',
+          backgroundColor: '#272A40', 
+        }}
+        role="presentation"
+        onClick={toggleDrawer(anchor, false)}
+        onKeyDown={toggleDrawer(anchor, false)}
+      >
+        <List sx={{ color: '#fff', padding: '1rem' }}>
+          {[''].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ padding: '0px' }}>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+          <PostedImagesList />
+        </List>
+      </Box>
     </Box>
-    </React.Fragment>
   );
 
   return (
