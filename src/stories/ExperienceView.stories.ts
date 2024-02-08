@@ -77,7 +77,7 @@ export const NotLoggedInAsCreator: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser1)],
+        fetchNonCreatorUserData: [createUserFetchHandler(200, [mockUser1])],
         getCreatorUserData: [createUserGetHandler(200, mockUser2)]
       }
     }
@@ -98,7 +98,7 @@ export const LoggedInAsCreator: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser2)],
+        fetchNonCreatorUserData: [createUserFetchHandler(200, [mockUser2])],
         getCreatorUser: [createUserGetHandler(200, mockUser2)]
       }
     }
@@ -132,7 +132,7 @@ export const NonCreatorViewTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser1)],
+        fetchNonCreatorUserData: [createUserFetchHandler(200, [mockUser1])],
         getCreatorUser: [createUserGetHandler(200, mockUser2)]
       }
     }
@@ -171,7 +171,7 @@ export const CreatorViewTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser2)],
+        fetchNonCreatorUserData: [createUserFetchHandler(200, [mockUser2])],
         getCreatorUser: [createUserGetHandler(200, mockUser2)]
       }
     }

@@ -6,6 +6,8 @@ import {
   TextField,
   Box
 } from '@mui/material';
+import { useMutation, useQueryClient } from 'react-query';
+import axios from 'axios';
 
 interface UserFormProps {
   user: {
@@ -17,6 +19,23 @@ interface UserFormProps {
 const UserForm: React.FC<UserFormProps> = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedDisplayName, setEditedDisplayName] = useState(user.displayName);
+  const queryClient = useQueryClient();
+
+  const { mutate: updateUser, isLoading } = useMutation(
+    (newDisplayName: string) => axios.patch(
+      `${process.env.REACT_APP_API_URL}/users/${user._id}`,
+      { 
+        _id: user._id,
+        displayName: newDisplayName 
+      },
+      { withCredentials: true }
+    ),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('currentUser');
+      },
+    }
+  );
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -24,12 +43,15 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
 
   const handleCancel = () => {
     setIsEditing(false);
-    setEditedDisplayName(user.displayName); // Reset editedDisplayName to initial value
+    setEditedDisplayName(user.displayName);
   };
 
   const handleSave = () => {
-    console.log("Saving new displayName: ", editedDisplayName);
-    setIsEditing(false);
+    updateUser(editedDisplayName, {
+      onSuccess: () => {
+        setIsEditing(false);
+      },
+    });
   };
 
   const handleDelete = () => {
@@ -131,6 +153,7 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
               onClick={handleSave}
               color="primary"
               data-testid="UserForm-SaveEditsButton"
+              disabled={isLoading}
             >
               Save
             </Button>

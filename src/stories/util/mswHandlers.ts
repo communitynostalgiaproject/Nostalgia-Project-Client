@@ -2,13 +2,17 @@ import { PeliasGeoJSONFeature } from '@stadiamaps/api';
 import { rest } from 'msw';
 
 // User endpoints
-export const createUserFetchHandler = (status: number, user={}) => {
+export const createUserFetchHandler = (status: number, users=[{}]) => {
+  let callCount = 0;
+
   return rest.get(
     /^.+\/users\/fetchData/,
     (_req, res, ctx) => {
+      callCount += 1;
+
       return res(
         ctx.status(status),
-        ctx.json(user)
+        ctx.json(users[callCount % users.length])
       );
     }
   );
@@ -21,6 +25,17 @@ export const createUserGetHandler = (status: number, user={}) => {
       return res(
         ctx.status(status),
         ctx.json(user)
+      );
+    }
+  );
+};
+
+export const createUserUpdateHandler = (status: number) => {
+  return rest.patch(
+    /^.+\/users\/[0-9a-zA-Z]+$/,
+    (_req, res, ctx) => {
+      return res(
+        ctx.status(status)
       );
     }
   );

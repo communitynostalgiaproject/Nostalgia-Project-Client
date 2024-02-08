@@ -26,7 +26,7 @@ export const LoggedIn: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchUser: [createUserFetchHandler(200, mockUser)]
+        fetchUser: [createUserFetchHandler(200, [mockUser])]
       }
     }
   },
@@ -61,7 +61,7 @@ export const CreateExperienceButtonLoggedInTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchUser: [createUserFetchHandler(200, mockUser)]
+        fetchUser: [createUserFetchHandler(200, [mockUser])]
       }
     }
   },

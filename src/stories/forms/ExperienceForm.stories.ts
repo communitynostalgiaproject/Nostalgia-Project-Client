@@ -94,7 +94,7 @@ export const UpdateExperience: Story = {
     msw: {
       handlers: {
         submitUpdate: [createExperienceUpdateHandler(200)],
-        getUserData: [createUserFetchHandler(200, mockUser)]
+        getUserData: [createUserFetchHandler(200, [mockUser])]
       }
     }
   },
@@ -106,7 +106,7 @@ export const CreateExperienceTest: Story = {
     msw: {
       handlers: {
         submitCreate: [createExperienceCreateHandler(201)],
-        getUserData: [createUserFetchHandler(200, mockUser)],
+        getUserData: [createUserFetchHandler(200, [mockUser])],
         autocomplete: [createGeocodeEarthAutocompleteHandler({
           features: [
             {
@@ -256,7 +256,7 @@ export const UpdateExperienceTest: Story = {
     msw: {
       handlers: {
         submitUpdate: [createExperienceUpdateHandler(200)],
-        getUserData: [createUserFetchHandler(200, mockUser)],
+        getUserData: [createUserFetchHandler(200, [mockUser])],
         autocomplete: [createGeocodeEarthAutocompleteHandler({
           features: [
             {

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { createUserFetchHandler } from '../util/mswHandlers';
+import { createUserFetchHandler, createUserUpdateHandler } from '../util/mswHandlers';
 import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
 import { StoryFn } from '@storybook/react';
 import UserForm from '../../components/forms/UserForm';
@@ -16,7 +16,13 @@ const mockUser = {
 };
 
 const QueryContextWrapper: StoryFn= ({ children }) => {
-  const client = new QueryClient();
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 5 * 60 * 1000
+      },
+    },
+  });
 
   return (
     <QueryClientProvider client={client}>
@@ -60,7 +66,7 @@ export const Form: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchUser: [createUserFetchHandler(200, mockUser)]
+        // fetchUser: [createUserFetchHandler(200, [mockUser])]
       }
     }
   },
@@ -73,7 +79,7 @@ export const CancelEditTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchUser: [createUserFetchHandler(200, mockUser)]
+        fetchUser: [createUserFetchHandler(200, [mockUser])]
       }
     }
   },
@@ -117,7 +123,11 @@ export const SaveEditsTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchUser: [createUserFetchHandler(200, mockUser)]
+        fetchUser: [createUserFetchHandler(200, [mockUser, {
+          ...mockUser,
+          displayName: "Updated Name"
+        }])],
+        updateUser: [createUserUpdateHandler(200)]
       }
     }
   },
