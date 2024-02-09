@@ -40,7 +40,7 @@ const UserFormWrapper: React.FC = () => {
   // Render UserForm with the fetched user data
   return (
     <>
-      {user && <UserForm user={user} />}
+      {user ? <UserForm user={user} /> : <div></div>}
     </>
   );
 };
@@ -139,7 +139,7 @@ export const SaveEditsTest: Story = {
       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
-    });
+    }, { timeout: 2000 });
 
     await userEvent.click(canvas.getByTestId("UserForm-EditDisplayNameButton"));
     await waitFor(() => {

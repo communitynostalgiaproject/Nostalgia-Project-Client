@@ -3,13 +3,12 @@ import { rest } from 'msw';
 
 // User endpoints
 export const createUserFetchHandler = (status: number, users=[{}]) => {
-  let callCount = 0;
+  let callCount = -1;
 
   return rest.get(
     /^.+\/users\/fetchData/,
     (_req, res, ctx) => {
       callCount += 1;
-
       return res(
         ctx.status(status),
         ctx.json(users[callCount % users.length])
