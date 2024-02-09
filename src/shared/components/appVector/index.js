@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import experiencesRequest from '../../../api/experiences.request';
+import reactionsRequest from '../../../api/reactions.request';
 
 import useStyles from './styles';
 import ThanksForSharing from '../../../assets/reactionIcons/thanksForSharing';
@@ -30,9 +31,23 @@ const AppVector = () => {
 
   useEffect(() => {
     if (error) console.error(`Error fetching user: ${error}`);
-      console.log(`user: ${JSON.stringify(experiences)}`);
-     
-  }, [error, experiences])
+  }, [error, experiences]);
+
+  const mutation = useMutation(async(data) => {
+    return await reactionsRequest.post(data)
+  })
+
+  const handleReaction = (event) => {
+    let reaction = event.currentTarget?.id;
+    let experienceId = event.currentTarget?.getAttribute("data-experience")
+    // console.log(event.currentTarget?.id, event.currentTarget?.getAttribute("data-experience"))
+
+    mutation.mutate({
+      reaction: reaction,
+      userId: "6541795c8c2ca0edcda512df",
+      experienceId: experienceId
+    });
+  };
 
   return (
     <div className="App">
@@ -64,13 +79,13 @@ const AppVector = () => {
                     <img src={experience.foodPhotoUrl} alt={`${experience.title}`} className={classes.experienceImage}/>
                   </div>
                   <div className={classes.reactionGroup}>
-                    <div className={classes.meToo} title='Me Too'>
+                    <div id="meToo" className={classes.meToo} title='Me Too' data-experience={experience['_id']} onClick={handleReaction}>
                       <MeToo/>
                     </div>
-                    <div className={classes.thanksForSharing} title='Thanks for sharing'>
+                    <div id="thanksForSharing" className={classes.thanksForSharing} title='Thanks for sharing' data-experience={experience['_id']} onClick={handleReaction}>
                       <ThanksForSharing/>
                     </div>
-                    <div className={classes.willTry} title='Will try'>
+                    <div id="willTry" className={classes.willTry} title='Will try' data-experience={experience['_id']} onClick={handleReaction}>
                       <WillTry/>
                     </div>
                   </div>
