@@ -3,6 +3,10 @@ import { useQuery } from 'react-query';
 import experiencesRequest from '../../../api/experiences.request';
 
 import useStyles from './styles';
+import ThanksForSharing from '../../../assets/reactionIcons/thanksForSharing';
+import MeToo from '../../../assets/reactionIcons/meToo';
+import WillTry from '../../../assets/reactionIcons/willTry';
+
 import 'leaflet/dist/leaflet.css';
 import {MapContainer, Marker, Popup} from 'react-leaflet';
 import L from 'leaflet';
@@ -60,7 +64,15 @@ const AppVector = () => {
                     <img src={experience.foodPhotoUrl} alt={`${experience.title}`} className={classes.experienceImage}/>
                   </div>
                   <div className={classes.reactionGroup}>
-
+                    <div className={classes.meToo} title='Me Too'>
+                      <MeToo/>
+                    </div>
+                    <div className={classes.thanksForSharing} title='Thanks for sharing'>
+                      <ThanksForSharing/>
+                    </div>
+                    <div className={classes.willTry} title='Will try'>
+                      <WillTry/>
+                    </div>
                   </div>
                 </div>
               </Popup>
