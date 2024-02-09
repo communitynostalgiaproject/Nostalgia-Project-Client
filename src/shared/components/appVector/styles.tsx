@@ -9,7 +9,8 @@ const useStyles = createUseStyles({
         marginTop: "25px",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        width: "170px"
     },
     experienceTitle: {
         fontFamily: "Nunito",
