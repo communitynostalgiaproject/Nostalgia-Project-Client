@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
+import DeleteAccountModal from './DeleteAccountModal';
 
 interface UserFormProps {
   user: {
@@ -19,6 +20,7 @@ interface UserFormProps {
 const UserForm: React.FC<UserFormProps> = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedDisplayName, setEditedDisplayName] = useState(user.displayName);
+  const [deleteAccountModalOpen, setDeleteAccountModalOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const { mutate: updateUser, isLoading } = useMutation(
@@ -37,6 +39,8 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
     }
   );
 
+  const toggleDeleteAccountModal = () => setDeleteAccountModalOpen((prev) => !prev)
+
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -52,10 +56,6 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
         setIsEditing(false);
       },
     });
-  };
-
-  const handleDelete = () => {
-
   };
 
   return (
@@ -126,7 +126,7 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
           </Box>
         </Box>
         <Button
-          onClick={handleDelete}
+          onClick={toggleDeleteAccountModal}
           color="secondary"
           data-testid="UserForm-DeleteAccountButton"
         >
@@ -160,6 +160,11 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
           </>
         )}
       </Box>
+      <DeleteAccountModal
+        open={deleteAccountModalOpen}
+        onClose={toggleDeleteAccountModal}
+        user={user}
+      />
     </Container>
   );
 };

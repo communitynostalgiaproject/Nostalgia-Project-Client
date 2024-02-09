@@ -40,6 +40,17 @@ export const createUserUpdateHandler = (status: number) => {
   );
 };
 
+export const createUserDeleteHandler = (status: number) => {
+  return rest.delete(
+    /^.+\/users\/[0-9a-zA-Z]+$/,
+    (_req, res, ctx) => {
+      return res(
+        ctx.status(status)
+      );
+    }
+  );
+};
+
 // Experience endpoint
 export const createExperienceCreateHandler = (status: number, experience={}) => {
   return rest.post(

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { within, userEvent, waitFor } from '@storybook/testing-library';
+import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { createUserFetchHandler, createUserUpdateHandler } from '../util/mswHandlers';
 import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
@@ -164,3 +164,93 @@ export const SaveEditsTest: Story = {
     }, { timeout: 5000 });
   }
 };
+
+// export const CancelDeleteAccountTest: Story = {
+//   args: {
+//     user: {_id: "9032390", displayName: "Something went wrong..."},
+//   },
+//   parameters: {
+//     msw: {
+//       handlers: {
+//         fetchUser: [createUserFetchHandler(200, [mockUser])],
+//       }
+//     }
+//   },
+//   play: async ({ canvasElement }) => {
+//     const canvas = within(canvasElement);
+
+//     await waitFor(() => {
+//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+//     }, { timeout: 2000 });
+
+//     await userEvent.click(canvas.getByTestId("UserForm-DeleteAccountButton"));
+//     await waitFor(() => {
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountModal")).toBeInTheDocument();
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountText")).toBeInTheDocument();
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountCancelButton")).toBeInTheDocument();
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).toBeInTheDocument();
+//     });
+
+//     await userEvent.click(canvas.getByTestId("UserForm-ConfirmDeleteAccountCancelButton"));
+//     await waitFor(() => {
+//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountModal")).not.toBeInTheDocument();
+//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountText")).not.toBeInTheDocument();
+//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountCancelButton")).not.toBeInTheDocument();
+//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).not.toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+//     });
+//   }
+// };
+
+// export const DeleteAccountTest: Story = {
+//   args: {
+//     user: {_id: "9032390", displayName: "Something went wrong..."},
+//   },
+//   parameters: {
+//     msw: {
+//       handlers: {
+//         fetchUser: [createUserFetchHandler(200, [mockUser, {
+//           ...mockUser,
+//           displayName: "Updated Name"
+//         }])],
+//         updateUser: [createUserUpdateHandler(200)]
+//       }
+//     }
+//   },
+//   play: async ({ canvasElement }) => {
+//     const canvas = within(canvasElement);
+
+//     await waitFor(() => {
+//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+//     }, { timeout: 2000 });
+
+//     await userEvent.click(canvas.getByTestId("UserForm-DeleteAccountButton"));
+//     await waitFor(() => {
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountModal")).toBeInTheDocument();
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountText")).toBeInTheDocument();
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountCancelButton")).toBeInTheDocument();
+//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).toBeInTheDocument();
+//     });
+
+//     await userEvent.click(canvas.getByTestId("UserForm-ConfirmDeleteAccountConfirmButton"));
+//     await waitFor(() => {
+//       expect(screen.queryByTestId("UserForm-DeleteAccountModal")).not.toBeInTheDocument();
+//       expect(screen.queryByTestId("UserForm-DeleteAccountConfirmText")).not.toBeInTheDocument();
+//       expect(screen.queryByTestId("UserForm-DeleteAccountCancelButton")).not.toBeInTheDocument();
+//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).not.toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+//     });
+//   }
+// };
