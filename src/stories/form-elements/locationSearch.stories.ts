@@ -2,18 +2,14 @@ import React from 'react';
 import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { rest } from 'msw';
-import { mswLoader } from 'msw-storybook-addon';
+import { createQueryClientDecorator } from "../assets/StorybookDecorators";
+import { createGeocodeEarthAutocompleteHandler } from '../util/mswHandlers';
+import { QueryClient } from 'react-query';
 import LocationSearch from '../../components/form-elements/locationSearch';
-
-const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete', (_req, res, ctx) => {
-    console.log("In autocompleteWorker");
-    return res(ctx.json({ features: [{ properties: { label: 'New York' } }] }));
-});
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Location Search',
+  title: 'form-elements/Location Search',
   component: LocationSearch,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -33,7 +29,8 @@ export const Blank: Story = {
     },
     currentLocation: undefined,
     focus: undefined
-  }
+  },
+  decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
 export const InputTest: Story = {
@@ -47,10 +44,22 @@ export const InputTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        autocomplete: [autocompleteHandler]
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     // Should display a list of suggested locations when a user types in the box
     const canvas = within(canvasElement);
@@ -80,10 +89,22 @@ export const ClickTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        autocomplete: [autocompleteHandler]
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     // Suggestion list should disappear when user selects an item
     const canvas = within(canvasElement);
@@ -118,10 +139,22 @@ export const BlurTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        autocomplete: [autocompleteHandler]
+        autocomplete: [createGeocodeEarthAutocompleteHandler({
+          features: [
+            {
+              type: "Feature",
+              properties: { label: 'New York' },
+              geometry: {
+                type: "Point",
+                coordinates: [40.70670836848978, -74.01290748751832]
+              }
+            }
+          ]
+        })]
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     // Suggestion list should disappear when the search box loses focus
     const canvas = within(canvasElement);
