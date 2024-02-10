@@ -1,11 +1,13 @@
-import React from 'react';
 import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { rest } from 'msw';
 import { Experience } from '../types/experience';
 import { createQueryClientDecorator } from './assets/StorybookDecorators';
 import { QueryClient } from 'react-query';
+import {
+  createUserFetchHandler,
+  createUserGetHandler
+} from './util/mswHandlers';
 import ExperienceView from '../components/ExperienceView';
 
 const mockExperience = {
@@ -49,31 +51,9 @@ const mockUser2 = {
   "displayName": "Test User 2"
 };
 
-const createUserFetchHandler = (user: any) => {
-  return rest.get(
-    /^.+\/users\/fetchData/,
-    (_req, res, ctx) => {
-      return res(ctx.json(user));
-    }
-  );
-};
-
-const createUserGetHandler = (user: any) => {
-  return rest.get(
-    /^.+\/users\/[0-9a-zA-Z]+$/,
-    (_req, res, ctx) => {
-      return res(ctx.json(user));
-    }
-  );
-};
-
-const sleep = (ms: number) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Experience View',
+  title: 'views/Experience View',
   component: ExperienceView,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
@@ -97,8 +77,8 @@ export const NotLoggedInAsCreator: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(mockUser1)],
-        getCreatorUserData: [createUserGetHandler(mockUser2)]
+        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser1)],
+        getCreatorUserData: [createUserGetHandler(200, mockUser2)]
       }
     }
   },
@@ -118,8 +98,8 @@ export const LoggedInAsCreator: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(mockUser2)],
-        getCreatorUser: [createUserGetHandler(mockUser2)]
+        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser2)],
+        getCreatorUser: [createUserGetHandler(200, mockUser2)]
       }
     }
   },
@@ -137,7 +117,7 @@ export const CreatorNotFound: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(mockUser1)]
+        fetchNonCreatorUserData: [createUserGetHandler(500)]
       }
     }
   },
@@ -152,8 +132,8 @@ export const NonCreatorViewTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(mockUser1)],
-        getCreatorUser: [createUserGetHandler(mockUser2)]
+        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser1)],
+        getCreatorUser: [createUserGetHandler(200, mockUser2)]
       }
     }
   },
@@ -191,8 +171,8 @@ export const CreatorViewTest: Story = {
   parameters: {
     msw: {
       handlers: {
-        fetchNonCreatorUserData: [createUserFetchHandler(mockUser2)],
-        getCreatorUser: [createUserGetHandler(mockUser2)]
+        fetchNonCreatorUserData: [createUserFetchHandler(200, mockUser2)],
+        getCreatorUser: [createUserGetHandler(200, mockUser2)]
       }
     }
   },
