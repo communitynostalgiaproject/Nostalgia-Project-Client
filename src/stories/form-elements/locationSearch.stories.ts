@@ -3,7 +3,8 @@ import { within, userEvent, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { rest } from 'msw';
-import { mswLoader } from 'msw-storybook-addon';
+import { createQueryClientDecorator } from "../assets/StorybookDecorators";
+import { QueryClient } from 'react-query';
 import LocationSearch from '../../components/form-elements/locationSearch';
 
 const autocompleteHandler = rest.get('https://api.geocode.earth/v1/autocomplete', (_req, res, ctx) => {
@@ -33,7 +34,8 @@ export const Blank: Story = {
     },
     currentLocation: undefined,
     focus: undefined
-  }
+  },
+  decorators: [createQueryClientDecorator(new QueryClient())]
 };
 
 export const InputTest: Story = {
@@ -51,6 +53,7 @@ export const InputTest: Story = {
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     // Should display a list of suggested locations when a user types in the box
     const canvas = within(canvasElement);
@@ -84,6 +87,7 @@ export const ClickTest: Story = {
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     // Suggestion list should disappear when user selects an item
     const canvas = within(canvasElement);
@@ -122,6 +126,7 @@ export const BlurTest: Story = {
       }
     }
   },
+  decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ canvasElement }) => {
     // Suggestion list should disappear when the search box loses focus
     const canvas = within(canvasElement);
