@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CardModal from '../../modal/CardModal';
 import {
   Container,
@@ -38,13 +38,18 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
     {
       onSuccess: () => {
         onClose();
-        queryClient.invalidateQueries('currentUser');
+        queryClient.setQueryData('currentUser', undefined);
       },
     }
   );
 
+  const handleCancel = () => {
+    setPageIndex(0);
+    onClose();
+  }
+
   const pages = [
-    <>
+    <Container>
       <Typography
         variant='body1'
         data-testid='DeleteAccountModal-ConfirmText'
@@ -52,10 +57,16 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
         Are you sure you want to delete your account?
       </Typography>
       <Box
-      
+        sx={{
+          padding: '15px 0px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: '5px'
+        }}
       >
         <Button
-          onClick={onClose}
+          onClick={handleCancel}
           data-testid='DeleteAccountModal-CancelButton'
         >
           Cancel
@@ -67,21 +78,27 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
           Delete
         </Button>
       </Box>
-    </>,
-    <>
+    </Container>,
+    <Container>
       <Typography
         variant='body1'
-        data-testid='DeleteAccountModal-ConfirmText'
+        data-testid='DeleteAccountModal-ChooseDeletePostsText'
       >
         We're sorry to see you go. Would you like to delete all of your experience posts?
         If you choose not to delete your posts, they will still be visible on the map but will 
         become "anonymized" and will no longer show your display name.
       </Typography>
       <Box
-      
+        sx={{
+          padding: '15px 0px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          gap: '5px'
+        }}
       >
         <Button
-          onClick={onClose}
+          onClick={handleCancel}
           data-testid='DeleteAccountModal-CancelButton'
         >
           Cancel
@@ -101,13 +118,19 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
           Just delete my account
         </Button>
       </Box>
-    </>
+    </Container>
   ];
 
   return (
     <CardModal
       open={open}
-      onClose={onClose}
+      onClose={handleCancel}
+      cardProps={{
+        sx: {
+          width: '95%',
+          maxWidth: '600px'
+        }
+      }}
       data-testid='DeleteAccountModal-Modal'
     >
       <Container>

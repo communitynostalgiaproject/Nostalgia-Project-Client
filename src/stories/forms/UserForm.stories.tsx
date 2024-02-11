@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { createUserFetchHandler, createUserUpdateHandler } from '../util/mswHandlers';
+import {
+  createUserFetchHandler,
+  createUserUpdateHandler,
+  createUserDeleteHandler
+} from '../util/mswHandlers';
 import { useQuery, QueryClient, QueryClientProvider } from 'react-query';
 import { StoryFn } from '@storybook/react';
 import UserForm from '../../components/forms/UserForm';
@@ -19,7 +23,8 @@ const QueryContextWrapper: StoryFn= ({ children }) => {
   const client = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 5 * 60 * 1000
+        staleTime: 5 * 60 * 1000,
+        retry: false
       },
     },
   });
@@ -66,7 +71,8 @@ export const Form: Story = {
   parameters: {
     msw: {
       handlers: {
-        // fetchUser: [createUserFetchHandler(200, [mockUser])]
+        fetchUser: [createUserFetchHandler(200, [mockUser])],
+        deleteUser: [createUserDeleteHandler(200)]
       }
     }
   },
@@ -165,92 +171,170 @@ export const SaveEditsTest: Story = {
   }
 };
 
-// export const CancelDeleteAccountTest: Story = {
-//   args: {
-//     user: {_id: "9032390", displayName: "Something went wrong..."},
-//   },
-//   parameters: {
-//     msw: {
-//       handlers: {
-//         fetchUser: [createUserFetchHandler(200, [mockUser])],
-//       }
-//     }
-//   },
-//   play: async ({ canvasElement }) => {
-//     const canvas = within(canvasElement);
+export const CancelDeleteAccountTest: Story = {
+  args: {
+    user: {_id: "9032390", displayName: "Something went wrong..."},
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(200, [mockUser])],
+      }
+    }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-//     await waitFor(() => {
-//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
-//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
-//     }, { timeout: 2000 });
+    await waitFor(() => {
+      expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+      expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+    });
 
-//     await userEvent.click(canvas.getByTestId("UserForm-DeleteAccountButton"));
-//     await waitFor(() => {
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountModal")).toBeInTheDocument();
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountText")).toBeInTheDocument();
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountCancelButton")).toBeInTheDocument();
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).toBeInTheDocument();
-//     });
+    await userEvent.click(canvas.getByTestId("UserForm-DeleteAccountButton"));
+    await waitFor(() => {
+      expect(screen.getByTestId("DeleteAccountModal-Modal")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-ConfirmText")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-CancelButton")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-ConfirmButton")).toBeInTheDocument();
+    });
 
-//     await userEvent.click(canvas.getByTestId("UserForm-ConfirmDeleteAccountCancelButton"));
-//     await waitFor(() => {
-//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountModal")).not.toBeInTheDocument();
-//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountText")).not.toBeInTheDocument();
-//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountCancelButton")).not.toBeInTheDocument();
-//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).not.toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
-//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
-//     });
-//   }
-// };
+    await userEvent.click(screen.getByTestId("DeleteAccountModal-ConfirmButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-Modal")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-CancelButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ChooseDeletePostsText")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteUserAndPostsButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteJustUserButton")).toBeInTheDocument();
+    });
 
-// export const DeleteAccountTest: Story = {
-//   args: {
-//     user: {_id: "9032390", displayName: "Something went wrong..."},
-//   },
-//   parameters: {
-//     msw: {
-//       handlers: {
-//         fetchUser: [createUserFetchHandler(200, [mockUser, {
-//           ...mockUser,
-//           displayName: "Updated Name"
-//         }])],
-//         updateUser: [createUserUpdateHandler(200)]
-//       }
-//     }
-//   },
-//   play: async ({ canvasElement }) => {
-//     const canvas = within(canvasElement);
+    await userEvent.click(screen.getByTestId("DeleteAccountModal-CancelButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountModal")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-CancelButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ChooseDeletePostsText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteUserAndPostsButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteJustUserButton")).not.toBeInTheDocument();
 
-//     await waitFor(() => {
-//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
-//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
-//     }, { timeout: 2000 });
+      expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+      expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+    });
+  }
+};
 
-//     await userEvent.click(canvas.getByTestId("UserForm-DeleteAccountButton"));
-//     await waitFor(() => {
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountModal")).toBeInTheDocument();
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountText")).toBeInTheDocument();
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountCancelButton")).toBeInTheDocument();
-//       expect(screen.getByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).toBeInTheDocument();
-//     });
+export const DeleteJustUserTest: Story = {
+  args: {
+    user: {_id: "9032390", displayName: "Something went wrong..."},
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(200, [mockUser])],
+        deleteUser: [createUserDeleteHandler(200)]
+      }
+    }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-//     await userEvent.click(canvas.getByTestId("UserForm-ConfirmDeleteAccountConfirmButton"));
-//     await waitFor(() => {
-//       expect(screen.queryByTestId("UserForm-DeleteAccountModal")).not.toBeInTheDocument();
-//       expect(screen.queryByTestId("UserForm-DeleteAccountConfirmText")).not.toBeInTheDocument();
-//       expect(screen.queryByTestId("UserForm-DeleteAccountCancelButton")).not.toBeInTheDocument();
-//       expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountConfirmButton")).not.toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
-//       expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
-//       expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
-//     });
-//   }
-// };
+    await waitFor(() => {
+      expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+      expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(canvas.getByTestId("UserForm-DeleteAccountButton"));
+    await waitFor(() => {
+      expect(screen.getByTestId("DeleteAccountModal-Modal")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-ConfirmText")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-CancelButton")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-ConfirmButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("DeleteAccountModal-ConfirmButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-Modal")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-CancelButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ChooseDeletePostsText")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteUserAndPostsButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteJustUserButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("DeleteAccountModal-DeleteJustUserButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountModal")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-CancelButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ChooseDeletePostsText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteUserAndPostsButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteJustUserButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("UserForm-FormContainer")).not.toBeInTheDocument();
+    });
+  }
+};
+
+export const DeletUserAndPostsTest: Story = {
+  args: {
+    user: {_id: "9032390", displayName: "Something went wrong..."},
+  },
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(200, [mockUser])],
+        deleteUser: [createUserDeleteHandler(200)]
+      }
+    }
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await waitFor(() => {
+      expect(canvas.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DisplayNameText").textContent).toBe(mockUser.displayName);
+      expect(canvas.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+      expect(canvas.getByTestId("UserForm-DeleteAccountButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(canvas.getByTestId("UserForm-DeleteAccountButton"));
+    await waitFor(() => {
+      expect(screen.getByTestId("DeleteAccountModal-Modal")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-ConfirmText")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-CancelButton")).toBeInTheDocument();
+      expect(screen.getByTestId("DeleteAccountModal-ConfirmButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("DeleteAccountModal-ConfirmButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-Modal")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-CancelButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ChooseDeletePostsText")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteUserAndPostsButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteJustUserButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("DeleteAccountModal-DeleteUserAndPostsButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ConfirmButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("UserForm-ConfirmDeleteAccountModal")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-CancelButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-ChooseDeletePostsText")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteUserAndPostsButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("DeleteAccountModal-DeleteJustUserButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("UserForm-FormContainer")).not.toBeInTheDocument();
+    });
+  }
+};
