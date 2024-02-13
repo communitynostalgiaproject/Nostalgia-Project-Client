@@ -78,7 +78,7 @@ export const NotLoggedInTest: Story = {
     expect(screen.getByTestId("LoginButton-Button")).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(screen.getByTestId("MenuButton-MenuToggleButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("MenuButton-MenuToggleButton")).not.toBeInTheDocument();
     });
   }
 };
