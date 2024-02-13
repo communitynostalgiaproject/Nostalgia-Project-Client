@@ -1,11 +1,11 @@
 import { userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryFn, StoryObj } from '@storybook/react';
-import { createQueryClientDecorator } from './assets/StorybookDecorators';
+import { createQueryClientDecorator } from '../assets/StorybookDecorators';
 import { QueryClient } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
-import { createUserFetchHandler } from './util/mswHandlers';
-import DesktopNav from '../shared/components/navbar/desktop';
+import { createUserFetchHandler } from '../util/mswHandlers';
+import DesktopNav from '../../shared/components/navbar/desktop';
 
 const navItems = [
   "Research",
@@ -86,6 +86,7 @@ export const LoggedInTest: Story = {
     
     waitFor(() => {
       expect(screen.queryByTestId("LoginButton-Button")).not.toBeInTheDocument();
+      expect(screen.getByTestId("MenuButton-MenuToggleButton")).toBeInTheDocument();
     });
   }
 };

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import useStyles from './styles';
+import UserMenu from '../../../../components/menus/UserMenu';
 
 interface DesktopNavProps {
     navItems: string[]
@@ -60,6 +61,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 ))
                             }
                         </Tabs>
+                        <UserMenu user={user} />
                     </Box>
                 </Toolbar>
             </Container>
