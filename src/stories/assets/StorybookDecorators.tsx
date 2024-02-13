@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter } from "react-router-dom";
 
 export const createQueryClientDecorator = (queryClient: QueryClient) => {
   return (storyFn: any) => {
