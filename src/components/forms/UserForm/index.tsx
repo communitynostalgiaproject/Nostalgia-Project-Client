@@ -63,13 +63,21 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
       sx={{
         width: "100%",
         minWidth: "300px",
-        border: "1px solid black"
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
       }}
       data-testid="UserForm-FormContainer"
     >
       <Box
         sx={{
-          padding: "25px 0px"
+          padding: "10px 0px 20px 0px",
+          width: "90%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+
         }}
       >
         <Typography
@@ -80,6 +88,7 @@ const UserForm: React.FC<UserFormProps> = ({ user }) => {
       </Box>
       <Box
         sx={{
+          width: "85%",
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",

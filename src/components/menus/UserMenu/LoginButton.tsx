@@ -7,16 +7,14 @@ const LoginButton = () => {
   };
 
   return (
-    <div>
-      <Button
-          onClick={handleLogin}
-          variant="contained"
-          color="primary"
-          data-testid="LoginButton-Button"
-      >
-          Login
-      </Button>
-    </div>
+    <Button
+        onClick={handleLogin}
+        variant="contained"
+        color="primary"
+        data-testid="LoginButton-Button"
+    >
+        Login
+    </Button>
   );
 };
 

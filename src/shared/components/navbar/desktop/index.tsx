@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import useStyles from './styles';
-import LoginButton from '../../../../components/login/loginButton';
 
 interface DesktopNavProps {
     navItems: string[]
@@ -61,7 +60,6 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 ))
                             }
                         </Tabs>
-                        {user ? null : <LoginButton />}
                     </Box>
                 </Toolbar>
             </Container>
