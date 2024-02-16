@@ -2,18 +2,20 @@ import React, { SyntheticEvent, useState, useEffect } from 'react';
 import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import usersRequest from '../../../../api/users.request';
+import axios from 'axios';
 import useStyles from './styles';
-import LoginButton from '../../../../components/login/loginButton';
+import UserMenu from '../../../../components/menus/UserMenu';
 
 interface DesktopNavProps {
     navItems: string[]
 }
 
 const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
-    const { error, data: user} = useQuery("currentUser", async () => {
-      return await usersRequest.fetchData();
-    });
+  const { data: user, error } = useQuery("currentUser", async () => {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
+
+    return res.data;
+  });
     const classes = useStyles();
 
     const [value, setValue] = useState(0)
@@ -28,7 +30,10 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
     }, [error, user]);
 
     return (
-        <AppBar className={classes.navBar}>
+        <AppBar
+          className={classes.navBar}
+          data-testid="DesktopNav-AppBar"
+        >
             <Container maxWidth="xl" className={classes.navContainer}>
                 <Toolbar disableGutters className={classes.navContent}>
                     <Box>
@@ -37,6 +42,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                             component="a"
                             href="/"
                             className={classes.logo}
+                            data-testid="DesktopNav-Logo"
                         >
                             Nostalgia
                         </Typography>
@@ -45,11 +51,17 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                         <Tabs value={value} onChange={handleChange} aria-label='navigation tab' className={classes.navLink} classes={{ indicator: classes.tabIndicator }}>
                             {
                                 navItems.map((item: string) => (
-                                    <Tab key={item} label={item} component={Link} to={`/${item}`} />
+                                    <Tab
+                                      key={item}
+                                      label={item}
+                                      component={Link}
+                                      to={`/${item}`}
+                                      data-testid={`DesktopNav-LinkTab-${item}`}
+                                    />
                                 ))
                             }
                         </Tabs>
-                        {user ? null : <LoginButton />}
+                        <UserMenu user={user} />
                     </Box>
                 </Toolbar>
             </Container>

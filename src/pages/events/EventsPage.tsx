@@ -1,5 +1,6 @@
 import React from 'react';
 import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -12,7 +13,8 @@ type Event = {
     title: string,
     address: string,
     time: string,
-    details: string
+    details: string,
+    color: string
 };
 
 const DUMMY_DATA: Event[] = [
@@ -21,28 +23,32 @@ const DUMMY_DATA: Event[] = [
         title: 'Lorem Consectetur.',
         address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
         time: '7:00pm - 8:00pm',
-        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        color: '#CD3636',
     },
     {
         id: 2,
         title: 'Lorem Consectetur.',
         address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
         time: '7:00pm - 8:00pm',
-        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        color: '#F1E51F'
     },
     {
         id: 3,
         title: 'Lorem Consectetur.',
         address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
         time: '7:00pm - 8:00pm',
-        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        color: '#1FF1B1'
     },
     {
         id: 4,
         title: 'Lorem Consectetur.',
         address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
         time: '7:00pm - 8:00pm',
-        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+        details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        color: '#921FF1'
     },
 ]
 
@@ -55,7 +61,15 @@ const EventsPage = () => {
     });
 
     return (
-        <Container sx={{ width: '100%', marginTop: '10rem' }}>
+        <Container 
+            sx={{ 
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                width: '100%', 
+                marginTop: '10rem' 
+            }}
+        >
             <Stack 
                 direction='row' 
                 useFlexGap 
@@ -85,11 +99,19 @@ const EventsPage = () => {
             <Divider 
                 sx={{
                     height: '2px',
-                    marginBottom: '5rem',
+                    marginBottom: '2rem',
                     backgroundColor: '#5E0916'
                 }} 
             />
-            {displayEvents}
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                }}
+            >
+                {displayEvents}
+            </Box>
         </Container>
     );
 };
