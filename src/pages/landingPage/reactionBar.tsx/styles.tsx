@@ -35,29 +35,32 @@ const useStyles = createUseStyles({
     meToo: {
         height: "25px",
         width: "25px",
+        borderRadius: "50%",
         paddingTop: "4px",
         transition: "transform .3s ease",
         '&:hover': {
             cursor: "pointer",
-            transform: "scale(1.4)"
+            transform: "scale(1.2)",
         }
     },
     thanksForSharing: {
         height: "25px",
         width: "25px",
+        borderRadius: "50%",
         transition: "transform .3s ease",
         '&:hover': {
             cursor: "pointer",
-            transform: "scale(1.4)"
+            transform: "scale(1.2)",
         }
     },
     willTry: {
-        height: "22px",
-        width: "22px",
+        height: "21px",
+        width: "21px",
+        borderRadius: "50%",
         transition: "transform .3s ease",
         '&:hover': {
             cursor: "pointer",
-            transform: "scale(1.4)"
+            transform: "scale(1.2)"
         }
     }
 })

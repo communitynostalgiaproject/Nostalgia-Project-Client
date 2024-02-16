@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import reactionsRequest from '../../../api/reactions.request';
 import { useMutation } from 'react-query';
 
@@ -11,25 +11,41 @@ interface Experience {
     title: string;
     foodPhotoUrl: string;
     _id: string;
-  }
+}
 
 const ReactionBar: React.FC<Experience> = (experience) => {
     const classes = useStyles()
+    const [selectedReaction, setSelectedReaction] = useState<string | null>(null)
 
-    const mutation = useMutation(async(data: {}) => {
+    const mutation = useMutation(async (data: {}) => {
         return await reactionsRequest.post(data)
-      })
-    
-      const handleReaction = (event: React.MouseEvent<HTMLDivElement>) => {
+    })
+
+    const handleReaction = (event: React.MouseEvent<HTMLDivElement>) => {
         let reaction = event.currentTarget?.id;
-        let experienceId = event.currentTarget?.getAttribute("data-experience")
-    
+        let experienceId = event.currentTarget?.getAttribute("data-experience");
+        let reactionIcon = document.getElementById(`${reaction}-svg`);
+
+        if (reactionIcon) {
+            if (selectedReaction !== reaction) {
+                let currentReaction = document.getElementById(`${selectedReaction}-svg`);
+                if(currentReaction) { currentReaction.style.fill = "rgb(0, 0, 0)" }
+
+                reactionIcon.style.fill = "rgb(130, 210, 250)"
+                setSelectedReaction(reaction);
+            } else if(selectedReaction === reaction) {
+                reactionIcon.style.fill = "rgb(0, 0, 0)"
+                setSelectedReaction(null)
+                return;
+            }
+        }
+
         mutation.mutate({
-          reaction: reaction,
-          userId: "6541795c8c2ca0edcda512df",
-          experienceId: experienceId
+            reaction: reaction,
+            userId: "6541795c8c2ca0edcda512df",
+            experienceId: experienceId
         });
-      };
+    };
 
     return (
         <div className={classes.popupGroup}>
@@ -41,7 +57,7 @@ const ReactionBar: React.FC<Experience> = (experience) => {
             </div>
             <div className={classes.reactionGroup}>
                 <div id="meToo" className={classes.meToo} title='Me Too' data-experience={experience._id} onClick={handleReaction}>
-                    <MeToo />
+                    <MeToo/>
                 </div>
                 <div id="thanksForSharing" className={classes.thanksForSharing} title='Thanks for sharing' data-experience={experience._id} onClick={handleReaction}>
                     <ThanksForSharing />
