@@ -6,7 +6,7 @@ import MapUIOverlay from '../../components/MapUIOverlay';
 const LandingPage: React.FC = () => {
     return (
         <>
-          {/* <MapUIOverlay /> */}
+          <MapUIOverlay />
           <SideDrawer />
           <AppVector/>
         </>
