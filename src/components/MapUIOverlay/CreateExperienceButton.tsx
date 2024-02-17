@@ -1,32 +1,9 @@
 import { Button } from '@mui/material';
-import React, { useState } from 'react';
-import CardModal from '../modal/CardModal';
-import ExperienceForm from '../forms/ExperienceForm';
+import React from 'react';
 
-const CreateExperienceButton: React.FC = () => {
-  const [ newExperienceModalOpen, setNewExperienceModalOpen ] = useState<boolean>(false);
-
-  const toggleModalOpen = () => setNewExperienceModalOpen((prev) => !prev);
-
-  const NewExperienceModal: React.FC = () => {
-    return (
-      <CardModal
-        open={newExperienceModalOpen}
-        onClose={toggleModalOpen}
-        cardProps={{
-          sx: {
-            width: "90%",
-            maxWidth: "600px",
-            paddingBottom: "30px"
-          }
-        }}
-        data-testid="CreateExperienceButton-CreateExperienceModal"
-      >
-        <ExperienceForm />
-      </CardModal>
-    );
-  };
-
+const CreateExperienceButton: React.FC<{toggleModal: () => void}> = ({
+  toggleModal
+}) => {
   return (
     <>
       <Button
@@ -35,14 +12,14 @@ const CreateExperienceButton: React.FC = () => {
         sx={{
           position: 'relative',
           left: '10%',
-          top: '90%'
+          top: '90%',
+          pointerEvents: 'auto'
         }}
-        onClick={toggleModalOpen}
+        onClick={toggleModal}
         data-testid="CreateExperienceButton-Button"
       >
         Drop a pin!
       </Button>
-      <NewExperienceModal />
     </>
   )
 };

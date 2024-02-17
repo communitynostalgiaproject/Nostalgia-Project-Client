@@ -19,10 +19,11 @@ import { Page1, Page2, Page3, Page4 } from './pages';
 import axios from "axios";
 
 interface ExperienceFormProps {
-  existingExperience?: Experience
+  existingExperience?: Experience,
+  user: any
 }
 
-const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) => {
+const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience, user }) => {
   const editing = existingExperience ? true : false;
   const [experience, setExperience] = useState(existingExperience || {_id: undefined});
   const [foodPhoto, setFoodPhoto] = useState<File | null>(null);
@@ -32,12 +33,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience }) =
   const [validationTrigger, setValidationTrigger] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
   const [submitPending, setSubmitPending] = useState<boolean>(false);
-
-  const { data: user } = useQuery("users", async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
-
-    return res.data;
-  });
 
   const handlePageBack = () => {
     if (pageIndex > 0) {

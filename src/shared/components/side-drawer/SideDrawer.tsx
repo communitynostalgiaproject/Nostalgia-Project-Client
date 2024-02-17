@@ -95,7 +95,8 @@ export default function SideDrawer() {
           right: '0px',
           borderRadius: '150px 0 0 150px',
           backgroundColor: '#272A40',
-          display: sidebar.right ? "none" : "block"
+          display: sidebar.right ? "none" : "block",
+          zIndex: 900
         }}
         onClick={toggleDrawer('right', true)}
         data-testid="SideDrawer-ToggleOpenButton"
