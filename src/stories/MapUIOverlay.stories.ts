@@ -2,6 +2,7 @@ import { userEvent, waitFor, screen, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient } from 'react-query';
+import { redirectToLogin } from '../api/helpers';
 import { createQueryClientDecorator } from './assets/StorybookDecorators';
 import { createUserFetchHandler } from './util/mswHandlers';
 import MapUIOverlay from '../components/MapUIOverlay';
@@ -96,7 +97,12 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
       }
     }
   },
-  play: async () => {
-    expect(screen.queryByTestId("CreateExperienceButton-Button")).not.toBeInTheDocument();
+  play: async ({ page }) => {
+    expect(screen.getByTestId("CreateExperienceButton-Button")).toBeInTheDocument();
+
+    // await userEvent.click(screen.getByTestId("CreateExperienceButton-Button"));
+    // await waitFor(() => {
+    //   expect(page.url).toContain("/auth/google");
+    // });
   }
 };

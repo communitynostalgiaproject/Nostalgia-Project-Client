@@ -1,8 +1,8 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-const CreateExperienceButton: React.FC<{toggleModal: () => void}> = ({
-  toggleModal
+const CreateExperienceButton: React.FC<{onClick: () => void}> = ({
+  onClick
 }) => {
   return (
     <>
@@ -15,7 +15,7 @@ const CreateExperienceButton: React.FC<{toggleModal: () => void}> = ({
           top: '90%',
           pointerEvents: 'auto'
         }}
-        onClick={toggleModal}
+        onClick={onClick}
         data-testid="CreateExperienceButton-Button"
       >
         Drop a pin!

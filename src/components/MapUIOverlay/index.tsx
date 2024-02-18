@@ -1,5 +1,6 @@
 import { Container } from '@mui/material';
 import { useQuery } from 'react-query';
+import { redirectToLogin } from '../../api/helpers';
 import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
@@ -17,6 +18,15 @@ const MapUIOverlay: React.FC = () => {
   const toggleNewExperienceModal = () => {
     setNewExperienceModalOpen((prev) => !prev);
   };
+
+  const handleCreateExperienceButtonClick = () => {
+    if (user) {
+      toggleNewExperienceModal();
+      return;
+    }
+
+    redirectToLogin();
+  }
 
   return (
     <Container
@@ -42,7 +52,7 @@ const MapUIOverlay: React.FC = () => {
       >
         <ExperienceForm user={user} />
       </CardModal>
-      { user ? <CreateExperienceButton toggleModal={toggleNewExperienceModal} /> : null }
+      <CreateExperienceButton onClick={handleCreateExperienceButtonClick} />
     </Container>
   );
 };
