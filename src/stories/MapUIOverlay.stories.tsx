@@ -1,4 +1,5 @@
 import { userEvent, waitFor, screen, within } from '@storybook/testing-library';
+import { fn } from '@storybook/test';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient } from 'react-query';
@@ -24,6 +25,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
+  args: {
+    redirectToLogin: fn()
+  },
   parameters: {
     msw: {
       handlers: {
@@ -41,6 +45,9 @@ export const LoggedIn: Story = {
 };
 
 export const LoggedOut: Story = {
+  args: {
+    redirectToLogin: fn()
+  },
   parameters: {
     msw: {
       handlers: {
@@ -52,6 +59,9 @@ export const LoggedOut: Story = {
 };
 
 export const CreateExperienceButtonLoggedInTest: Story = {
+  args: {
+    redirectToLogin: fn()
+  },
   decorators: [createQueryClientDecorator(new QueryClient({
     defaultOptions: {
       queries: {
@@ -68,12 +78,12 @@ export const CreateExperienceButtonLoggedInTest: Story = {
   },
   play: async () => {
     await waitFor(() => {
-      expect(screen.getByTestId("CreateExperienceButton-Button")).toBeInTheDocument();
+      expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedIn")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByTestId("CreateExperienceButton-Button"));
+    await userEvent.click(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedIn"));
     await waitFor(() => {
-      const createExperienceModal = screen.getByTestId("CreateExperienceButton-CreateExperienceModal");
+      const createExperienceModal = screen.getByTestId("MapUIOverlay-CreateExperienceModal");
       const modal = within(createExperienceModal);
 
       expect(createExperienceModal).toBeInTheDocument();
@@ -89,6 +99,9 @@ export const CreateExperienceButtonLoggedInTest: Story = {
 };
 
 export const CreateExperienceButtonLoggedOutTest: Story = {
+  args: {
+    redirectToLogin: fn()
+  },
   decorators: [createQueryClientDecorator(new QueryClient())],
   parameters: {
     msw: {
@@ -97,12 +110,12 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
       }
     }
   },
-  play: async ({ page }) => {
-    expect(screen.getByTestId("CreateExperienceButton-Button")).toBeInTheDocument();
+  play: async ({ args }) => {
+    expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedOut")).toBeInTheDocument();
 
-    // await userEvent.click(screen.getByTestId("CreateExperienceButton-Button"));
-    // await waitFor(() => {
-    //   expect(page.url).toContain("/auth/google");
-    // });
+    await userEvent.click(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedOut"));
+    await waitFor(() => {
+      expect(args.redirectToLogin).toHaveBeenCalled();
+    });
   }
 };
