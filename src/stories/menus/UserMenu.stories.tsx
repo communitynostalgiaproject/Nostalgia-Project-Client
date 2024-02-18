@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { createUserDeleteHandler, createUserFetchHandler } from '../util/mswHandlers';
 import axios from 'axios';
 import UserMenu from '../../components/menus/UserMenu';
+import { fn } from '@storybook/test';
 
 const mockUser = {
   "_id": "11212121",
@@ -30,7 +31,9 @@ const QueryContextWrapper: StoryFn= ({ children }) => {
   );
 };
 
-const UserMenuWrapper: React.FC = () => {
+const UserMenuWrapper: React.FC<{handleLogin?: () => void}> = ({
+  handleLogin
+}) => {
   const { data: user } = useQuery("currentUser", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
     return res.data;
@@ -39,7 +42,7 @@ const UserMenuWrapper: React.FC = () => {
   // Render UserForm with the fetched user data
   return (
     <>
-      <UserMenu user={user} /> : <div></div>
+      <UserMenu user={user} handleLogin={handleLogin} />
     </>
   );
 };
@@ -52,16 +55,28 @@ const meta = {
     layout: 'centered'
   },
   tags: ['autodocs'],
-  render: () => <QueryContextWrapper><UserMenuWrapper /></QueryContextWrapper>
+  render: ({ handleLogin }) => (
+    <QueryContextWrapper>
+      <UserMenuWrapper 
+        handleLogin={handleLogin}
+      />
+    </QueryContextWrapper>
+  )
 } satisfies Meta<typeof UserMenu>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const NotLoggedIn: Story = {
+  args: {
+    handleLogin: fn()
+  },
 };
 
 export const LoggedIn: Story = {
+  args: {
+    handleLogin: fn()
+  },
   parameters: {
     msw: {
       handlers: {
@@ -73,17 +88,25 @@ export const LoggedIn: Story = {
 };
 
 export const NotLoggedInTest: Story = {
-  play: async () => {
+  args: {
+    handleLogin: fn()
+  },
+  play: async ({ args }) => {
     expect(screen.getByTestId("UserMenu-ButtonContainer")).toBeInTheDocument();
     expect(screen.getByTestId("LoginButton-Button")).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.queryByTestId("MenuButton-MenuToggleButton")).not.toBeInTheDocument();
     });
+    await userEvent.click(screen.getByTestId("LoginButton-Button"));
+    expect(args.handleLogin).toHaveBeenCalled();
   }
 };
 
 export const LoggedInTest: Story = {
+  args: {
+    handleLogin: fn()
+  },
   parameters: {
     msw: {
       handlers: {
@@ -103,6 +126,9 @@ export const LoggedInTest: Story = {
 };
 
 export const MenuTest: Story = {
+  args: {
+    handleLogin: fn()
+  },
   parameters: {
     msw: {
       handlers: {
@@ -134,6 +160,9 @@ export const MenuTest: Story = {
 };
 
 export const AccountSettingsModalTest: Story = {
+  args: {
+    handleLogin: fn()
+  },
   parameters: {
     msw: {
       handlers: {

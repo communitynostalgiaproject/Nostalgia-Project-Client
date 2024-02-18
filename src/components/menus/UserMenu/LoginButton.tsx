@@ -1,10 +1,11 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-const LoginButton = () => {
-  const handleLogin = () => {
-    window.location.href = `${process.env.REACT_APP_API_URL}/auth/google`;
-  };
+interface LoginButtonProps {
+  handleLogin: () => void;
+}
+
+const LoginButton: React.FC<LoginButtonProps> = ({ handleLogin }) => {
 
   return (
     <Button
