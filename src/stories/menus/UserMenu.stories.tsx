@@ -123,12 +123,14 @@ export const MenuTest: Story = {
     await waitFor(() => {
       expect(screen.getByTestId("MenuButton-MenuPopover")).toBeInTheDocument();
       expect(screen.getByTestId("MenuButton-AccountSettingsButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("MenuButton-LogoutButton")).toBeInTheDocument();
     });
 
     await userEvent.click(screen.getByTestId("MenuButton-MenuToggleButton"));
     await waitFor(() => {
       expect(screen.queryByTestId("MenuButton-MenuPopover")).not.toBeInTheDocument();
       expect(screen.queryByTestId("MenuButton-AccountSettingsButton")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("MenuButton-LogoutButton")).not.toBeInTheDocument();
     });
   }
 };
@@ -162,6 +164,37 @@ export const AccountSettingsModalTest: Story = {
       expect(screen.getByTestId("UserForm-FormContainer")).toBeInTheDocument();
       expect(screen.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
       expect(screen.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
+    });
+  }
+};
+
+export const LogoutTest: Story = {
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(200, [mockUser])],
+        deleteUser: [createUserDeleteHandler(200)]
+      }
+    }
+  },
+  play: async () => {
+    expect(screen.getByTestId("UserMenu-ButtonContainer")).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("LoginButton-Button")).not.toBeInTheDocument();
+      expect(screen.getByTestId("MenuButton-MenuToggleButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("MenuButton-MenuToggleButton"));
+    await waitFor(() => {
+      expect(screen.getByTestId("MenuButton-MenuPopover")).toBeInTheDocument();
+      expect(screen.queryByTestId("MenuButton-LogoutButton")).toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByTestId("MenuButton-LogoutButton"));
+    await waitFor(() => {
+      expect(screen.queryByTestId("MenuButton-MenuPopover")).not.toBeInTheDocument();
+      expect(screen.getByTestId("LoginButton-Button")).toBeInTheDocument();
     });
   }
 };
