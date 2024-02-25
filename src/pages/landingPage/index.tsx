@@ -8,7 +8,7 @@ const LandingPage: React.FC = () => {
         <>
           <MapUIOverlay />
           <SideDrawer />
-          <AppVector/>
+          <AppVector />
         </>
     )
 }
