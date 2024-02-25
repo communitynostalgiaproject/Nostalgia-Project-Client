@@ -1,10 +1,15 @@
-import './App.css';
+import React, { useEffect } from 'react';
+import { useQuery } from 'react-query';
+import experiencesRequest from '../../../api/experiences.request';
+import ReactionBar from '../../../pages/landingPage/reactionBar.tsx';
+
+import useStyles from './styles';
+
 import 'leaflet/dist/leaflet.css';
 import {MapContainer, Marker, Popup} from 'react-leaflet';
 import L from 'leaflet';
 import MarkerClusterGroup from "react-leaflet-cluster";
 import LeafletTileLayer from './leafletTileLayer';
-import arcades from "../../geoData/arcades.json";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -14,13 +19,22 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 
-const AppVector = () => {
+const AppVector = () => {  
+  const classes = useStyles()
+
+  const { error, data: experiences } = useQuery("experiences", async() => {
+    return await experiencesRequest.get()
+  });
+
+  useEffect(() => {
+    if (error) console.error(`Error fetching user: ${error}`);
+  }, [error, experiences]);
 
   return (
     <div className="App">
       <MapContainer
-        className="full-screen-map"
-        center={[38, 139.69222]}
+        className={classes.fullScreenMap}
+        center={[38.9072, 139.69222]}
         zoom={6}
         minZoom={3}
         maxZoom={19}
@@ -32,15 +46,13 @@ const AppVector = () => {
 
         />
         <MarkerClusterGroup>
-          {arcades.features.map((arcade, index) => (
+          {experiences && experiences.map((experience, index) => (
             <Marker
-              key={arcade.properties['@id']}
-              position={[arcade.geometry.coordinates[1], arcade.geometry.coordinates[0]]}
+              key={experience['_id']}
+              position={[experience.place.location.coordinates[1], experience.place.location.coordinates[0]]}
             >
               <Popup>
-                {arcade.properties.name}
-                <br />
-                {arcade.properties['name:en']} 
+                <ReactionBar {...experience}/>
               </Popup>
             </Marker>
             ))}

@@ -26,7 +26,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
 
     useEffect(() => {
       if (error) console.error(`Error fetching user: ${error}`);
-      console.log(`user: ${JSON.stringify(user)}`);
+      
     }, [error, user]);
 
     return (
