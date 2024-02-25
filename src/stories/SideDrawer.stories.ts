@@ -17,7 +17,15 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// export const Base: Story = {};
+export const Base: Story = {
+  args: {
+    experiences: [],
+    selectedExperience: null,
+    setSelectedExperience: () => {},
+    hasNextPage: false,
+    fetchNextPage: () => {}
+  }
+};
 
 // export const OpenClosedTest: Story = {
 //   play: async ({ canvasElement }) => {
