@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import experiencesRequest from '../../../api/experiences.request';
 import ReactionBar from '../../../pages/landingPage/reactionBar.tsx';
@@ -89,7 +89,7 @@ const AppVector = ({
                 <ReactionBar {...experience}/>
               </Popup>
             </Marker>
-            ))}
+          ))}
         </MarkerClusterGroup>
         <MapEvents />
       </MapContainer>
