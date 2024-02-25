@@ -1,15 +1,17 @@
 import { useInfiniteQuery } from "react-query";
 import experiencesRequest from "../experiences.request";
-import { useEffect } from "react";
+import { useState } from "react";
+import { Experience } from "../../types/experience";
 
 const useFetchExperiencesByBbox = (bbox: String | null, limit=30) => {
-  const fetchExperiences = async (pageParam: any) => {
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const fetchExperiences = async ({ pageParam }: any) => {
     console.log("In fetchExperiences");
     console.log(`pageParam: ${JSON.stringify(pageParam)}`);
     const results = await experiencesRequest.get({
       bbox,
       limit,
-      offset: pageParam ? pageParam : 0
+      offset: pageParam ? pageParam * limit : 0
     });
 
     return results;
@@ -23,14 +25,23 @@ const useFetchExperiencesByBbox = (bbox: String | null, limit=30) => {
         if (lastPage.length < limit) return undefined;
         return pages.length;
       },
+      onSuccess: (data) => {
+        // Create a new set of experiences, prioritizing new ones
+        const updatedExperiences = data.pages.flat()
+          .reduce((acc, experience) => {
+            acc[experience._id] = experience; // Use an object to deduplicate, assuming `experience.id` is unique
+            return acc;
+          }, {});
+
+        // Convert the object back into an array and set the state
+        setExperiences(Object.values(updatedExperiences));
+      },
       enabled: !!bbox
     }
   );
 
-  useEffect(() => console.log(`data: ${JSON.stringify(data)}`), [data]);
-  
 
-  return { experiences: data?.pages.flatMap(page => page) || [], ...rest };
+  return { experiences, ...rest };
 }; 
 
 export default useFetchExperiencesByBbox;

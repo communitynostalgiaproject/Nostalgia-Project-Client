@@ -1,17 +1,31 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Button } from '@mui/material';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import { Button, IconButton } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import PostedImagesList from './PostedImagesList';
+import ExperiencePreviewList from './ExperiencePreviewList';
+import ExperienceView from '../../../components/ExperienceView';
+import { Experience } from '../../../types/experience';
 
 type Anchor = 'left' | 'right';
 
-export default function SideDrawer() {
+interface SideDrawerProps {
+  experiences: Experience[];
+  selectedExperience: Experience | null;
+  setSelectedExperience: React.Dispatch<Experience | null>;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => void;
+}
+
+const  SideDrawer: React.FC<SideDrawerProps> = ({
+  experiences,
+  selectedExperience,
+  setSelectedExperience,
+  hasNextPage,
+  fetchNextPage
+}) => {
   const [sidebar, setSidebar] = React.useState({
     top: true,
     left: true,
@@ -32,6 +46,10 @@ export default function SideDrawer() {
       }
 
       setSidebar({ ...sidebar, [anchor]: open });
+    };
+
+    const handleDeleteExperience = async () => {
+      return true;
     };
 
   const list = (anchor: Anchor) => (
@@ -60,23 +78,55 @@ export default function SideDrawer() {
           alignItems: 'center',
           width: 500, 
           height: '100%',
-          backgroundColor: '#272A40', 
+          backgroundColor: '#272A40',
         }}
         role="presentation"
         onClick={toggleDrawer(anchor, false)}
         onKeyDown={toggleDrawer(anchor, false)}
       >
-        <List
-          sx={{ color: '#fff', padding: '1rem', pointerEvents: 'auto' }}
-          data-testid="SideDrawer-FoodPhotoList" 
+        <Box
+          sx={{
+            width: '95%',
+            maxHeight: '80%',
+            overflow: 'auto',
+            pointerEvents: 'auto'
+          }}
         >
-          {[''].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ padding: '0px' }}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-          <PostedImagesList />
-        </List>
+          {
+            selectedExperience
+              ? <Box>
+                <Box
+                  sx={{
+                    padding: '10px 8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end'
+                  }}
+                >
+                  <IconButton
+                    onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                      e.stopPropagation();
+                      setSelectedExperience(null);
+                    }}
+                  >
+                    <CloseIcon 
+                      color="primary"
+                    />
+                  </IconButton>
+                </Box>
+                <ExperienceView
+                  experience={selectedExperience}
+                  onDelete={handleDeleteExperience}
+                />
+              </Box>
+              : <ExperiencePreviewList
+                experiences={experiences}
+                setSelectedExperience={setSelectedExperience}
+                hasNextPage={hasNextPage}
+                fetchNextPage={fetchNextPage}
+              />
+          } 
+        </Box>
       </Box>
     </Box>
   );
@@ -118,3 +168,5 @@ export default function SideDrawer() {
     </React.Fragment> 
   );
 };
+
+export default SideDrawer;

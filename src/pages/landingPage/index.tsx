@@ -3,6 +3,7 @@ import AppVector from '../../shared/components/appVector/index';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import MapUIOverlay from '../../components/MapUIOverlay';
 import useFetchExperiencesByBbox from '../../api/queries/fetchExperiencesByBbox';
+import { Experience } from '../../types/experience';
 
 const LandingPage: React.FC = () => {
   const defaultLocation = [38.9072, 139.69222];
@@ -10,13 +11,10 @@ const LandingPage: React.FC = () => {
   const [location, setLocation] = useState<number[]>(defaultLocation);
   const [zoomLevel, setZoomLevel] = useState<number>(defaultZoom);
   const [bbox, setBbox] = useState<String | null>(null);
-  const [selectedExperience, setSelectedExperience] = useState<String>("");
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const {
     experiences,
-    error,
     fetchNextPage,
-    isFetching,
-    isFetchingNextPage,
     hasNextPage
   } = useFetchExperiencesByBbox(bbox);
 
@@ -33,18 +31,19 @@ const LandingPage: React.FC = () => {
   };
 
   useEffect(() => getUserLocation(), []);
-  useEffect(() => console.log(`Currently selected location: ${location}`), [location]);
-  useEffect(() => console.log(`Current bbox: ${bbox}`), [bbox]);
-  useEffect(() => console.log(`Current selected experience: ${selectedExperience}`), [selectedExperience]);
-  useEffect(() => console.log(`experiences: ${JSON.stringify(experiences)}`), [experiences]);
-  useEffect(() => console.log(`hasNextPage: ${hasNextPage}`), [hasNextPage]);
 
   return (
     <>
       <MapUIOverlay />
-      <SideDrawer />
+      <SideDrawer
+        experiences={experiences}
+        selectedExperience={selectedExperience}
+        setSelectedExperience={setSelectedExperience}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+      />
       <AppVector
-        experiences={experiences || []}
+        experiences={experiences}
         location={location}
         setLocation={setLocation}
         zoom={zoomLevel}

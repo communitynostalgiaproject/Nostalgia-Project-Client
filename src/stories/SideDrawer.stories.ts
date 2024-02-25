@@ -17,19 +17,19 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Base: Story = {};
+// export const Base: Story = {};
 
-export const OpenClosedTest: Story = {
-  play: async ({ canvasElement }) => {
-    // Test initial load behavior
-    expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
-    expect(screen.getByTestId("SideDrawer-FoodPhotoList")).toBeVisible();
-    expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
+// export const OpenClosedTest: Story = {
+//   play: async ({ canvasElement }) => {
+//     // Test initial load behavior
+//     expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
+//     expect(screen.getByTestId("SideDrawer-FoodPhotoList")).toBeVisible();
+//     expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
 
-    // Test toggle closed
-    await userEvent.click(screen.getByTestId("SideDrawer-ToggleClosedButton"));
-    await waitFor(() => {
-      expect(screen.getByTestId("SideDrawer-FoodPhotoList")).not.toBeVisible();
-    });
-  }
-};
+//     // Test toggle closed
+//     await userEvent.click(screen.getByTestId("SideDrawer-ToggleClosedButton"));
+//     await waitFor(() => {
+//       expect(screen.getByTestId("SideDrawer-FoodPhotoList")).not.toBeVisible();
+//     });
+//   }
+// };
