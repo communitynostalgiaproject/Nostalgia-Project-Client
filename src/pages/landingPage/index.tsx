@@ -4,9 +4,11 @@ import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import MapUIOverlay from '../../components/MapUIOverlay';
 
 const LandingPage: React.FC = () => {
-  const defaultLocation = [38.9072, 139.69222];  // Adjust to whatever
+  const defaultLocation = [38.9072, 139.69222];
+  const defaultZoom = 6;
   const [location, setLocation] = useState<number[]>(defaultLocation);
-  const [bbox, setBbox] = useState<number[] | null>(null);
+  const [zoomLevel, setZoomLevel] = useState<number>(defaultZoom);
+  const [bbox, setBbox] = useState<String | null>(null);
   const [selectedExperience, setSelectedExperience] = useState<String>("");
 
   const getUserLocation = () => {
@@ -14,8 +16,7 @@ const LandingPage: React.FC = () => {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           const { latitude, longitude } = position.coords;
-          console.log(`User location: ${[latitude, longitude]}`);
-          // setLocation([latitude, longitude]);
+          setLocation([latitude, longitude]);
         },
         (err) => console.log(`Unable to get user location: ${err}`)
       );
@@ -31,7 +32,15 @@ const LandingPage: React.FC = () => {
     <>
       <MapUIOverlay />
       <SideDrawer />
-      <AppVector />
+      <AppVector
+        experiences={[]}
+        location={location}
+        setLocation={setLocation}
+        zoom={zoomLevel}
+        setZoom={setZoomLevel}
+        setBbox={setBbox}
+        setSelectedExperience={setSelectedExperience}
+      />
     </>
   )
 }
