@@ -1,6 +1,18 @@
 import { PeliasGeoJSONFeature } from '@stadiamaps/api';
 import { rest } from 'msw';
 
+// Auth endpoints
+export const createLogoutHandler = (status: number) => {
+  return rest.get(
+    /^.+\/auth\/logout$/,
+    (_req, res, ctx) => {
+      return res(
+        ctx.status(status),
+      );
+    }
+  );
+};
+
 // User endpoints
 export const createUserFetchHandler = (status: number, users=[{}]) => {
   let callCount = -1;

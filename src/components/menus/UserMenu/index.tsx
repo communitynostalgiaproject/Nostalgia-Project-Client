@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginButton from './LoginButton';
-import MenuButton from './MenuButton';
+import Menu from './Menu';
 import {
   Box
 } from '@mui/material';
@@ -15,7 +15,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       data-testid="UserMenu-ButtonContainer"
     >
       { user  
-        ? <MenuButton user={user} />
+        ? <Menu user={user} />
         : <LoginButton />
       }
     </Box>
