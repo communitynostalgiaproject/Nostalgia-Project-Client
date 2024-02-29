@@ -14,19 +14,20 @@ type TeamMember = {
     photo: any
 };
 
-const Parvati = require('../../assets/Parvati.png');
-const Hetvi = require('../../assets/Hetvi_Doshi.png');
-const Mary = require('../../assets/MacMillan_Mary.jpg');
-const Summer = require('../../assets/Summer LaPointe.jpg');
-const Mukunthg = require('../../assets/mukunthg.png');
-const David = require('../../assets/David_White.png');
-const Charles = require('../../assets/Charles.jpg');
-const Joan = require('../../assets/Joan_Joseph.jpg');
 const Andrew = require('../../assets/Andrew_Lee.jpg');
-const Ivy = require('../../assets/Ivy.png');
-const Walker = require('../../assets/Walker.png');
+const Charles = require('../../assets/Charles.jpg');
+const David = require('../../assets/David_White.png');
 const Emi = require('../../assets/Emi Labbe.png');
+const Hetvi = require('../../assets/Hetvi_Doshi.png');
+const Ivy = require('../../assets/Ivy.png');
+const Joan = require('../../assets/Joan_Joseph.jpg');
+const Jordan = require('../../assets/jordan.png');
+const Mary = require('../../assets/MacMillan_Mary.jpg');
+const Mukunthg = require('../../assets/mukunthg.png');
+const Parvati = require('../../assets/Parvati.png');
 const Rebekka = require('../../assets/Rebekka.jpg');
+const Summer = require('../../assets/Summer LaPointe.jpg');
+const Walker = require('../../assets/Walker.png');
 
 const DUMMY_DATA: TeamMember[] = [
     {
@@ -68,14 +69,14 @@ const DUMMY_DATA: TeamMember[] = [
         id: 6,
         name: 'Jordan Taylor',
         title: 'Full-Stack Developer',
-        content: "",
-        photo: Parvati
+        content: "I'm thrilled to be part of this project for the promise it holds for our collective future: digital experiences that bring us truly together via the better parts of our nature. I'm passionate about using technology to enhance our connection rather than isolating us- and CNI's research into the interplay of memory and our senses is the nexus of behavioral understanding and pure science. It has been a joy to work on the delivery mechanism for this project's findings, and to be part of a mission guided by an appreciation of food, memory, and comfort.",
+        photo: Jordan
     },
     {
         id: 7,
         name: 'Charles Nesmith',
         title: 'Full-Stack Developer',
-        content: "",
+        content: "The human mind, and what shapes our underlying thought patterns, has been an area of interest that I have always found captivating. What drew me toward joining the Community Nostalgia Initiative was the idea of bridging memory and shared experience to understand how the intricacies of culture and livelihood from across the world can create communal nostalgia. As a collaborator within the web development team, I have taken great pleasure in helping build an application that will act as a conduit in bringing this idea to fruition via the collection of data through user-friendly interfaces, allowing researchers to form a thorough analysis of individual experiences and their connection to personal recollections of the past. The research conducted, I believe, will be of high-impact in regard to the human experience. I am grateful to have been a part of this team and the project at hand.",
         photo: Charles
     },
     {

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -50,13 +50,14 @@ const DUMMY_DATA: Event[] = [
         details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         color: '#921FF1'
     },
-]
+];
 
 const EventsPage = () => {
+    const [events, setEvents] = useState<any[]>([]);
 
     const displayEvents = DUMMY_DATA.map(event => {
         return (
-            <EventCard event={event} />
+            <EventCard key={event.id} event={event} />
         );
     });
 
