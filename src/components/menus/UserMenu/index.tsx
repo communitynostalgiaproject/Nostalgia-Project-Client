@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginButton from './LoginButton';
-import MenuButton from './MenuButton';
+import MenuButton from './Menu';
 import { redirectToLogin } from '../../../api/helpers';
 import {
   Box
