@@ -7,14 +7,13 @@ import axios from 'axios';
 
 interface MapUIOverlayProps {
   redirectToLogin: () => void;
+  user: any;
 };
 
-const MapUIOverlay: React.FC<MapUIOverlayProps> = ({ redirectToLogin }) => {
-  const { data: user } = useQuery("currentUser", async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
-
-    return res.data;
-  });
+const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
+  redirectToLogin,
+  user
+}) => {
   const [ newExperienceModalOpen, setNewExperienceModalOpen ] = useState<boolean>(false);
 
   const toggleNewExperienceModal = () => {

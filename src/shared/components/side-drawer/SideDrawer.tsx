@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Button, IconButton } from '@mui/material';
+import { Button, IconButton, Paper } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ExperiencePreviewList from './ExperiencePreviewList';
-import ExperienceView from '../../../components/ExperienceView';
+import ExperienceView from './ExperienceView';
+import EditExperienceModal from './EditExperienceModal';
+import DeleteExperienceModal from './DeleteExperienceModal';
 import { Experience } from '../../../types/experience';
 
 type Anchor = 'left' | 'right';
@@ -17,6 +19,7 @@ interface SideDrawerProps {
   setSelectedExperience: React.Dispatch<Experience | null>;
   hasNextPage: boolean | undefined;
   fetchNextPage: () => void;
+  user: any;
 }
 
 const  SideDrawer: React.FC<SideDrawerProps> = ({
@@ -24,14 +27,17 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
   selectedExperience,
   setSelectedExperience,
   hasNextPage,
-  fetchNextPage
+  fetchNextPage,
+  user
 }) => {
-  const [sidebar, setSidebar] = React.useState({
+  const [sidebar, setSidebar] = useState({
     top: true,
     left: true,
     bottom: true,
     right: true,
   });
+  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -45,16 +51,23 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
         return;
       }
 
-      setSidebar({ ...sidebar, [anchor]: open });
-    };
+    setSidebar({ ...sidebar, [anchor]: open });
+  };
 
-    const handleDeleteExperience = async () => {
-      return true;
-    };
+  const handleDeleteExperience = async () => {
+    return true;
+  };
 
   const list = (anchor: Anchor) => (
     <Box 
-      sx={{ backgroundColor: '#272A40', height: '100%' }}
+      sx={{
+        backgroundColor: '#272A40',
+        height: '100%',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+
+      }}
     >
       <Box
         sx={{
@@ -81,49 +94,43 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
       </Box>
       <Box
         sx={{ 
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
           width: 500, 
           height: '100%',
+          padding: '15px 0px',
+          overflow: 'auto'
         }}
-        role="presentation"
+        // role="presentation"
         onClick={toggleDrawer(anchor, false)}
         onKeyDown={toggleDrawer(anchor, false)}
       >
-        <Box
+        <Paper
           sx={{
-            width: '95%',
-            maxHeight: '80%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            // maxHeight: '80%',
+            padding: '15px 0px 50px 0px',
             overflow: 'auto',
-            pointerEvents: 'auto'
+            pointerEvents: 'auto',
+            borderRadius: '0px'
           }}
         >
           {
             selectedExperience
-              ? <Box>
-                <Box
-                  sx={{
-                    padding: '10px 8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end'
-                  }}
-                >
-                  <IconButton
-                    onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                      e.stopPropagation();
-                      setSelectedExperience(null);
-                    }}
-                  >
-                    <CloseIcon 
-                      color="primary"
-                    />
-                  </IconButton>
-                </Box>
+              ? <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end'
+                }}
+              >
                 <ExperienceView
                   experience={selectedExperience}
-                  onDelete={handleDeleteExperience}
+                  onClose={() => {
+                    setSelectedExperience(null);
+                  }}
+                  setEditModalOpen={setEditModalOpen}
+                  setDeleteModalOpen={setDeleteModalOpen}
                 />
               </Box>
               : <ExperiencePreviewList
@@ -133,7 +140,7 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
                 fetchNextPage={fetchNextPage}
               />
           } 
-        </Box>
+        </Paper>
       </Box>
     </Box>
   );
@@ -172,6 +179,17 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
       >
         {list('right')}
       </SwipeableDrawer>
+      <EditExperienceModal
+        open={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        user={user}
+        experience={selectedExperience as Experience}
+      />
+      <DeleteExperienceModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onDelete={handleDeleteExperience}
+      />
     </React.Fragment> 
   );
 };

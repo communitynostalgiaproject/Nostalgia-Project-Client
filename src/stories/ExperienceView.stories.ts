@@ -8,7 +8,7 @@ import {
   createUserFetchHandler,
   createUserGetHandler
 } from './util/mswHandlers';
-import ExperienceView from '../components/ExperienceView';
+import ExperienceView from '../shared/components/side-drawer/ExperienceView';
 
 const mockExperience = {
   "_id": "111111111",
@@ -69,10 +69,6 @@ type Story = StoryObj<typeof meta>;
 export const NotLoggedInAsCreator: Story = {
   args: {
     experience: mockExperience,
-    onDelete: async () => {
-      console.log("You shouldn't be able to call this if you're not logged in as the experience creator");
-      return false;
-    }
   },
   parameters: {
     msw: {
@@ -88,12 +84,6 @@ export const NotLoggedInAsCreator: Story = {
 export const LoggedInAsCreator: Story = {
   args: {
     experience: mockExperience,
-    onDelete: async () => {
-      console.log("Called onDelete");
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    
-      return true;
-    }
   },
   parameters: {
     msw: {
@@ -109,10 +99,6 @@ export const LoggedInAsCreator: Story = {
 export const CreatorNotFound: Story = {
   args: {
     experience: mockExperience,
-    onDelete: async () => {
-      console.log("You shouldn't be able to call this if you're not logged in as the experience creator");
-      return false;
-    }
   },
   parameters: {
     msw: {
@@ -127,7 +113,6 @@ export const CreatorNotFound: Story = {
 export const NonCreatorViewTest: Story = {
   args: {
     experience: mockExperience,
-    onDelete: async () => true,
   },
   parameters: {
     msw: {
@@ -166,7 +151,6 @@ export const NonCreatorViewTest: Story = {
 export const CreatorViewTest: Story = {
   args: {
     experience: mockExperience,
-    onDelete: async () => true,
   },
   parameters: {
     msw: {

@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Experience } from "../../types/experience";
+import { Experience } from "../../../../types/experience";
 import { useQuery } from "react-query";
 import {
   Container,
   Typography,
   CardMedia,
   IconButton,
-  Button,
   Box,
-  Snackbar,
-  Alert
 } from "@mui/material";
 import {
   Delete as DeleteIcon,
-  Edit as EditIcon
+  Edit as EditIcon,
+  Close as CloseIcon
 } from "@mui/icons-material";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { richTextFromMarkdown } from "@contentful/rich-text-from-markdown";
-import CardModal from "../modal/CardModal";
-import ExperienceForm from "../forms/ExperienceForm";
 import axios from "axios";
 
 interface ExperienceViewProps {
   experience: Experience;
-  onDelete: () => Promise<boolean>;
+  onClose: () => void;
+  setEditModalOpen: React.Dispatch<boolean>;
+  setDeleteModalOpen: React.Dispatch<boolean>;
 }
 
 const formatISOToAmericanDate = (isoDate: string) => {
@@ -39,10 +37,13 @@ const formatISOToAmericanDate = (isoDate: string) => {
   return `${month} ${formattedDay}, ${year}`;
 };
 
-const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete }) => {
+const ExperienceView: React.FC<ExperienceViewProps> = ({
+  experience,
+  onClose,
+  setEditModalOpen,
+  setDeleteModalOpen
+}) => {
   const [ formattedRecipeText, setFormattedRecipeText ] = useState<React.ReactNode | null>(null);
-  const [ editModalOpen, setEditModalOpen ] = useState<boolean>(false);
-  const [ deleteModalOpen, setDeleteModalOpen ] = useState<boolean>(false);
   const { data: currentUser } = useQuery("currentUser", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
@@ -66,122 +67,12 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
     }
   }, [formattedRecipeText, setFormattedRecipeText]);
 
-  const toggleEditModal = () => setEditModalOpen((current) => !current);
-  const toggleDeleteModal = () => setDeleteModalOpen((current) => !current);
- 
-  const EditModal = () => {
-    return (
-      <CardModal
-        open={editModalOpen}
-        onClose={toggleEditModal}
-        cardProps={{
-          sx: {
-            width: "90%",
-            maxWidth: "600px",
-            paddingBottom: "30px"
-          }
-        }}
-        data-testid="ExperienceView-EditModal"
-      >
-        <ExperienceForm
-          existingExperience={experience}
-          user={currentUser}
-        />
-      </CardModal>
-    )
-  };
+  const toggleEditModal = () => setEditModalOpen(true);
+  const toggleDeleteModal = () => setDeleteModalOpen(true);
 
-  const DeleteModal = () => {
-    const [ showDeleteError, setShowDeleteError ] = useState<boolean>(false);
-    const [ deleteButtonDisabled, setDeleteButtonDisabled ] = useState<boolean>(false);
-
-    const handleDelete = async () => {
-      setDeleteButtonDisabled(true);
-
-      const deleteSuccess = await onDelete();
-
-      if (!deleteSuccess) {
-        setShowDeleteError(true);
-        setDeleteButtonDisabled(false);
-        return;
-      }
-
-      setDeleteModalOpen(false);
-    };
-
-    return (
-      <CardModal
-        open={deleteModalOpen}
-        onClose={toggleDeleteModal}
-        cardProps={{
-          sx: {
-            width: "90%",
-            maxWidth: "500px",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "25px",
-            paddingBottom: "40px"
-          }
-        }}
-        data-testid="ExperienceView-DeleteModal"
-      >
-        <>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center"
-          }}
-          open={showDeleteError}
-          color="red"
-      >
-        <Alert
-          severity="error"
-          variant="filled"
-          data-testid="ExperienceView-DeleteModalErrorMessage"
-        >
-          There was an error deleting the experience
-        </Alert>
-      </Snackbar> 
-          <Typography
-            variant="h5"
-            component="p"
-            sx={{
-              textAlign: "center"
-            }}
-            data-testid="ExperienceView-DeleteModalText"
-          >
-            Are you sure you want to delete this experience?
-          </Typography>
-          <Box
-            sx={{
-              width: "80%",
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              gap: "10px"
-            }}
-          >
-            <Button
-              variant="text"
-              onClick={toggleDeleteModal}
-              data-testid="ExperienceView-DeleteModalCancelButton"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleDelete}
-              disabled={deleteButtonDisabled}
-              data-testid="ExperienceView-DeleteModalDeleteButton"
-            >
-              Delete
-            </Button>
-          </Box>
-        </>
-      </CardModal>
-    )
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    onClose();
   };
 
   return (
@@ -244,10 +135,11 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
             </Box>
           </Box>
           <Box>
-            { isUserCreator && (
-                <Box
-                  data-testid="ExperienceView-EditButtonsContainer"
-                >
+            <Box
+              data-testid="ExperienceView-EditButtonsContainer"
+            >
+              {isUserCreator && (
+                <>
                   <IconButton
                     onClick={toggleEditModal}
                     data-testid="ExperienceView-EditButton"
@@ -260,9 +152,15 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
                   >
                     <DeleteIcon />
                   </IconButton>
-                </Box>
-              )
-            }
+                </>
+              )}
+              <IconButton
+                onClick={handleClose}
+                data-testid="ExperienceView-CloseButton"
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
           </Box>
         </Box>
         <Box
@@ -382,8 +280,6 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({ experience, onDelete })
           </Box>
         )}
       </Box>
-      <EditModal />
-      <DeleteModal />
     </Container>
   );
 };

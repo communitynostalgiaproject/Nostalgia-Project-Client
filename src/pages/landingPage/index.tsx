@@ -3,8 +3,10 @@ import AppVector from '../../shared/components/appVector/index';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import MapUIOverlay from '../../components/MapUIOverlay';
 import { redirectToLogin } from '../../api/helpers';
+import { useQuery } from 'react-query';
 import useFetchExperiencesByBbox from '../../api/queries/fetchExperiencesByBbox';
 import { Experience } from '../../types/experience';
+import usersRequest from '../../api/users.request';
 
 const LandingPage: React.FC = () => {
   const defaultLocation = [38.9072, 139.69222];
@@ -18,6 +20,10 @@ const LandingPage: React.FC = () => {
     fetchNextPage,
     hasNextPage
   } = useFetchExperiencesByBbox(bbox);
+
+  const { data: user } = useQuery("currentUser", async () => {
+    return await usersRequest.fetchData();
+  });
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -35,13 +41,17 @@ const LandingPage: React.FC = () => {
 
   return (
     <>
-      <MapUIOverlay redirectToLogin={redirectToLogin} />
+      <MapUIOverlay
+        redirectToLogin={redirectToLogin}
+        user={user}  
+      />
       <SideDrawer
         experiences={experiences}
         selectedExperience={selectedExperience}
         setSelectedExperience={setSelectedExperience}
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}
+        user={user}
       />
       <AppVector
         experiences={experiences}

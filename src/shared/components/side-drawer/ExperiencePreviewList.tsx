@@ -27,11 +27,6 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
         pointerEvents: "auto"
       }}
     >
-      <Typography
-        
-      >
-        User Experiences
-      </Typography>
       <ImageList
         cols={3}
         sx={{
