@@ -1,9 +1,7 @@
 import { Container, Button } from '@mui/material';
-import { useQuery } from 'react-query';
 import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
-import axios from 'axios';
 
 interface MapUIOverlayProps {
   redirectToLogin: () => void;
