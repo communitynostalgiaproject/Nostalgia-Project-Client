@@ -54,31 +54,38 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
 
   const list = (anchor: Anchor) => (
     <Box 
-      sx={{ backgroundColor: '#272A40', height: '100%' }}>
-      <Button
-        style={{ 
-          width: '5rem', 
-          marginTop: '2.5rem', 
-          backgroundColor: '#272A40',
-          pointerEvents: 'auto' 
+      sx={{ backgroundColor: '#272A40', height: '100%' }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
         }}
-        onClick={toggleDrawer('right', false)}
-        data-testid="SideDrawer-ToggleClosedButton"
       >
-        <ArrowForwardIosIcon
+        <IconButton
           style={{
-            fontSize: '48px',
-            color: '#fff'
-          }} 
-        />
-      </Button>
+            width: '5rem',
+            pointerEvents: 'auto'
+          }}
+          onClick={toggleDrawer('right', false)}
+          data-testid="SideDrawer-ToggleClosedButton"
+        >
+          <ArrowForwardIosIcon
+            style={{
+              fontSize: '48px',
+              color: '#fff'
+            }}
+          />
+        </IconButton>
+      </Box>
       <Box
         sx={{ 
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'flex-start',
           width: 500, 
           height: '100%',
-          backgroundColor: '#272A40',
         }}
         role="presentation"
         onClick={toggleDrawer(anchor, false)}

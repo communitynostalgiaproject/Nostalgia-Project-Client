@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AppVector from '../../shared/components/appVector/index';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import MapUIOverlay from '../../components/MapUIOverlay';
+import { redirectToLogin } from '../../api/helpers';
 import useFetchExperiencesByBbox from '../../api/queries/fetchExperiencesByBbox';
 import { Experience } from '../../types/experience';
 
@@ -34,7 +35,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <>
-      <MapUIOverlay />
+      <MapUIOverlay redirectToLogin={redirectToLogin} />
       <SideDrawer
         experiences={experiences}
         selectedExperience={selectedExperience}

@@ -1,12 +1,15 @@
-import { Container } from '@mui/material';
+import { Container, Button } from '@mui/material';
 import { useQuery } from 'react-query';
 import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
-import CreateExperienceButton from './CreateExperienceButton';
 import axios from 'axios';
 
-const MapUIOverlay: React.FC = () => {
+interface MapUIOverlayProps {
+  redirectToLogin: () => void;
+};
+
+const MapUIOverlay: React.FC<MapUIOverlayProps> = ({ redirectToLogin }) => {
   const { data: user } = useQuery("currentUser", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
@@ -18,6 +21,15 @@ const MapUIOverlay: React.FC = () => {
     setNewExperienceModalOpen((prev) => !prev);
   };
 
+  const handleCreateExperienceButtonClick = () => {
+    if (user) {
+      toggleNewExperienceModal();
+      return;
+    }
+
+    redirectToLogin();
+  }
+
   return (
     <Container
       sx={{
@@ -27,6 +39,7 @@ const MapUIOverlay: React.FC = () => {
         zIndex: 800,
         pointerEvents: 'none'
       }}
+      data-testid="MapUIOverlay-Container"
     >
       <CardModal
         open={newExperienceModalOpen}
@@ -38,11 +51,29 @@ const MapUIOverlay: React.FC = () => {
             paddingBottom: "30px"
           }
         }}
-        data-testid="CreateExperienceButton-CreateExperienceModal"
+        data-testid="MapUIOverlay-CreateExperienceModal"
       >
         <ExperienceForm user={user} />
       </CardModal>
-      { user ? <CreateExperienceButton toggleModal={toggleNewExperienceModal} /> : null }
+      <Button
+        className='CreateExperienceButton'
+        variant='contained'
+        color='error'
+        sx={{
+          position: 'relative',
+          left: '10%',
+          top: '90%',
+          pointerEvents: 'auto'
+        }}
+        onClick={handleCreateExperienceButtonClick}
+        data-testid={
+          user 
+          ? "MapUIOverlay-CreateExperienceButton-LoggedIn"
+          : "MapUIOverlay-CreateExperienceButton-LoggedOut"
+        }
+      >
+        Drop a pin!
+      </Button>
     </Container>
   );
 };

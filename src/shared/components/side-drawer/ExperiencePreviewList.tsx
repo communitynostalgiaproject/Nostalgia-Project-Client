@@ -47,6 +47,9 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
               event.stopPropagation();
               setSelectedExperience(experience);
             }}
+            sx={{
+              cursor: 'pointer'
+            }}
           >
             <img
               src={`${experience.foodPhotoUrl}?w=248&fit=crop&auto=format`}
