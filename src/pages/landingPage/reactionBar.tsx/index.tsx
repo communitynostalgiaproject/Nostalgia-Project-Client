@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import reactionsRequest from '../../../api/reactions.request';
 import usersRequest from '../../../api/users.request';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 import ThanksForSharing from '../../../assets/reactionIcons/thanksForSharing';
 import MeToo from '../../../assets/reactionIcons/meToo';
@@ -14,13 +14,9 @@ interface Experience {
     _id: string;
 }
 
-interface reactionReqBody {
-    experienceId: string;
-    reaction: string;
-}
-
 const ReactionBar: React.FC<Experience> = (experience) => {
     const classes = useStyles()
+
     const [selectedReaction, setSelectedReaction] = useState({
         meToo: false,
         thanksForSharing: false,
@@ -35,51 +31,56 @@ const ReactionBar: React.FC<Experience> = (experience) => {
         return await reactionsRequest.getByUserId({ experienceId: experience["_id"], userId: user["_id"] })
     })
 
-    const postReaction = useMutation(async (data: reactionReqBody) => {
-        return await reactionsRequest.put(data)
-    })
-
     useEffect(() => {
         if(reactions !== undefined) {
-            console.log(reactions)
-        }
-    }, [reactions])
+            for(let [key] of Object.entries(selectedReaction)) {
+                let reactionEl = document.getElementById(key);
+                let reactionIcon = document.getElementById(`${key}-svg`);
+    
+                if(reactionEl && reactionIcon) {
+                    let reactionObj = reactions.find((item: any) => item.reaction === reactionEl?.id);
+              
+                    if(reactionObj?.reaction) {
+                        reactionIcon.style.fill = "rgb(50, 150, 255)"; 
 
-    useEffect(() => {
-        for(let [key, value] of Object.entries(selectedReaction)) {
-            let reactionIcon = document.getElementById(`${key}-svg`);
-
-            if(reactionIcon) {
-                if(value) {
-                    reactionIcon.style.fill = "rgb(50, 150, 255)" 
-                } else {
-                    reactionIcon.style.fill = "rgb(50, 50, 50)" 
+                        setSelectedReaction(reactionState => ({
+                            ...reactionState,
+                            [reactionObj.reaction as keyof typeof reactionState]: !reactionState[reactionObj.reaction as keyof typeof reactionState]
+                        }));
+                    } else {
+                        reactionIcon.style.fill = "rgb(50, 50, 50)"; 
+                    }
                 }
             }
+            // console.log(reactions);
         }
-        
-    }, [selectedReaction])
+    }, [reactions])
 
     const handleReaction = async(event: React.MouseEvent<HTMLDivElement>) => {
         let reaction = event.currentTarget?.id;
         let experienceId = event.currentTarget?.getAttribute("data-experience");
-
-        if(selectedReaction[reaction as keyof typeof selectedReaction] === false) {
-            await reactionsRequest.put({
-                experienceId: experienceId as string,
-                reaction: reaction,
-            })
-        } else {
-            await reactionsRequest.removeReaction({
-                experienceId: experienceId as string,
-                reaction: reaction,
-            })
+        let reactionIcon = document.getElementById(`${event.currentTarget?.id}-svg`);
+            
+        if(reactionIcon) {
+            if(selectedReaction[reaction as keyof typeof selectedReaction] === false) {
+                await reactionsRequest.put({
+                    experienceId: experienceId as string,
+                    reaction: reaction,
+                });
+                reactionIcon.style.fill = "rgb(50, 150, 255)" 
+            } else {
+                await reactionsRequest.removeReaction({
+                    experienceId: experienceId as string,
+                    reaction: reaction,
+                });
+                reactionIcon.style.fill = "rgb(50, 50, 50)" 
+            }
+            
+            setSelectedReaction(reactionState => ({
+                ...reactionState,
+                [reaction as keyof typeof reactionState]: !reactionState[reaction as keyof typeof reactionState]
+            }))
         }
-        
-        setSelectedReaction(reactionState => ({
-            ...reactionState,
-            [reaction as keyof typeof reactionState]: !reactionState[reaction as keyof typeof reactionState]
-        }))
     };
 
     return (
