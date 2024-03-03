@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CardModal from '../../../components/modal/CardModal';
 import {
   Snackbar,
@@ -11,31 +11,18 @@ import {
 interface DeleteExperienceModalProps {
   open: boolean,
   onClose: () => void;
-  onDelete: () => Promise<boolean>;
+  onDelete: () => void;
+  deleteError: string;
+  processingDeletion: boolean;
 };
 
 const DeleteExperienceModal: React.FC<DeleteExperienceModalProps> = ({
   open,
   onClose,
-  onDelete
+  onDelete,
+  deleteError,
+  processingDeletion
 }) => {
-  const [showDeleteError, setShowDeleteError] = useState<boolean>(false);
-  const [deleteButtonDisabled, setDeleteButtonDisabled] = useState<boolean>(false);
-
-  const handleDelete = async () => {
-    setDeleteButtonDisabled(true);
-
-    const deleteSuccess = await onDelete();
-
-    if (!deleteSuccess) {
-      setShowDeleteError(true);
-      setDeleteButtonDisabled(false);
-      return;
-    }
-
-    onClose();
-  };
-
   return (
     <CardModal
       open={open}
@@ -54,12 +41,12 @@ const DeleteExperienceModal: React.FC<DeleteExperienceModalProps> = ({
       data-testid="ExperienceView-DeleteModal"
     >
       <>
-        <Snackbar
+        {deleteError && <Snackbar
           anchorOrigin={{
             vertical: "top",
             horizontal: "center"
           }}
-          open={showDeleteError}
+          open={deleteError !== "null"}
           color="red"
         >
           <Alert
@@ -67,9 +54,9 @@ const DeleteExperienceModal: React.FC<DeleteExperienceModalProps> = ({
             variant="filled"
             data-testid="ExperienceView-DeleteModalErrorMessage"
           >
-            There was an error deleting the experience
+            {deleteError}
           </Alert>
-        </Snackbar>
+        </Snackbar>}
         <Typography
           variant="h5"
           component="p"
@@ -99,8 +86,8 @@ const DeleteExperienceModal: React.FC<DeleteExperienceModalProps> = ({
           <Button
             variant="contained"
             color="error"
-            onClick={handleDelete}
-            disabled={deleteButtonDisabled}
+            onClick={onDelete}
+            disabled={processingDeletion}
             data-testid="ExperienceView-DeleteModalDeleteButton"
           >
             Delete

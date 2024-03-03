@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import { Button, IconButton, Paper } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ExperiencePreviewList from './ExperiencePreviewList';
 import ExperienceView from './ExperienceView';
-import EditExperienceModal from './EditExperienceModal';
-import DeleteExperienceModal from './DeleteExperienceModal';
 import { Experience } from '../../../types/experience';
 
 type Anchor = 'left' | 'right';
@@ -19,7 +16,8 @@ interface SideDrawerProps {
   setSelectedExperience: React.Dispatch<Experience | null>;
   hasNextPage: boolean | undefined;
   fetchNextPage: () => void;
-  user: any;
+  setEditModalOpen: React.Dispatch<boolean>;
+  setDeleteModalOpen: React.Dispatch<boolean>;
 }
 
 const  SideDrawer: React.FC<SideDrawerProps> = ({
@@ -28,7 +26,8 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
   setSelectedExperience,
   hasNextPage,
   fetchNextPage,
-  user
+  setEditModalOpen,
+  setDeleteModalOpen
 }) => {
   const [sidebar, setSidebar] = useState({
     top: true,
@@ -36,8 +35,6 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
     bottom: true,
     right: true,
   });
-  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -52,10 +49,6 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
       }
 
     setSidebar({ ...sidebar, [anchor]: open });
-  };
-
-  const handleDeleteExperience = async () => {
-    return true;
   };
 
   const list = (anchor: Anchor) => (
@@ -108,7 +101,6 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-start',
-            // maxHeight: '80%',
             padding: '15px 0px 50px 0px',
             overflow: 'auto',
             pointerEvents: 'auto',
@@ -179,17 +171,6 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
       >
         {list('right')}
       </SwipeableDrawer>
-      <EditExperienceModal
-        open={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        user={user}
-        experience={selectedExperience as Experience}
-      />
-      <DeleteExperienceModal
-        open={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onDelete={handleDeleteExperience}
-      />
     </React.Fragment> 
   );
 };

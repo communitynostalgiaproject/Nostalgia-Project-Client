@@ -6,8 +6,6 @@ import { Experience } from "../../types/experience";
 const useFetchExperiencesByBbox = (bbox: String | null, limit=30) => {
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const fetchExperiences = async ({ pageParam }: any) => {
-    console.log("In fetchExperiences");
-    console.log(`pageParam: ${JSON.stringify(pageParam)}`);
     const results = await experiencesRequest.get({
       bbox,
       limit,
@@ -41,7 +39,7 @@ const useFetchExperiencesByBbox = (bbox: String | null, limit=30) => {
   );
 
 
-  return { experiences, ...rest };
+  return { experiences, setExperiences, ...rest };
 }; 
 
 export default useFetchExperiencesByBbox;
