@@ -26,6 +26,7 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
       sx={{
         pointerEvents: "auto"
       }}
+      data-testid='ExperiencePreviewList-Container'
     >
       <ImageList
         cols={3}
@@ -34,8 +35,9 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
           overflow: 'auto',
           overflowX: 'hidden'
         }}
+        data-testid='ExperiencePreviewList-List'
       >
-        {experiences.map((experience) => (
+        {experiences.map((experience, index) => (
           <ImageListItem
             key={experience._id}
             onClick={(event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
@@ -45,24 +47,13 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
             sx={{
               cursor: 'pointer'
             }}
+          data-testid={`ExperiencePreviewList-ListItem-${index}`}
           >
             <img
               src={`${experience.foodPhotoUrl}?w=248&fit=crop&auto=format`}
               alt={experience.title}
               loading="lazy"
             />
-            {/* <ImageListItemBar
-              title={item.title}
-              subtitle={item.place}
-              actionIcon={
-                <IconButton
-                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                  aria-label={`info about ${item.title}`}
-                >
-                  <InfoIcon />
-                </IconButton>
-              }
-            /> */}
           </ImageListItem>
         ))}
       </ImageList>
@@ -80,6 +71,7 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
             sx={{
               pointerEvents: "auto"
             }}
+            data-testid='ExperiencePreviewList-LoadMoreButton'
           >
             See more
           </Button>

@@ -83,7 +83,9 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
   };
 
   return (
-    <Container>
+    <Container
+      data-testid="ExperienceView-Container"
+    >
       <Box
         sx={{
           display: "flex",
