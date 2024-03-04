@@ -92,6 +92,8 @@ const LandingPage: React.FC = () => {
         onClose={() => setEditModalOpen(false)}
         user={user}
         experience={selectedExperience as Experience}
+        setExperiences={setExperiences}
+        setSelectedExperience={setSelectedExperience}
       />
       <DeleteExperienceModal
         open={deleteModalOpen}

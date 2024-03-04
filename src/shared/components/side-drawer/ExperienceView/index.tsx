@@ -65,7 +65,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
     if (experience.recipe && !formattedRecipeText) {
       formatMarkdownText(`${experience.recipe}`);
     }
-  }, [formattedRecipeText, setFormattedRecipeText]);
+  }, [formattedRecipeText, setFormattedRecipeText, experience.recipe]);
 
   const toggleEditModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();

@@ -2,7 +2,6 @@ import { Box, Button, styled } from '@mui/material';
 import { FormPageProps } from '../formPageProps';
 import { CloudUpload as CloudUploadIcon } from '@mui/icons-material';
 import React, { useEffect, ChangeEvent } from 'react';
-import experiencesRequest from '../../../../api/experiences.request';
 import { useValidation, ValidationRule } from '../../../../hooks/useValidation';
 
 interface ImageUploadPageProps extends FormPageProps {
@@ -80,7 +79,7 @@ const Page4: React.FC<ImageUploadPageProps> = ({
     }
   ] as ValidationRule[];
 
-  const { errorFields, validateFields } = useValidation(
+  const { validateFields } = useValidation(
     ["foodPhoto", "personPhoto"],
     validationRules,
     setError,

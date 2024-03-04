@@ -39,7 +39,7 @@ export const useValidation = (
     if (valid) {
       onValidationSuccess();
     };
-  }, [validationRules, initialErrors]);
+  }, [validationRules, initialErrors, onValidationSuccess, setError]);
 
   return { errorFields, validateFields }
 };

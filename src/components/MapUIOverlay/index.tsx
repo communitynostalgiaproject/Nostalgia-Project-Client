@@ -50,7 +50,10 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
         }}
         data-testid="MapUIOverlay-CreateExperienceModal"
       >
-        <ExperienceForm user={user} />
+        <ExperienceForm
+          mode="create"
+          user={user}
+        />
       </CardModal>
       <Button
         className='CreateExperienceButton'
