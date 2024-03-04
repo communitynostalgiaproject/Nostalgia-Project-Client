@@ -28,7 +28,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
 
   useEffect(() => {
     if (error) console.error(`Error fetching user: ${error}`);
-    console.log(`user: ${JSON.stringify(user)}`);
+    // console.log(`user: ${JSON.stringify(user)}`);
   }, [error, user]);
 
   return (
