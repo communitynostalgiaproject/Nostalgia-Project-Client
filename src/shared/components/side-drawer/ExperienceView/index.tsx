@@ -67,8 +67,15 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
     }
   }, [formattedRecipeText, setFormattedRecipeText]);
 
-  const toggleEditModal = () => setEditModalOpen(true);
-  const toggleDeleteModal = () => setDeleteModalOpen(true);
+  const toggleEditModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    setEditModalOpen(true);
+  };
+
+  const toggleDeleteModal = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    setDeleteModalOpen(true);
+  };
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
