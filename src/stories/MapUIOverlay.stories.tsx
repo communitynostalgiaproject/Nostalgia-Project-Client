@@ -26,14 +26,8 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    redirectToLogin: fn()
-  },
-  parameters: {
-    msw: {
-      handlers: {
-        fetchUser: [createUserFetchHandler(200, [mockUser])]
-      }
-    }
+    redirectToLogin: fn(),
+    user: mockUser
   },
   decorators: [createQueryClientDecorator(new QueryClient({
     defaultOptions: {
@@ -46,7 +40,8 @@ export const LoggedIn: Story = {
 
 export const LoggedOut: Story = {
   args: {
-    redirectToLogin: fn()
+    redirectToLogin: fn(),
+    user: mockUser
   },
   parameters: {
     msw: {
@@ -60,7 +55,8 @@ export const LoggedOut: Story = {
 
 export const CreateExperienceButtonLoggedInTest: Story = {
   args: {
-    redirectToLogin: fn()
+    redirectToLogin: fn(),
+    user: mockUser
   },
   decorators: [createQueryClientDecorator(new QueryClient({
     defaultOptions: {
@@ -69,13 +65,6 @@ export const CreateExperienceButtonLoggedInTest: Story = {
       }
     }
   }))],
-  parameters: {
-    msw: {
-      handlers: {
-        fetchUser: [createUserFetchHandler(200, [mockUser])]
-      }
-    }
-  },
   play: async () => {
     await waitFor(() => {
       expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedIn")).toBeInTheDocument();
@@ -103,13 +92,6 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
     redirectToLogin: fn()
   },
   decorators: [createQueryClientDecorator(new QueryClient())],
-  parameters: {
-    msw: {
-      handlers: {
-        fetchUser: [createUserFetchHandler(500)]
-      }
-    }
-  },
   play: async ({ args }) => {
     expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedOut")).toBeInTheDocument();
 

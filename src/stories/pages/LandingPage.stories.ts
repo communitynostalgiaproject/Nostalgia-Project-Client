@@ -21,3 +21,14 @@ type Story = StoryObj<typeof meta>;
 export const Base: Story = {
   decorators: [createQueryClientDecorator(new QueryClient())]
 };
+
+export const BasicTest: Story = {
+  decorators: [createQueryClientDecorator(new QueryClient())],
+  play: async () => {
+    await waitFor(() => {
+      expect(screen.getByTestId("MapUIOverlay-Container")).toBeInTheDocument();
+      expect(screen.getByTestId("SideDrawer-Drawer")).toBeInTheDocument();
+      expect(screen.getByTestId("Map-Container")).toBeInTheDocument();
+    })
+  }
+};

@@ -63,7 +63,10 @@ const AppVector = ({
   };
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      data-testid="Map-Container"
+    >
       <MapContainer
         className={classes.fullScreenMap}
         minZoom={3}

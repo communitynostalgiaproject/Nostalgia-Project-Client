@@ -168,6 +168,7 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
         sx={{
           pointerEvents: 'none'
         }}
+        data-testid="SideDrawer-Drawer"
       >
         {list('right')}
       </SwipeableDrawer>
