@@ -13,17 +13,21 @@ import {
 import { PeliasGeoJSONFeature } from "@stadiamaps/api";
 
 interface LocationSearchParams {
-  setLocation: (location: Place) => void;
+  setLocation: (location: PeliasGeoJSONFeature) => void;
   currentLocation?: string;
   focus?: { lat: number, long: number };
   error?: boolean;
+  listProps?: any;
+  fieldProps?: any;
 }
 
 const LocationSearch: React.FC<LocationSearchParams> = ({ 
   setLocation,
   currentLocation,
   focus,
-  error
+  error,
+  listProps,
+  fieldProps
 }) => {
   const [inputText, setInputText] = useState<string>(currentLocation || "");
   const [searchText, setSearchText] = useState<string>("");
@@ -44,15 +48,6 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
   }, {
     enabled: false
   });
-
-  const selectSuggestion = (location: PeliasGeoJSONFeature) => {
-    console.log(`Selected location: ${location.properties?.label}`);
-    const place = {
-      address: location.properties || {},
-      location: location.geometry
-    } as Place;
-    setLocation(place);
-  };
 
   const debouncedChangeHandler = useCallback(debounce((text) => {
     setSearchText(text);
@@ -101,6 +96,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
         data-testid="LocationSearch-InputField"
         label="Location"
         error={error}
+        {...fieldProps}
       />
       {suggestions.length > 0 && (
         <Paper 
@@ -115,6 +111,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
           }}
           elevation={3}
           data-testid="LocationSearch-SuggestionListContainer"
+          {...listProps}
         >
           <List
             component="nav"
@@ -123,7 +120,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
               <ListItem 
                 button 
                 key={index} 
-                onClick={() => selectSuggestion(suggestion)}
+                onClick={() => setLocation(suggestion)}
                 data-testid="LocationSearch-SuggestionListItem"
               >
                 {suggestion.properties?.label}

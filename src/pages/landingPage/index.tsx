@@ -15,8 +15,7 @@ const LandingPage: React.FC = () => {
   const defaultLocation = [38.9072, 139.69222];
   const defaultZoom = 6;
   const queryClient = useQueryClient();
-  const [location, setLocation] = useState<number[]>(defaultLocation);
-  const [zoomLevel, setZoomLevel] = useState<number>(defaultZoom);
+  const [userLocation, setUserLocation] = useState<Number[] | null>(null);
   const [bbox, setBbox] = useState<String | null>(null);
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
@@ -54,20 +53,23 @@ const LandingPage: React.FC = () => {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
           const { latitude, longitude } = position.coords;
-          setLocation([latitude, longitude]);
+          setUserLocation([latitude, longitude]);
         },
         (err) => console.log(`Unable to get user location: ${err}`)
       );
     };
   };
 
-  useEffect(() => getUserLocation(), []);
-
+  useEffect(() => {
+    getUserLocation();
+  }, []);
+  
   return (
     <>
       <MapUIOverlay
         redirectToLogin={redirectToLogin}
-        user={user}  
+        user={user}
+        setBbox={setBbox}  
       />
       <SideDrawer
         experiences={experiences}
@@ -80,10 +82,10 @@ const LandingPage: React.FC = () => {
       />
       <AppVector
         experiences={experiences}
-        location={location}
-        setLocation={setLocation}
-        zoom={zoomLevel}
-        setZoom={setZoomLevel}
+        defaultLocation={defaultLocation}
+        defaultZoom={defaultZoom}
+        userLocation={userLocation}
+        bbox={bbox}
         setBbox={setBbox}
         setSelectedExperience={setSelectedExperience}
       />

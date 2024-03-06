@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useQuery } from 'react-query';
-import experiencesRequest from '../../../api/experiences.request';
+import React, { useEffect, useState } from 'react';
 import ReactionBar from '../../../pages/landingPage/reactionBar.tsx';
 
 import useStyles from './styles';
@@ -21,42 +19,57 @@ L.Icon.Default.mergeOptions({
 
 const AppVector = ({
   experiences,
-  location,
-  setLocation,
-  zoom,
-  setZoom,
+  defaultLocation,
+  defaultZoom,
+  userLocation,
+  bbox,
   setBbox,
   setSelectedExperience
 }) => {  
   const classes = useStyles()
+  const [movedToUser, setMovedToUser] = useState(false);
 
   const updateBbox = (bounds) => { 
     setBbox(bounds.toBBoxString());
   };
 
-  const updateLocation = (center) => {
-    const { lat, lng } = center;
-    setLocation([lat, lng]);
-  };
-
-  const updateZoom = (zoomLevel) => {
-    setZoom(zoomLevel);
+  const boundsFromBboxString = (bboxString) => {
+    const strValues = bboxString.split(",");
+    const corner1 = [Number(strValues[1]), Number(strValues[0])];
+    const corner2 = [Number(strValues[3]), Number(strValues[2])];
+    return L.latLngBounds([corner1, corner2]);
   };
 
   const MapEvents = () => {
     const map = useMap();
 
+    
     useEffect(() => {
-      map.setView(location, zoom);
-    }, [map, location, zoom]);
+      if (!bbox) {
+        map.setView(defaultLocation, defaultZoom);
+        updateBbox(map.getBounds());
+      }
+    }, [map, bbox]);
+
+    // Move the map to the user's location once if they allow us to use it
+    useEffect(() => {
+      if (!userLocation || movedToUser) return;
+      map.setView(userLocation, defaultZoom);
+      updateBbox(map.getBounds());
+      setMovedToUser(true);
+    }, [map, userLocation]);
+
+    useEffect(() => {
+      if (!bbox) return;
+      const bounds = boundsFromBboxString(bbox);
+      map.fitBounds(bounds);
+    }, [map, bbox]);
 
     useMapEvents({
       zoomend: () => {
-        updateZoom(map.getZoom());  
         updateBbox(map.getBounds());
       },
       moveend: () => {
-        updateLocation(map.getCenter());
         updateBbox(map.getBounds());
       }
     });

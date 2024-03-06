@@ -7,6 +7,7 @@ import LocationSearch from '../../../form-elements/locationSearch';
 import { useValidation, ValidationRule } from '../../../../hooks/useValidation';
 import React, { useEffect, ChangeEvent } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import { PeliasGeoJSONFeature } from '@stadiamaps/api';
 
 const Page1: React.FC<FormPageProps> = ({
   experience,
@@ -36,10 +37,13 @@ const Page1: React.FC<FormPageProps> = ({
     }
   };
 
-  const handleLocationChange = (location: Place) => {
+  const handleLocationChange = (location: PeliasGeoJSONFeature) => {
     setExperience({
       ...experience,
-      place: location
+      place: {
+        address: location.properties,
+        location: location.geometry
+      } as Place
     });
   };
 
