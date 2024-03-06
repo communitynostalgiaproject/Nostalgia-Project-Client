@@ -68,6 +68,7 @@ export const CreateExperienceButtonLoggedInTest: Story = {
   play: async () => {
     await waitFor(() => {
       expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedIn")).toBeInTheDocument();
+      expect(screen.getByTestId("LocationSearch-InputField")).toBeInTheDocument();
     });
 
     await userEvent.click(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedIn"));
@@ -94,6 +95,7 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
   decorators: [createQueryClientDecorator(new QueryClient())],
   play: async ({ args }) => {
     expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedOut")).toBeInTheDocument();
+    expect(screen.getByTestId("LocationSearch-InputField")).toBeInTheDocument();
 
     await userEvent.click(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedOut"));
     await waitFor(() => {
