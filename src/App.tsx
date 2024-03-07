@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import TransitionsModal from "./shared/components/tutorialModal/TutorialModal";
 import Navbar from './shared/components/navbar';
 import LandingPage from "./pages/landingPage";
 import ResearchPage from "./pages/research/ResearchPage";
@@ -13,7 +12,6 @@ const App: React.FC = () => {
 
     return (
         <Router>
-                <TransitionsModal />
             <Navbar />
             <Routes>
                 <Route path="/" element={<LandingPage />} />
