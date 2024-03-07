@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -7,9 +7,9 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import CircleIcon from '@mui/icons-material/Circle';
-import cameraIcon from '../../assets/camera-icon.png';
-import tacoIcon from '../../assets/taco-icon.png';
-import appIcon from '../../assets/app-icon.png';
+import cameraIcon from '../../../assets/camera-icon.png';
+import tacoIcon from '../../../assets/taco-icon.png';
+import appIcon from '../../../assets/app-icon.png';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -44,14 +44,27 @@ const modals = [
 
 export default function TransitionsModal() {
   const [open, setOpen] = useState(true);
-  const [openModal, setOpenModal] = useState(0);
+  const [openModalNum, setOpenModalNum] = useState(0);
+
+  useEffect(() => {
+    let pop_status = localStorage.getItem('pop_status');
+
+    if(!pop_status) {
+      setOpen(true);
+      localStorage.setItem('pop_status', '1');
+    };
+  }, []);
+
+  if(!open) return null;
+  
   const handleClose = () => setOpen(false);
 
   const displayModal = modals.map((modal) => {
     return (
       <Fade in={open}>
         <Box sx={style}>
-          <Box sx={{ 
+          <Box 
+            sx={{ 
               display: 'flex', 
               alignItems: 'center', 
               flexDirection: 'column', 
@@ -82,16 +95,16 @@ export default function TransitionsModal() {
             <Button 
               size='small' 
               href='' 
-              sx={{ color: openModal === 0 ? '#5E0916' : '#8E525B' }} 
-              onClick={() => setOpenModal(0)} 
+              sx={{ color: openModalNum === 0 ? '#5E0916' : '#8E525B' }} 
+              onClick={() => setOpenModalNum(0)} 
             >
               <CircleIcon />
             </Button>
             <Button 
               size='small' 
               href='' 
-              sx={{ color: openModal === 1 ? '#5E0916' : '#8E525B' }} 
-              onClick={() => setOpenModal(1)
+              sx={{ color: openModalNum === 1 ? '#5E0916' : '#8E525B' }} 
+              onClick={() => setOpenModalNum(1)
               } 
             >
               <CircleIcon />
@@ -99,9 +112,8 @@ export default function TransitionsModal() {
             <Button 
               size='small' 
               href='' 
-              sx={{ color: openModal === 2 ? '#5E0916' : '#8E525B' }} 
-              onClick={() => setOpenModal(2)
-              
+              sx={{ color: openModalNum === 2 ? '#5E0916' : '#8E525B' }} 
+              onClick={() => setOpenModalNum(2)
               } 
             >
               <CircleIcon />
@@ -129,7 +141,7 @@ export default function TransitionsModal() {
         }}
       >
         <>
-          {displayModal[openModal]}
+          {displayModal[openModalNum]}
         </>
       </Modal>
     </div>
