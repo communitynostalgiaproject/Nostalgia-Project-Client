@@ -168,6 +168,12 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
         sx={{
           pointerEvents: 'none'
         }}
+        PaperProps={{
+          style: {
+            top: '100px',
+            height: 'calc(100vh - 100px)'
+          }
+        }}
         data-testid="SideDrawer-Drawer"
       >
         {list('right')}
