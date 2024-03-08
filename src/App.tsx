@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from './shared/components/navbar';
+import TutorialModal from "./shared/components/tutorialModal/TutorialModal";
 import LandingPage from "./pages/landingPage";
 import ResearchPage from "./pages/research/ResearchPage";
 import EventsPage from "./pages/events/EventsPage";
@@ -9,9 +10,15 @@ import TeamPage from "./pages/team/TeamPage";
 import "./App.css";
 
 const App: React.FC = () => {
+    const showModal = localStorage.getItem('showModal') === 'true' ? false : true;
+
+    useEffect(() => {
+        localStorage.setItem('showModal', 'true');
+    }, []);
 
     return (
-        <Router>
+        <Router> 
+            {showModal ? <TutorialModal /> : null}
             <Navbar />
             <Routes>
                 <Route path="/" element={<LandingPage />} />

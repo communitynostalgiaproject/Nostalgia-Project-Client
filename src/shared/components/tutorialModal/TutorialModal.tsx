@@ -42,20 +42,11 @@ const modals = [
   },
 ];
 
-export default function TransitionsModal() {
-  const [open, setOpen] = useState(true);
-  const [openModalNum, setOpenModalNum] = useState(0);
+export default function TutorialModal(): JSX.Element | null {
+  const [open, setOpen] = useState<boolean>(true);
+  const [openModalNum, setOpenModalNum] = useState<number>(0);
 
-  useEffect(() => {
-    let pop_status = localStorage.getItem('pop_status');
-
-    if(!pop_status) {
-      setOpen(true);
-      localStorage.setItem('pop_status', '1');
-    };
-  }, []);
-
-  if(!open) return null;
+  // if(showModal) return null;
   
   const handleClose = () => setOpen(false);
 
@@ -72,7 +63,7 @@ export default function TransitionsModal() {
               padding: '1rem'
             }}
           >
-          <img src={modal.icon} />
+          <img src={modal.icon} alt='Modal button' />
           <Typography 
             id="transition-modal-title" 
             variant="h2" 
