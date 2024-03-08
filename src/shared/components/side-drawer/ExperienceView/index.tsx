@@ -49,12 +49,12 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
 
     return res.data;
   });
-  const { data: creatorUser } = useQuery("creatorUser", async () => {
+  const isUserCreator = currentUser && `${currentUser._id}` === `${experience.creatorId}`;
+  const { data: creatorUser } = useQuery(["users", experience.creatorId.toString()], async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/${experience.creatorId}`, { withCredentials: true });
 
     return res.data;
   });
-  const isUserCreator = currentUser && `${currentUser._id}` === `${experience.creatorId}`;
 
   const formatMarkdownText = async (text: string) => {
     const formattedText = documentToReactComponents(await richTextFromMarkdown(text));
