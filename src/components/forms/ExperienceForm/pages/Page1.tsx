@@ -133,6 +133,16 @@ const Page1: React.FC<FormPageProps> = ({
           setLocation={handleLocationChange}
           currentLocation={experience.place?.address.label}
           error={errorFields.location}
+          fieldProps={{
+            sx: {
+              width: "350px"
+            }
+          }}
+          listProps={{
+            sx: {
+              maxWidth: "350px"
+            }
+          }}
         />
       </div>
     </>
