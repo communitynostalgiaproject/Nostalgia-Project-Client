@@ -103,7 +103,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
         sx={{
           position: 'relative',
           left: '10%',
-          top: '90%',
+          top: '75%',
           pointerEvents: 'auto'
         }}
         onClick={handleCreateExperienceButtonClick}
