@@ -1,14 +1,16 @@
 import React from 'react';
-// import FlagRequest from '../../api/flags.request'
 import AppVector from '../../shared/components/stadiaMap/index';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
+import MapUIOverlay from '../../components/MapUIOverlay';
+import { redirectToLogin } from '../../api/helpers';
 
 const LandingPage: React.FC = () => {
 
     return (
         <>
-            <AppVector/>
-            <SideDrawer />
+          <MapUIOverlay redirectToLogin={redirectToLogin} />
+          <SideDrawer />
+          <AppVector/>
         </>
     )
 }
