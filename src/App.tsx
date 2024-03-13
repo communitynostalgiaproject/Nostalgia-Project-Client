@@ -10,7 +10,7 @@ import TeamPage from "./pages/team/TeamPage";
 import "./App.css";
 
 const App: React.FC = () => {
-    const showModal = localStorage.getItem('showModal') === 'true' ? false : true;
+    const modalShown = localStorage.getItem('showModal') === 'true' ? false : true;
 
     useEffect(() => {
         localStorage.setItem('showModal', 'true');
@@ -18,7 +18,7 @@ const App: React.FC = () => {
 
     return (
         <Router> 
-            {showModal ? <TutorialModal /> : null}
+            {modalShown ? <TutorialModal /> : null}
             <Navbar />
             <Routes>
                 <Route path="/" element={<LandingPage />} />

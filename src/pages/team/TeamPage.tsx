@@ -24,7 +24,6 @@ const Joan = require('../../assets/Joan_Joseph.jpg');
 const Jordan = require('../../assets/jordan.png');
 const Mary = require('../../assets/MacMillan_Mary.jpg');
 const Mukunthg = require('../../assets/mukunthg.png');
-const Parvati = require('../../assets/Parvati.png');
 const Rebekka = require('../../assets/Rebekka.jpg');
 const Summer = require('../../assets/Summer LaPointe.jpg');
 const Walker = require('../../assets/Walker.png');
@@ -102,13 +101,6 @@ const DUMMY_DATA: TeamMember[] = [
     },
     {
         id: 11,
-        name: 'Emily Ham',
-        title: 'Exhibition Curator & Research Assistant',
-        content: "In the past year, my focus as a research assistant delved into the intricate connection between nostalgia and comfort foods. I've explored how these foods evoke our emotions linked to our childhood and memories, creating a sense of nostalgia. As a part of the sensory exhibition team, my primary aim is to curate an immersive experience for our community. This exhibition aims to transport individuals through diverse cultural and personal memories, engaging all five senses—smell, sight, touch, taste, and auditory—to evoke profound feelings of nostalgia. I hope to showcase that despite our diverse backgrounds, the emotions tied to nostalgia and our shared experiences can bind us together within the vibrant Ithaca community.",
-        photo: Parvati
-    },
-    {
-        id: 11,
         name: 'Ivy Jiang',
         title: 'Exhibition Curator & Research Assistant',
         content: `Since Fall 2023, I have been working alongside Hetvi to deepen my interests and understanding of how the olfactory and gustatory networks evoke comforting memories and emotions. Throughout this journey, I aim to not only delve into the academic research of nostalgia but to also develop a sensory exhibition that offers an immersive journey of nostalgia for the Ithaca community. As a curator in the Community Neuroscience Initiative’s sensory exhibition team, I hope to integrate all five human senses (smell, sight, sound, taste, and touch) into our museum so that our diverse community members can fully relive their childhood and cultures and evoke their buried memories and emotions. In doing so, we hope that our visitors can embrace a stronger sense of self, connectedness, and personal growth.`,
@@ -120,13 +112,6 @@ const DUMMY_DATA: TeamMember[] = [
         title: 'Community Liaison & Research Assistant',
         content: "I have been working alongside Hetvi since Fall 2023 using fMRI scans as a method of deepening our understanding of the social, developmental, emotional, and mnemonic functions of food nostalgia. In collaboration with the other research assistants in the lab, I am responsible for making sure that our fMRI scans run smoothly. Additionally, I am part of the arts team for the Community Nostalgia Initiative, where we are organizing an arts exhibit that explores the power of art in evoking feelings of food nostalgia. I am passionate about creating an exhibit that clearly communicates the emotional and mnemonic abilities of food nostalgia.",
         photo: Walker
-    },
-    {
-        id: 13,
-        name: 'Yael Spector',
-        title: 'Exhibition Curator & Research Assistant',
-        content: "I am interested in using fMRI to explore the nutritional implications of emotional connections to food. I appreciate the intersection between neuroscience and human behavior/emotions. I am passionate about community engagement and believe it is valuable to present science in an engaging and innovative way to the public. As one of the sensory exhibition curators, I am designing and executing a sensory exhibition that evokes feelings of nostalgia in the audience. The goal of this exhibit is to emphasize the influence of shared nostalgic experiences among individuals with diverse backgrounds.",
-        photo: Parvati
     },
     {
         id: 14,
