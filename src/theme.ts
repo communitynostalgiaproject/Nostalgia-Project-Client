@@ -20,9 +20,9 @@ declare module '@mui/material/styles' {
     interface ButtonVariansOptions {
         modalButton: true
     }
-  };
+};
   
-  declare module '@mui/material/Typography' {
+declare module '@mui/material/Typography' {
     interface TypographyPropsVariantOverrides {
         nostalgiaHeader: true;
         eventDetails: true,

@@ -4,7 +4,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import usersRequest from '../../../../api/users.request';
-import LoginButton from '../../../../components/login/loginButton';
 import useStyles from './styles';
 
 interface MobileNavProps {
@@ -12,7 +11,7 @@ interface MobileNavProps {
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
-  const { error, data: user} = useQuery("user", async () => {
+  const { error, data: user} = useQuery("currentUser", async () => {
     return await usersRequest.fetchData();
   });
   const classes = useStyles();
@@ -73,7 +72,6 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
                       </ListItemButton>
                   ))
                 }
-                {user ? null : <LoginButton />}
               </List>
             </Box>
           </Box>

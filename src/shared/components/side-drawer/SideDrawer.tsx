@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Button from '@mui/material/Button';
+import { Button } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -35,46 +35,50 @@ export default function SideDrawer() {
     };
 
   const list = (anchor: Anchor) => (
-    <React.Fragment>
-    <Button
-      style={{ 
-        position: 'fixed',
-        top: '50%', 
-        right: '29%',
-        borderRadius: '150px 0 0 150px',
-        backgroundColor: '#272A40',
-      }}
-      onClick={toggleDrawer('right', false)}
-    >
-      <ArrowForwardIosIcon
-        style={{
-          fontSize: '48px',
-          color: '#fff'
-        }} 
-      />
-    </Button>
-    <Box
-      sx={{ 
-        display: 'flex',
-        alignItems: 'center',
-        width: 500, 
-        height: '100%',
-        backgroundColor: '#272A40', 
-      }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List sx={{ color: '#fff', padding: '1rem' }}>
-        {[''].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-        <PostedImagesList />
-      </List>
+    <Box 
+      sx={{ backgroundColor: '#272A40', height: '100%' }}>
+      <Button
+        style={{ 
+          width: '5rem', 
+          marginTop: '2.5rem', 
+          backgroundColor: '#272A40',
+          pointerEvents: 'auto' 
+        }}
+        onClick={toggleDrawer('right', false)}
+        data-testid="SideDrawer-ToggleClosedButton"
+      >
+        <ArrowForwardIosIcon
+          style={{
+            fontSize: '48px',
+            color: '#fff'
+          }} 
+        />
+      </Button>
+      <Box
+        sx={{ 
+          display: 'flex',
+          alignItems: 'center',
+          width: 500, 
+          height: '100%',
+          backgroundColor: '#272A40', 
+        }}
+        role="presentation"
+        onClick={toggleDrawer(anchor, false)}
+        onKeyDown={toggleDrawer(anchor, false)}
+      >
+        <List
+          sx={{ color: '#fff', padding: '1rem', pointerEvents: 'auto' }}
+          data-testid="SideDrawer-FoodPhotoList" 
+        >
+          {[''].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ padding: '0px' }}>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+          <PostedImagesList />
+        </List>
+      </Box>
     </Box>
-    </React.Fragment>
   );
 
   return (
@@ -86,8 +90,11 @@ export default function SideDrawer() {
           right: '0px',
           borderRadius: '150px 0 0 150px',
           backgroundColor: '#272A40',
+          display: sidebar.right ? "none" : "block",
+          zIndex: 900
         }}
         onClick={toggleDrawer('right', true)}
+        data-testid="SideDrawer-ToggleOpenButton"
       >
         <ArrowBackIosIcon
           style={{
@@ -101,6 +108,10 @@ export default function SideDrawer() {
         open={sidebar['right']}
         onClose={toggleDrawer('right', false)}
         onOpen={toggleDrawer('right', true)}
+        hideBackdrop
+        sx={{
+          pointerEvents: 'none'
+        }}
       >
         {list('right')}
       </SwipeableDrawer>
