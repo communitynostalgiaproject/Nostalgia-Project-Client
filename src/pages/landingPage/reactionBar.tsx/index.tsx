@@ -52,7 +52,7 @@ const ReactionBar: React.FC<Experience> = (experience) => {
                     }
                 }
             }
-            // console.log(reactions);
+            console.log(reactions);
         }
     }, [reactions])
 
