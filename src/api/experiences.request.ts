@@ -1,4 +1,4 @@
-import { CRUDRequestBase } from "./CRUDRequestBase";
+import { CRUDRequestBase } from "./base/CRUDRequestBase";
 
 export class ExperienceRequest extends CRUDRequestBase {
     constructor(model:string) {

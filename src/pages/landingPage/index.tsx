@@ -1,5 +1,5 @@
 import React from 'react';
-import AppVector from '../../shared/components/stadiaMap/index';
+import AppVector from '../../shared/components/appVector/index';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import MapUIOverlay from '../../components/MapUIOverlay';
 import { redirectToLogin } from '../../api/helpers';
