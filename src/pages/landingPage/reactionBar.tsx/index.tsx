@@ -27,7 +27,7 @@ const ReactionBar: React.FC<Experience> = (experience) => {
         return await usersRequest.fetchData();
     }); 
 
-    const { data: reactions } = useQuery("reactions", async() => {
+    const { data: reactions } = useQuery(["reactions", experience._id.toString()], async() => {
         return await reactionsRequest.getByUserId({ experienceId: experience["_id"], userId: user["_id"] })
     })
 
