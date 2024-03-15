@@ -27,17 +27,17 @@ const style = {
 const modals = [
   { 
     id: 0,
-    text: 'Diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus.',
+    text: "Welcome to the Global Food Nostalgia Map. Here you can share your favorite food experiences, and see what everyone's been up to - we mean, eaten - around the globe.",
     icon: cameraIcon
   },
   { 
     id: 1,
-    text: 'Diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus.',
+    text: "Drop a pin on the map to share. Start by taking a photo of a meal, then add the location it was taken in and the memory it reminded you of.",
     icon: tacoIcon
   },
   { 
     id: 2,
-    text: 'Diam sollicitudin tempor id eu nisl nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam eget felis eget nunc lobortis mattis aliquam faucibus.',
+    text: "Use the map to navigate our map of memories, and see what nostalgia looks like around the world.",
     icon: appIcon
   },
 ];
@@ -71,7 +71,7 @@ export default function TutorialModal(): JSX.Element | null {
           >
             {modal.id + 1}
           </Typography>
-          <Typography id="transition-modal-description">
+          <Typography id="transition-modal-description" sx={{ textAlign: 'center' }}>
             {modal.text}
           </Typography>
           <Stack 
