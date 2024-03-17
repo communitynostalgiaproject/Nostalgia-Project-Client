@@ -8,7 +8,6 @@ import {
   Alert,
   CircularProgress
 } from '@mui/material';
-import { useQuery } from 'react-query';
 import {
   ArrowForward as ArrowForwardIcon,
   ArrowBack as ArrowBackIcon,
@@ -18,14 +17,27 @@ import { Experience } from '../../../types/experience';
 import { Page1, Page2, Page3, Page4 } from './pages';
 import axios from "axios";
 
-interface ExperienceFormProps {
-  existingExperience?: Experience,
-  user: any
+interface BaseProps {
+  mode: "create" | "edit";
+  user: any;
 }
 
-const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience, user }) => {
-  const editing = existingExperience ? true : false;
-  const [experience, setExperience] = useState(existingExperience || {_id: undefined});
+interface CreateExperienceProps extends BaseProps {
+  mode: "create";
+}
+
+interface EditExperienceProps extends BaseProps {
+  mode: "edit";
+  existingExperience: Experience;
+  setSelectedExperience: React.Dispatch<Experience>;
+  setExperiences: React.Dispatch<React.SetStateAction<Experience[]>>;
+}
+
+type ExperienceFormProps = CreateExperienceProps | EditExperienceProps;
+
+const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
+  const editing = props.mode === "edit" ? true : false;
+  const [experience, setExperience] = useState(props.mode === "edit" ? props.existingExperience : {_id: undefined});
   const [foodPhoto, setFoodPhoto] = useState<File | null>(null);
   const [personPhoto, setPersonPhoto] = useState<File | null>(null);
   const [error, setError] = useState<String>("");
@@ -51,7 +63,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience, use
       ? JSON.stringify(experience)
       : JSON.stringify({
         ...experience,
-        creatorId: user ? user._id : undefined
+        creatorId: props.user ? props.user._id : undefined
       } as Experience);
     formData.append("experience", stringifiedExperience);
     if (foodPhoto) {
@@ -63,13 +75,21 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ existingExperience, use
 
     try {
       setSubmitPending(true);
-      editing
-        ? await axios.patch(`${process.env.REACT_APP_API_URL}/experiences/${experience._id}`, formData, {
-            withCredentials: true
-          })
-        : await axios.post(`${process.env.REACT_APP_API_URL}/experiences`, formData, {
+      if (props.mode === "edit") {
+        await axios.patch(`${process.env.REACT_APP_API_URL}/experiences/${experience._id}`, formData, {
           withCredentials: true
         });
+        props.setExperiences((current: Experience[]) => {
+          return current.map((_experience: Experience) => {
+            return _experience._id === experience._id ? experience as Experience : _experience;
+          });
+        });
+        props.setSelectedExperience(experience as Experience);
+      } else {
+        await axios.post(`${process.env.REACT_APP_API_URL}/experiences`, formData, {
+          withCredentials: true
+        });
+      }
 
       setSubmitSuccess(true);
     } catch(err) {

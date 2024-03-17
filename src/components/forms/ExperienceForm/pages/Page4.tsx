@@ -2,7 +2,6 @@ import { Box, Button, styled } from '@mui/material';
 import { FormPageProps } from '../formPageProps';
 import { CloudUpload as CloudUploadIcon } from '@mui/icons-material';
 import React, { useEffect, ChangeEvent } from 'react';
-import experiencesRequest from '../../../../api/experiences.request';
 import { useValidation, ValidationRule } from '../../../../hooks/useValidation';
 
 interface ImageUploadPageProps extends FormPageProps {
@@ -37,8 +36,6 @@ const Page4: React.FC<ImageUploadPageProps> = ({
   validationTrigger,
   setValidationTrigger
 }) => {
-  const MAX_IMAGE_SIZE = 1024 * 1024 * 2;
-
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>, photoType: 'food' | 'person') => {
     setError("");
     const file = event.target.files ? event.target.files[0] : null;
@@ -48,8 +45,15 @@ const Page4: React.FC<ImageUploadPageProps> = ({
       return;
     }
 
+    const MAX_IMAGE_SIZE = 1024 * 1024 * 5;
     if (file.size > MAX_IMAGE_SIZE) {
-      setError("Image file too large");
+      setError(`Max file size exceeded. Max file size: ${MAX_IMAGE_SIZE / (1024 * 1024)} MB`);
+      return;
+    }
+
+    const allowedFileTypes = ["image/png", "image/jpeg"];
+    if (!allowedFileTypes.includes(file.type)) {
+      setError(`File type not allowed. Allowed file types: ${allowedFileTypes.join(", ")}`);
       return;
     }
 
@@ -80,7 +84,7 @@ const Page4: React.FC<ImageUploadPageProps> = ({
     }
   ] as ValidationRule[];
 
-  const { errorFields, validateFields } = useValidation(
+  const { validateFields } = useValidation(
     ["foodPhoto", "personPhoto"],
     validationRules,
     setError,

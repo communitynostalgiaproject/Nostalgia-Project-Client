@@ -13,8 +13,11 @@ jobs:
         run: npm ci
       - name: Install Playwright
         run: npx playwright install --with-deps
-      - name: Serve Storybook and run tests
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npm run storybook" \
-            "npx wait-on http://127.0.0.1:6006 && npm run test-storybook"
+      - name: Build Static Storybook
+        run: npm run build-storybook
+      - name: Serve Static Storybook
+        run: npx http-server storybook-static -p 6006 &
+      - name: Wait for Storybook to be ready
+        run: npx wait-on http://127.0.0.1:6006
+      - name: Run Storybook Tests
+        run: npm run test-storybook
