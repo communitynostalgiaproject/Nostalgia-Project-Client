@@ -6,6 +6,8 @@ import { useQuery } from 'react-query';
 import usersRequest from '../../../../api/users.request';
 import useStyles from './styles';
 
+const logo = require('../../../../assets/CNI-logo.png');
+
 interface MobileNavProps {
   navItems: string[]
 }
@@ -34,14 +36,19 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
   return (
 
     <div className={classes.navBar}>
-      <Box>
+      <Box className={classes.logoContainer}>
+        <img 
+            src={logo} 
+            alt='CNI logo'
+            className={classes.logoImg}   
+        />
         <Typography
             noWrap
             component="a"
             href="/"
-            className={classes.logo}
+            className={classes.logoName}
         >
-            Nostalgia
+            GFN 
         </Typography>
       </Box>
       <Box>

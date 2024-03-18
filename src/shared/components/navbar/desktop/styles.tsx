@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     },
     navContainer: {
         height: "100%",
-        padding: "0px 96px"
+        // padding: "0px 96px"
     },
     navContent: {
         height: "100%",
@@ -34,7 +34,7 @@ const useStyles = createUseStyles({
     tabIndicator: {
         bottom: 6
     },
-    logo: {
+    logoName: {
         color: "#545454",
         fontWeight: 600,
         textDecoration: "none",
@@ -44,6 +44,10 @@ const useStyles = createUseStyles({
     },
     '&span': {
         color: "red"
+    },
+    logoImg: {
+        maxHeight: '5rem',
+        maxWidth: '10rem'
     }
 })
 

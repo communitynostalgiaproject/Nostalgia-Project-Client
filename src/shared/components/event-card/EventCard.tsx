@@ -17,7 +17,7 @@ type Props = {
     
 const eventPhoto = require('../../../assets/event-photo.png');
 
-export default function EventCard({ event }: Props ) {
+export default function EventCard({ event }: any ) {
 
     return (
         <Card 

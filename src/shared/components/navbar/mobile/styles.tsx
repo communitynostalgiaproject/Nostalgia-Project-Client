@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
         display: 'flex',
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "0px 96px"
+        padding: "0px 10% 0 2.5%"
     },
     iconButton: {
         '&:hover': {
@@ -62,13 +62,23 @@ const useStyles = createUseStyles({
             paddingBottom: "40px"
         }
     },
-    logo: {
+    logoContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    logoName: {
         color: "#545454",
         fontWeight: 600,
         textDecoration: "none",
         fontSize: "26px",
         fontFamily: "serif",
         letterSpacing: "1.5px"
+    },
+    logoImg: {
+        maxHeight: '5rem',
+        maxWidth: '10rem'
+
     },
 })
 

@@ -6,6 +6,8 @@ import axios from 'axios';
 import useStyles from './styles';
 import UserMenu from '../../../../components/menus/UserMenu';
 
+const logo = require('../../../../assets/CNI-logo.png');
+
 interface DesktopNavProps {
     navItems: string[]
 }
@@ -36,15 +38,26 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
         >
             <Container maxWidth="xl" className={classes.navContainer}>
                 <Toolbar disableGutters className={classes.navContent}>
-                    <Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <img 
+                            src={logo} 
+                            alt='CNI logo'
+                            className={classes.logoImg}  
+                        />
                         <Typography
                             noWrap
                             component="a"
                             href="/"
-                            className={classes.logo}
+                            className={classes.logoName}
                             data-testid="DesktopNav-Logo"
                         >
-                            Nostalgia
+                            Global Food Nostalgia Map
                         </Typography>
                     </Box>
                     <Box className={classes.navlinkContainer}>
