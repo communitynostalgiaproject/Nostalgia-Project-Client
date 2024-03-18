@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getApiBase } from './helpers';
+import { getApiBase } from '../helpers';
 
 export class CRUDRequestBase {
 
@@ -24,7 +24,7 @@ export class CRUDRequestBase {
         return response.data;
     }
 
-    get = async(queryParams: {}, headers?: {}) => {
+    get = async(queryParams?: {}, headers?: {}) => {
             let response = await axios.get(`${getApiBase()}/${this.model}`, {
                 params: queryParams,
                 withCredentials: true

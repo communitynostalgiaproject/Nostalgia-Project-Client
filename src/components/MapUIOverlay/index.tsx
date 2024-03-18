@@ -1,21 +1,24 @@
-import { Container, Button } from '@mui/material';
-import { useQuery } from 'react-query';
+import { Container, Button, Box } from '@mui/material';
 import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
-import axios from 'axios';
+import LocationSearch from '../form-elements/locationSearch';
+import { Place } from '../../types/experience';
+import { PeliasGeoJSONFeature } from '@stadiamaps/api';
 
 interface MapUIOverlayProps {
   redirectToLogin: () => void;
+  user: any;
+  setBbox: React.Dispatch<String | null>;
 };
 
-const MapUIOverlay: React.FC<MapUIOverlayProps> = ({ redirectToLogin }) => {
-  const { data: user } = useQuery("currentUser", async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
-
-    return res.data;
-  });
+const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
+  redirectToLogin,
+  user,
+  setBbox
+}) => {
   const [ newExperienceModalOpen, setNewExperienceModalOpen ] = useState<boolean>(false);
+  const [searchBarLocation, setSearchBarLocation] = useState<PeliasGeoJSONFeature | null>(null);
 
   const toggleNewExperienceModal = () => {
     setNewExperienceModalOpen((prev) => !prev);
@@ -30,6 +33,11 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({ redirectToLogin }) => {
     redirectToLogin();
   }
 
+  const handleLocationSelection = (location: PeliasGeoJSONFeature) => {
+    setBbox(location.bbox?.join(",") || null);
+    setSearchBarLocation(location);
+  };
+
   return (
     <Container
       sx={{
@@ -37,7 +45,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({ redirectToLogin }) => {
         height: '100%',
         position: 'fixed',
         zIndex: 800,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
       }}
       data-testid="MapUIOverlay-Container"
     >
@@ -53,8 +61,41 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({ redirectToLogin }) => {
         }}
         data-testid="MapUIOverlay-CreateExperienceModal"
       >
-        <ExperienceForm user={user} />
+        <ExperienceForm
+          mode="create"
+          user={user}
+        />
       </CardModal>
+      <Box
+        sx={{
+          marginTop: 15,
+          paddingLeft: 15
+        }}
+      >
+        <LocationSearch
+          currentLocation={searchBarLocation?.properties?.label}
+          setLocation={handleLocationSelection}
+          fieldProps={{
+            sx: {
+              pointerEvents: "auto",
+              backgroundColor: "rgba(188, 190, 194, 0.5)",
+              maxWidth: "400px",
+            },
+            inputProps: {
+              // style: {
+              //   color: "white",
+              // }
+              autocomplete: "off"
+            }
+          }}
+          listProps={{
+            sx: {
+              pointerEvents: "auto",
+              maxWidth: "400px"
+            }
+          }}
+        />
+      </Box>
       <Button
         className='CreateExperienceButton'
         variant='contained'
@@ -62,7 +103,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({ redirectToLogin }) => {
         sx={{
           position: 'relative',
           left: '10%',
-          top: '90%',
+          top: '75%',
           pointerEvents: 'auto'
         }}
         onClick={handleCreateExperienceButtonClick}

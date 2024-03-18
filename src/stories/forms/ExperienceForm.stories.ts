@@ -84,11 +84,18 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const NewExperience: Story = {
-  decorators: [createQueryClientDecorator(new QueryClient())]
+  decorators: [createQueryClientDecorator(new QueryClient())],
+  args: {
+    mode: "create",
+    user: {}
+  }
 };
 export const UpdateExperience: Story = {
   args: {
-    existingExperience: mockExperience
+    mode: "edit",
+    existingExperience: mockExperience,
+    setSelectedExperience: () => {},
+    setExperiences: () => {}
   },
   parameters: {
     msw: {
@@ -102,6 +109,10 @@ export const UpdateExperience: Story = {
 };
 
 export const CreateExperienceTest: Story = {
+  args: {
+    mode: "create",
+    user: {}
+  },
   parameters: {
     msw: {
       handlers: {
@@ -250,7 +261,10 @@ export const CreateExperienceTest: Story = {
 
 export const UpdateExperienceTest: Story = {
   args: {
-    existingExperience: mockExperience
+    mode: "edit",
+    existingExperience: mockExperience,
+    setSelectedExperience: () => { },
+    setExperiences: () => { }
   },
   parameters: {
     msw: {

@@ -1,18 +1,35 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Button } from '@mui/material';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import { Button, IconButton, Paper } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import PostedImagesList from './PostedImagesList';
+import ExperiencePreviewList from './ExperiencePreviewList';
+import ExperienceView from './ExperienceView';
+import { Experience } from '../../../types/experience';
 
 type Anchor = 'left' | 'right';
 
-export default function SideDrawer() {
-  const [sidebar, setSidebar] = React.useState({
+interface SideDrawerProps {
+  experiences: Experience[];
+  selectedExperience: Experience | null;
+  setSelectedExperience: React.Dispatch<Experience | null>;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => void;
+  setEditModalOpen: React.Dispatch<boolean>;
+  setDeleteModalOpen: React.Dispatch<boolean>;
+}
+
+const  SideDrawer: React.FC<SideDrawerProps> = ({
+  experiences,
+  selectedExperience,
+  setSelectedExperience,
+  hasNextPage,
+  fetchNextPage,
+  setEditModalOpen,
+  setDeleteModalOpen
+}) => {
+  const [sidebar, setSidebar] = useState({
     top: true,
     left: true,
     bottom: true,
@@ -31,52 +48,91 @@ export default function SideDrawer() {
         return;
       }
 
-      setSidebar({ ...sidebar, [anchor]: open });
-    };
+    setSidebar({ ...sidebar, [anchor]: open });
+  };
 
   const list = (anchor: Anchor) => (
     <Box 
-      sx={{ backgroundColor: '#272A40', height: '100%' }}>
-      <Button
-        style={{ 
-          width: '5rem', 
-          marginTop: '2.5rem', 
-          backgroundColor: '#272A40',
-          pointerEvents: 'auto' 
+      sx={{
+        backgroundColor: '#272A40',
+        height: '100%',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
         }}
-        onClick={toggleDrawer('right', false)}
-        data-testid="SideDrawer-ToggleClosedButton"
       >
-        <ArrowForwardIosIcon
+        <IconButton
           style={{
-            fontSize: '48px',
-            color: '#fff'
-          }} 
-        />
-      </Button>
+            width: '5rem',
+            pointerEvents: 'auto'
+          }}
+          onClick={toggleDrawer('right', false)}
+          data-testid="SideDrawer-ToggleClosedButton"
+        >
+          <ArrowForwardIosIcon
+            style={{
+              fontSize: '48px',
+              color: '#fff'
+            }}
+          />
+        </IconButton>
+      </Box>
       <Box
         sx={{ 
-          display: 'flex',
-          alignItems: 'center',
           width: 500, 
           height: '100%',
-          backgroundColor: '#272A40', 
+          padding: '15px 0px',
+          overflow: 'auto'
         }}
-        role="presentation"
+        // role="presentation"
         onClick={toggleDrawer(anchor, false)}
         onKeyDown={toggleDrawer(anchor, false)}
       >
-        <List
-          sx={{ color: '#fff', padding: '1rem', pointerEvents: 'auto' }}
-          data-testid="SideDrawer-FoodPhotoList" 
+        <Paper
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            padding: '15px 0px 50px 0px',
+            overflow: 'auto',
+            pointerEvents: 'auto',
+            borderRadius: '0px'
+          }}
         >
-          {[''].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ padding: '0px' }}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-          <PostedImagesList />
-        </List>
+          {
+            selectedExperience
+              ? <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-end'
+                }}
+              >
+                <ExperienceView
+                  experience={selectedExperience}
+                  onClose={() => {
+                    setSelectedExperience(null);
+                  }}
+                  setEditModalOpen={setEditModalOpen}
+                  setDeleteModalOpen={setDeleteModalOpen}
+                />
+              </Box>
+              : <ExperiencePreviewList
+                experiences={experiences}
+                setSelectedExperience={setSelectedExperience}
+                hasNextPage={hasNextPage}
+                fetchNextPage={fetchNextPage}
+              />
+          } 
+        </Paper>
       </Box>
     </Box>
   );
@@ -112,9 +168,18 @@ export default function SideDrawer() {
         sx={{
           pointerEvents: 'none'
         }}
+        PaperProps={{
+          style: {
+            top: '100px',
+            height: 'calc(100vh - 100px)'
+          }
+        }}
+        data-testid="SideDrawer-Drawer"
       >
         {list('right')}
       </SwipeableDrawer>
     </React.Fragment> 
   );
 };
+
+export default SideDrawer;
