@@ -11,19 +11,16 @@ const Navbar = () => {
     const pages: string[] = [
         "Research",
         "Events",
-        "Community Outreach",
+        // "Community Outreach",
         "Our Team",
         "About Us"
-    ]
-
+    ];
 
     return (
         <>
-        {
-            matches ? <MobileNav navItems={pages} /> : <DesktopNav navItems={pages}/> 
-        }
+        {matches ? <MobileNav navItems={pages} /> : <DesktopNav navItems={pages}/> }
         </>
-    )
-}
+    );
+};
 
 export default Navbar;

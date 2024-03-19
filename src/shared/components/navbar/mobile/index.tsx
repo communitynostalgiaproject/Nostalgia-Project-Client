@@ -72,6 +72,9 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
             </div>
             <Box className={classes.navItemBox}>
               <List className={classes.navItemGroup}>
+                <ListItemButton component={Link} to={`/`} onClick={handleListItemClick} className={classes.navItem}>
+                  <ListItemText primary={'Map'} />
+                </ListItemButton>
                 {
                   navItems.map((item: string) => (
                       <ListItemButton key={item}  component={Link} to={`/${item.toLowerCase()}`} onClick={handleListItemClick} className={classes.navItem}>
