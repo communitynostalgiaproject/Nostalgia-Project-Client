@@ -48,7 +48,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
             href="/"
             className={classes.logoName}
         >
-            GFN 
+            The Map
         </Typography>
       </Box>
       <Box>
