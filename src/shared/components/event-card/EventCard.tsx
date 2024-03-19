@@ -23,7 +23,7 @@ export default function EventCard({ event }: any ) {
             <img
                 alt="event"
                 src={event.fields.thumbnail.fields.file.url}
-                style={{ width: '100%', padding: '0px', margin: '0px' }}
+                style={{ height: '25rem', width: '100%', padding: '0px', margin: '0px' }}
             />
             <CardContent>
                 <Typography gutterBottom variant="h4" component="div" >
