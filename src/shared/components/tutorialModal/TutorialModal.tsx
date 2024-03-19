@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -45,8 +45,6 @@ const modals = [
 export default function TutorialModal(): JSX.Element | null {
   const [open, setOpen] = useState<boolean>(true);
   const [openModalNum, setOpenModalNum] = useState<number>(0);
-
-  // if(showModal) return null;
   
   const handleClose = () => setOpen(false);
 
