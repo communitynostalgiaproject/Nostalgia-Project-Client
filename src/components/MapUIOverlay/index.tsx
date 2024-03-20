@@ -100,9 +100,10 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
         className='CreateExperienceButton'
         variant='contained'
         color='error'
+        size="large"
         sx={{
           position: 'relative',
-          left: '10%',
+          left: '5%',
           top: '75%',
           pointerEvents: 'auto'
         }}
