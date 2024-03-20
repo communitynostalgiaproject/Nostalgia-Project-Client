@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import ReactionBar from '../../../pages/landingPage/reactionBar.tsx';
+import ReactionBar from '../../../pages/landingPage/reactionBar.tsx/index.tsx';
 
-import useStyles from './styles';
+import useStyles from './styles.tsx';
 
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import MarkerClusterGroup from "react-leaflet-cluster";
-import LeafletTileLayer from './leafletTileLayer';
+import LeafletTileLayer from './leafletTileLayer.tsx';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -17,7 +17,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 
-const AppVector = ({
+const ExperienceMap = ({
   experiences,
   defaultLocation,
   defaultZoom,
@@ -51,7 +51,7 @@ const AppVector = ({
       }
     }, [map, bbox]);
 
-    // Move the map to the user's location once if they allow us to use it
+    // Move the map to the user's location once
     useEffect(() => {
       if (!userLocation || movedToUser) return;
       map.setView(userLocation, defaultZoom);
@@ -102,7 +102,10 @@ const AppVector = ({
               position={[experience.place.location.coordinates[1], experience.place.location.coordinates[0]]}
             >
               <Popup>
-                <ReactionBar {...experience}/>
+                <ReactionBar
+                  experience={experience}
+                  setSelectedExperience={setSelectedExperience}
+                />
               </Popup>
             </Marker>
           ))}
@@ -113,4 +116,4 @@ const AppVector = ({
   );
 }
 
-export default AppVector;
+export default ExperienceMap;
