@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AppVector from '../../shared/components/appVector/index';
+import ExperienceMap from '../../shared/components/ExperienceMap';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import MapUIOverlay from '../../components/MapUIOverlay';
 import { redirectToLogin } from '../../api/helpers';
@@ -80,7 +80,7 @@ const LandingPage: React.FC = () => {
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
       />
-      <AppVector
+      <ExperienceMap
         experiences={experiences}
         defaultLocation={defaultLocation}
         defaultZoom={defaultZoom}

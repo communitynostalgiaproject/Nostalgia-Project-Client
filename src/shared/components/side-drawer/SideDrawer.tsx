@@ -87,8 +87,9 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
       </Box>
       <Box
         sx={{ 
-          width: 500, 
+          width: '99%', 
           height: '100%',
+          maxWidth: 500,
           padding: '15px 0px',
           overflow: 'auto'
         }}
