@@ -45,11 +45,13 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                             alignItems: 'center'
                         }}
                     >
+                        <a href="/" >
                         <img 
                             src={logo} 
                             alt='CNI logo'
                             className={classes.logoImg}  
                         />
+                        </a>
                         <Typography
                             noWrap
                             component="a"
