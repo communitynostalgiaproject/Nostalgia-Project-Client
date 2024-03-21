@@ -28,7 +28,7 @@ const Rebekka = require('../../assets/Rebekka.jpg');
 const Summer = require('../../assets/Summer LaPointe.jpg');
 const Walker = require('../../assets/Walker.png');
 
-const DUMMY_DATA: TeamMember[] = [
+const teamMembers: TeamMember[] = [
     {
         id: 1,
         name: 'Hetvi Doshi',
@@ -124,7 +124,7 @@ const DUMMY_DATA: TeamMember[] = [
 
 const TeamPage = () => {
 
-    const displayTeamMembers = DUMMY_DATA.map((teamMember: TeamMember) => {
+    const displayTeamMembers = teamMembers.map((teamMember: TeamMember) => {
         return (
             <ListItem key={teamMember.id}>
                 <TeamCard 

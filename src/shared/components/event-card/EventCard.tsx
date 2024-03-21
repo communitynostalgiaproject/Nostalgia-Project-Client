@@ -6,14 +6,12 @@ import Typography from '@mui/material/Typography';
 
 export default function EventCard({ event }: any ) {
 
-    console.log('HERE ==>', event);
-
     const dateTime = format(event.fields.dateAndTime, "MMMM do, yyyy H:mma");
 
     return (
         <Card 
             sx={{ 
-                width: '60%',
+                width: { xs: '95%', md: '60%' },
                 // height: '30rem',
                 margin: '2.5rem',
                 padding: '0px',
