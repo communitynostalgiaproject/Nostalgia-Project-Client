@@ -80,11 +80,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
   }, [currentLocation]);
 
   return (
-    <Box
-      sx={{
-        width: "100%"
-      }}
-    >
+    <>
       <TextField
         fullWidth
         value={inputText}
@@ -129,7 +125,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
           </List>
         </Paper>
       )}
-    </Box>
+    </>
   );
 };
 

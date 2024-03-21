@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import ReactionBar from '../../../pages/landingPage/reactionBar.tsx';
+import ReactionBar from '../../../pages/landingPage/reactionBar.tsx/index.tsx';
 
-import useStyles from './styles';
+import useStyles from './styles.tsx';
 
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import MarkerClusterGroup from "react-leaflet-cluster";
-import LeafletTileLayer from './leafletTileLayer';
+import LeafletTileLayer from './leafletTileLayer.tsx';
+import chefHatIconImage from "../../../assets/chef-hat-icon.png";
 
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+const chefHatIcon = new L.Icon({
+  iconUrl: chefHatIconImage,
+  iconRetinaUrl: chefHatIconImage,
+  iconAnchor: null,
+  popupAnchor: L.point(0, 25),
+  shadowUrl: null,
+  shadowSize: null,
+  shadowAnchor: null,
+  iconSize: new L.Point(50, 50),
+  className: "experience-location-icon"
 });
 
-const AppVector = ({
+const ExperienceMap = ({
   experiences,
   defaultLocation,
   defaultZoom,
@@ -51,7 +56,7 @@ const AppVector = ({
       }
     }, [map, bbox]);
 
-    // Move the map to the user's location once if they allow us to use it
+    // Move the map to the user's location once
     useEffect(() => {
       if (!userLocation || movedToUser) return;
       map.setView(userLocation, defaultZoom);
@@ -99,10 +104,14 @@ const AppVector = ({
           {experiences && experiences.map((experience, index) => (
             <Marker
               key={experience['_id']}
+              icon={chefHatIcon}
               position={[experience.place.location.coordinates[1], experience.place.location.coordinates[0]]}
             >
               <Popup>
-                <ReactionBar {...experience}/>
+                <ReactionBar
+                  experience={experience}
+                  setSelectedExperience={setSelectedExperience}
+                />
               </Popup>
             </Marker>
           ))}
@@ -113,4 +122,4 @@ const AppVector = ({
   );
 }
 
-export default AppVector;
+export default ExperienceMap;

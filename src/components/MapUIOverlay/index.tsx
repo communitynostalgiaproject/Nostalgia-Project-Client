@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
 import LocationSearch from '../form-elements/locationSearch';
-import { Place } from '../../types/experience';
 import { PeliasGeoJSONFeature } from '@stadiamaps/api';
 
 interface MapUIOverlayProps {
@@ -41,11 +40,15 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   return (
     <Container
       sx={{
-        width: '100%',
-        height: '100%',
-        position: 'fixed',
+        width: "100%",
+        height: "100%",
+        position: "fixed",
         zIndex: 800,
-        pointerEvents: 'none',
+        pointerEvents: "none",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        justifyContent: "space-between"
       }}
       data-testid="MapUIOverlay-Container"
     >
@@ -69,7 +72,10 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
       <Box
         sx={{
           marginTop: 15,
-          paddingLeft: 15
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <LocationSearch
@@ -79,42 +85,45 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             sx: {
               pointerEvents: "auto",
               backgroundColor: "rgba(188, 190, 194, 0.5)",
-              maxWidth: "400px",
+              width: "90%",
+              maxWidth: "500px",
             },
             inputProps: {
-              // style: {
-              //   color: "white",
-              // }
               autocomplete: "off"
             }
           }}
           listProps={{
             sx: {
               pointerEvents: "auto",
-              maxWidth: "400px"
+              width: "90%",
+              maxWidth: "500px"
             }
           }}
         />
       </Box>
-      <Button
-        className='CreateExperienceButton'
-        variant='contained'
-        color='error'
+      <Box
         sx={{
-          position: 'relative',
-          left: '10%',
-          top: '75%',
-          pointerEvents: 'auto'
+          padding: "20px 15px"
         }}
-        onClick={handleCreateExperienceButtonClick}
-        data-testid={
-          user 
-          ? "MapUIOverlay-CreateExperienceButton-LoggedIn"
-          : "MapUIOverlay-CreateExperienceButton-LoggedOut"
-        }
       >
-        Drop a pin!
-      </Button>
+        <Button
+          className="CreateExperienceButton"
+          variant="contained"
+          color="error"
+          size="large"
+          sx={{
+            pointerEvents: "auto"
+          }}
+          onClick={handleCreateExperienceButtonClick}
+          data-testid={
+            user
+              ? "MapUIOverlay-CreateExperienceButton-LoggedIn"
+              : "MapUIOverlay-CreateExperienceButton-LoggedOut"
+          }
+        >
+          Drop a pin!
+        </Button>
+      </Box>
     </Container>
   );
 };

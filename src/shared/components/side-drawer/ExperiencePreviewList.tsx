@@ -1,10 +1,7 @@
 import React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import ListSubheader from '@mui/material/ListSubheader';
-import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
+import nothingHereIcon from '../../../assets/nothing-here-icon.png';
 import { Box, Button, Typography } from '@mui/material';
 import { Experience } from '../../../types/experience';
 
@@ -24,10 +21,35 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
   return (
     <Box
       sx={{
-        pointerEvents: "auto"
+        pointerEvents: "auto",
+        width: '100%'
       }}
       data-testid='ExperiencePreviewList-Container'
     >
+      {!experiences.length && <Box
+        sx={{
+          paddingTop: 5,
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 5
+        }}
+      >
+        <Typography
+          textAlign='center'
+          variant='h4'
+        >
+          No posts in this area. Keep looking!
+        </Typography>
+        <img
+          src={nothingHereIcon}
+          style={{
+            width: '100%',
+          }}
+        />
+      </Box>}
       <ImageList
         cols={3}
         sx={{
