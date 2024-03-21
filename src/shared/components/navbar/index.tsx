@@ -9,21 +9,18 @@ const Navbar = () => {
     const matches = useMediaQuery(theme.breakpoints.down(1024));
 
     const pages: string[] = [
-        "Research",
+        // "Research",
         "Events",
-        "Community Outreach",
-        "Our Team",
-        "About Us"
-    ]
-
+        // "Community Outreach",
+        // "Our Team",
+        // "About Us"
+    ];
 
     return (
         <>
-        {
-            matches ? <MobileNav navItems={pages} /> : <DesktopNav navItems={pages}/> 
-        }
+        {matches ? <MobileNav navItems={pages} /> : <DesktopNav navItems={pages}/> }
         </>
-    )
-}
+    );
+};
 
 export default Navbar;

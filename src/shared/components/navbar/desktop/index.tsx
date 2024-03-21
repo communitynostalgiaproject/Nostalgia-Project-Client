@@ -15,9 +15,9 @@ interface DesktopNavProps {
 const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
   const { data: user, error } = useQuery("currentUser", async () => {
     const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
-
-    return res.data;
-  });
+        return res.data;
+    });
+    
     const classes = useStyles();
 
     const [value, setValue] = useState(0)
@@ -45,11 +45,13 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                             alignItems: 'center'
                         }}
                     >
+                        <a href="/" >
                         <img 
                             src={logo} 
                             alt='CNI logo'
                             className={classes.logoImg}  
                         />
+                        </a>
                         <Typography
                             noWrap
                             component="a"
@@ -62,6 +64,13 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                     </Box>
                     <Box className={classes.navlinkContainer}>
                         <Tabs value={value} onChange={handleChange} aria-label='navigation tab' className={classes.navLink} classes={{ indicator: classes.tabIndicator }}>
+                            <Tab
+                                key={0}
+                                label={'Map'}
+                                component={Link}
+                                to={`/`}
+                                // data-testid={`DesktopNav-LinkTab-${item}`}
+                            />
                             {
                                 navItems.map((item: string) => (
                                     <Tab

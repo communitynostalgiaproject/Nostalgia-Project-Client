@@ -9,64 +9,19 @@ import GridViewIcon from '@mui/icons-material/GridView';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 import EventCard from '../../shared/components/event-card/EventCard';
 
-type Event = {
-   id: number,
-   title: string,
-   address: string,
-   time: string,
-   details: string,
-   color: string
-};
-
-const DUMMY_DATA: Event[] = [
-   {
-       id: 1,
-       title: 'Lorem Consectetur.',
-       address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
-       time: '7:00pm - 8:00pm',
-       details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-       color: '#CD3636',
-   },
-   {
-       id: 2,
-       title: 'Lorem Consectetur.',
-       address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
-       time: '7:00pm - 8:00pm',
-       details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-       color: '#F1E51F'
-   },
-   {
-       id: 3,
-       title: 'Lorem Consectetur.',
-       address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
-       time: '7:00pm - 8:00pm',
-       details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-       color: '#1FF1B1'
-   },
-   {
-       id: 4,
-       title: 'Lorem Consectetur.',
-       address: 'Cecilla Chapman 711-288 Nulla St.Mankato Mississippi',
-       time: '7:00pm - 8:00pm',
-       details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-       color: '#921FF1'
-   },
-];
-
 const EventsPage = () => {
    const [events, setEvents] = useState<any[]>([]);
    const { getEvents } = useContentful();
   
    useEffect(() => {
-       getEvents().then((res: any) => setEvents(res.items));
+       getEvents().then((res: any) => setEvents(res));
    }, []);
 
-
-   const displayEvents = DUMMY_DATA.map(event => {
-       return (
-           <EventCard key={event.id} event={event} />
-       );
-   });
+    const displayEvents = events.map(event => {        
+        return (
+            <EventCard key={event.id} event={event} />
+        );
+    });
 
    return (
        <Container
