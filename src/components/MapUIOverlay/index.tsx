@@ -81,13 +81,15 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
         <LocationSearch
           currentLocation={searchBarLocation?.properties?.label}
           setLocation={handleLocationSelection}
-          fieldProps={{
+          boxProps={{
             sx: {
               pointerEvents: "auto",
               backgroundColor: "rgba(188, 190, 194, 0.5)",
               width: "90%",
               maxWidth: "500px",
             },
+          }}
+          fieldProps={{
             inputProps: {
               autocomplete: "off"
             }

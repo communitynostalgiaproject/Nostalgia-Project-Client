@@ -17,6 +17,7 @@ interface LocationSearchParams {
   currentLocation?: string;
   focus?: { lat: number, long: number };
   error?: boolean;
+  boxProps?: any;
   listProps?: any;
   fieldProps?: any;
 }
@@ -26,6 +27,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
   currentLocation,
   focus,
   error,
+  boxProps,
   listProps,
   fieldProps
 }) => {
@@ -52,6 +54,16 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
   const debouncedChangeHandler = useCallback(debounce((text) => {
     setSearchText(text);
   }, 150), []);
+
+  const hideSuggestions = () => {
+    setDoSearch(false);
+    setSuggestions([]);
+  };
+
+  const handleSelectSuggestion = (suggestion: PeliasGeoJSONFeature) => {
+    setLocation(suggestion);
+    hideSuggestions();
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -80,7 +92,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
   }, [currentLocation]);
 
   return (
-    <>
+    <Box {...boxProps}>
       <TextField
         fullWidth
         value={inputText}
@@ -116,7 +128,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
               <ListItem 
                 button 
                 key={index} 
-                onClick={() => setLocation(suggestion)}
+                onClick={() => handleSelectSuggestion(suggestion)}
                 data-testid="LocationSearch-SuggestionListItem"
               >
                 {suggestion.properties?.label}
@@ -125,7 +137,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
           </List>
         </Paper>
       )}
-    </>
+    </Box>
   );
 };
 
