@@ -110,7 +110,6 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
         <Paper 
           style={{ 
             position: 'absolute', 
-            width: '100%', 
             maxHeight: 200, 
             overflow: 'auto', 
             zIndex: 5,
