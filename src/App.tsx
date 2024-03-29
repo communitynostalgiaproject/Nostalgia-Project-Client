@@ -1,24 +1,34 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/navbar/Navbar"; 
-import HomePage from "./components/home/HomePage";
-import SciencePage from "./components/science/SciencePage";
-import EventsPage from "./components/events/EventsPage";
-import AboutPage from "./components/about/AboutPage";
-
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from './shared/components/navbar';
+import TutorialModal from "./shared/components/tutorialModal/TutorialModal";
+import LandingPage from "./pages/landingPage";
+import ResearchPage from "./pages/research/ResearchPage";
+import EventsPage from "./pages/events/EventsPage";
+import AboutPage from "./pages/about/AboutPage";
+import TeamPage from "./pages/team/TeamPage";
 import "./App.css";
 
-function App() {
+const App: React.FC = () => {
+    const modalShown = localStorage.getItem('showModal') === 'true' ? false : true;
+
+    useEffect(() => {
+        localStorage.setItem('showModal', 'true');
+    }, []);
+
     return (
-        <main>
+        <Router> 
+            {modalShown ? <TutorialModal /> : null}
             <Navbar />
             <Routes>
-                <Route path="/Home" element={<HomePage />} />
-                <Route path="/The Science" element={<SciencePage />} />
-                <Route path="/Events" element={<EventsPage />} />
-                <Route path="/About" element={<AboutPage />} />
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/research" element={<ResearchPage />} />
+                <Route path="/events" element={<EventsPage />} />
+                {/* <Route path="/Community Outreach" element={<EventsPage />} /> */}
+                <Route path="/Our Team" element={<TeamPage />} />
+                <Route path="/About Us" element={<AboutPage />} />
             </Routes>     
-        </main>
+        </Router>
     );
 }
  
