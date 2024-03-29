@@ -181,12 +181,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
             gap: "15px"
           }}
         >
-          <Box
-            sx={{
-              maxWidth: "50%",
-              minWidth: "400px"
-            }}
-          >
+          <Box>
             <Typography
               variant="body2"
               component="p"
@@ -197,8 +192,6 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
           </Box>
           <Box
             sx={{
-              maxWidth: "50%",
-              minWidth: "400px",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

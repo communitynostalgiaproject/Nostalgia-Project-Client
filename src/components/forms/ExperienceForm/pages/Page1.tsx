@@ -125,7 +125,8 @@ const Page1: React.FC<FormPageProps> = ({
       </LocalizationProvider>
       <div
         style={{
-          marginTop: "10px"
+          marginTop: "10px",
+          width: "100%"
         }}
         data-testid="ExperienceForm-LocationField"
       >
@@ -133,11 +134,6 @@ const Page1: React.FC<FormPageProps> = ({
           setLocation={handleLocationChange}
           currentLocation={experience.place?.address.label}
           error={errorFields.location}
-          fieldProps={{
-            sx: {
-              width: "350px"
-            }
-          }}
           listProps={{
             sx: {
               maxWidth: "350px"
