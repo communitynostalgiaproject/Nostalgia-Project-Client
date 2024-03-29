@@ -69,23 +69,23 @@ export const OpenClosedTest: Story = {
   },
   play: async ({ canvasElement }) => {
     // Test initial load behavior
-    expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
-    expect(screen.getByTestId("ExperiencePreviewList-List")).toBeVisible();
+    expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).not.toBeVisible();
+    expect(screen.getByTestId("ExperiencePreviewList-List")).not.toBeVisible();
     expect(screen.queryByTestId("ExperienceView-Container")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
-
-    // Test toggle closed
-    await userEvent.click(screen.getByTestId("SideDrawer-ToggleClosedButton"));
-    await waitFor(() => {
-      expect(screen.getByTestId("ExperiencePreviewList-List")).not.toBeVisible();
-      expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).toBeVisible();
-    });
+    expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).toBeVisible();
 
     // Test toggle open
     await userEvent.click(screen.getByTestId("SideDrawer-ToggleOpenButton"));
     await waitFor(() => {
       expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
       expect(screen.getByTestId("ExperiencePreviewList-List")).toBeVisible();
+    });
+
+    // Test toggle closed
+    await userEvent.click(screen.getByTestId("SideDrawer-ToggleClosedButton"));
+    await waitFor(() => {
+      expect(screen.getByTestId("ExperiencePreviewList-List")).not.toBeVisible();
+      expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).toBeVisible();
     });
   }
 };
@@ -102,10 +102,14 @@ export const ExperienceSelectedTest: Story = {
   },
   decorators: [createQueryClientDecorator(new QueryClient())],
   play: async () => {
-    expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
-    expect(screen.queryByTestId("ExperiencePreviewList-List")).not.toBeInTheDocument();
-    expect(screen.getByTestId("ExperienceView-Container")).toBeInTheDocument();
-    expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
+    await userEvent.click(screen.getByTestId("SideDrawer-ToggleOpenButton"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
+      expect(screen.queryByTestId("ExperiencePreviewList-List")).not.toBeInTheDocument();
+      expect(screen.getByTestId("ExperienceView-Container")).toBeInTheDocument();
+      expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
+    });
   }
 };
 
@@ -121,13 +125,17 @@ export const NoNextPageTest: Story = {
   },
   decorators: [createQueryClientDecorator(new QueryClient())],
   play: async () => {
-    expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
-    expect(screen.getByTestId("ExperiencePreviewList-List")).toBeVisible();
-    expect(screen.queryByTestId("ExperienceView-Container")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
+    await userEvent.click(screen.getByTestId("SideDrawer-ToggleOpenButton"));
 
-    // Load more button shouldn't appear
-    expect(screen.queryByTestId("ExperiencePreviewList-LoadMoreButton")).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
+      expect(screen.getByTestId("ExperiencePreviewList-List")).toBeVisible();
+      expect(screen.queryByTestId("ExperienceView-Container")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
+
+      // Load more button shouldn't appear
+      expect(screen.queryByTestId("ExperiencePreviewList-LoadMoreButton")).not.toBeInTheDocument();
+    });
   }
 };
 
@@ -143,12 +151,16 @@ export const HasNextPageTest: Story = {
   },
   decorators: [createQueryClientDecorator(new QueryClient())],
   play: async () => {
-    expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
-    expect(screen.getByTestId("ExperiencePreviewList-List")).toBeVisible();
-    expect(screen.queryByTestId("ExperienceView-Container")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
+    await userEvent.click(screen.getByTestId("SideDrawer-ToggleOpenButton"));
 
-    // Load more button should appear
-    expect(screen.getByTestId("ExperiencePreviewList-LoadMoreButton")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("SideDrawer-ToggleClosedButton")).toBeInTheDocument();
+      expect(screen.getByTestId("ExperiencePreviewList-List")).toBeVisible();
+      expect(screen.queryByTestId("ExperienceView-Container")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("SideDrawer-ToggleOpenButton")).not.toBeVisible();
+
+      // Load more button should appear
+      expect(screen.getByTestId("ExperiencePreviewList-LoadMoreButton")).toBeInTheDocument();
+    });
   }
 };
