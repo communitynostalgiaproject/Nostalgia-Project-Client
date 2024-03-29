@@ -30,10 +30,10 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
   setDeleteModalOpen
 }) => {
   const [sidebar, setSidebar] = useState({
-    top: true,
-    left: true,
-    bottom: true,
-    right: true,
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
   });
 
   const toggleDrawer =

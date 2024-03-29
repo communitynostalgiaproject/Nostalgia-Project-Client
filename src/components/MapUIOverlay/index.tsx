@@ -1,4 +1,4 @@
-import { Container, Button, Box } from '@mui/material';
+import { Container, Button, Box, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
@@ -40,7 +40,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   return (
     <Container
       sx={{
-        width: "100%",
+        width: "100vw",
         height: "100%",
         position: "fixed",
         zIndex: 800,
@@ -48,7 +48,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
       data-testid="MapUIOverlay-Container"
     >
@@ -103,26 +103,63 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
       </Box>
       <Box
         sx={{
-          padding: "20px 15px"
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <Button
-          className="CreateExperienceButton"
-          variant="contained"
-          color="error"
-          size="large"
+        <Box
           sx={{
-            pointerEvents: "auto"
+            padding: "20px 15px"
           }}
-          onClick={handleCreateExperienceButtonClick}
-          data-testid={
-            user
-              ? "MapUIOverlay-CreateExperienceButton-LoggedIn"
-              : "MapUIOverlay-CreateExperienceButton-LoggedOut"
-          }
         >
-          Drop a pin!
-        </Button>
+          <Button
+            className="CreateExperienceButton"
+            variant="contained"
+            color="error"
+            size="large"
+            sx={{
+              pointerEvents: "auto"
+            }}
+            onClick={handleCreateExperienceButtonClick}
+            data-testid={
+              user
+                ? "MapUIOverlay-CreateExperienceButton-LoggedIn"
+                : "MapUIOverlay-CreateExperienceButton-LoggedOut"
+            }
+          >
+            Drop a pin!
+          </Button>
+        </Box>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 3,
+            padding: "5px 0px",
+            a: {
+              color: "black",
+              textDecoration: "none",
+              pointerEvents: "auto"
+            },
+            "a:hover": {
+              color: "grey"
+            }
+          }}
+        >
+            <a
+              href="https://www.thecommunitynostalgiaproject.com/terms-of-service"
+            >
+              Terms of Service
+            </a>
+            <a
+              href="https://www.thecommunitynostalgiaproject.com/privacy-policy"
+            >
+              Privacy Policy
+            </a>
+        </Box>
       </Box>
     </Container>
   );

@@ -10,6 +10,7 @@ import EditExperienceModal from '../../shared/components/side-drawer/EditExperie
 import DeleteExperienceModal from '../../shared/components/side-drawer/DeleteExperienceModal';
 import usersRequest from '../../api/users.request';
 import experiencesRequest from '../../api/experiences.request';
+import { Box } from '@mui/material';
 
 const LandingPage: React.FC = () => {
   const defaultLocation = [38.9072, 139.69222];
@@ -65,7 +66,11 @@ const LandingPage: React.FC = () => {
   }, []);
   
   return (
-    <>
+    <Box
+      sx={{
+        width: "100vw"
+      }}
+    >
       <MapUIOverlay
         redirectToLogin={redirectToLogin}
         user={user}
@@ -104,7 +109,7 @@ const LandingPage: React.FC = () => {
         deleteError={`${deleteExperience.error}`}
         processingDeletion={deleteExperience.isLoading}
       />
-    </>
+    </Box>
   )
 }
 
