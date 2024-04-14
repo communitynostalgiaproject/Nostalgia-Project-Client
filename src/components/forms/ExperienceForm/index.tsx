@@ -216,6 +216,9 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
     return (
       <Box
         sx={{
+          width: "100%",
+          height: "100%",
+          padding: "80px 0px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -259,14 +262,14 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
           {error}
         </Alert>
       </Snackbar> : null}
-      <Typography
+      {!submitSuccess && <Typography
         variant="h5"
         sx={{
           marginBottom: "15px"
         }}
       >
         { editing ? "Edit Experience" : "Create Experience" }
-      </Typography>
+      </Typography>}
       <Box
         sx={{
           display: "flex",
