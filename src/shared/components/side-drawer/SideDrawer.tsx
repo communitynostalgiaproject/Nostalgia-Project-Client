@@ -44,11 +44,9 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
     <Box 
       sx={{
         backgroundColor: '#272A40',
-        height: '100%',
-        overflow: 'hidden',
+        height: 'calc(100vh - 100px)',
         display: 'flex',
         flexDirection: 'column',
-
       }}
     >
       <Box
@@ -56,6 +54,7 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
           display: 'flex',
           justifyContent: 'flex-start',
           alignItems: 'center',
+          height: '60px',
         }}
       >
         <IconButton
@@ -76,34 +75,26 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
       </Box>
       <Box
         sx={{ 
-          width: '99%', 
-          height: '100%',
+          flex: 1,
+          backgroundColor: 'white',
           maxWidth: 500,
-          padding: '15px 0px',
-          overflow: 'auto'
+          padding: '0px 5px 30px 5px',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          WebkitOverflowScrolling: 'touch',
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          pointerEvents: 'auto',
         }}
-        // role="presentation"
-        onClick={() => setSidebarOpen(false)}
-        onKeyDown={() => setSidebarOpen(false)}
       >
-        <Paper
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            padding: '15px 0px 50px 0px',
-            overflow: 'auto',
-            pointerEvents: 'auto',
-            borderRadius: '0px'
-          }}
-        >
           {
             selectedExperience
               ? <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'flex-end'
+                  justifyContent: 'flex-end',
                 }}
               >
                 <ExperienceView
@@ -122,7 +113,6 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
                 fetchNextPage={fetchNextPage}
               />
           } 
-        </Paper>
       </Box>
     </Box>
   );
@@ -161,7 +151,7 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
         PaperProps={{
           style: {
             top: '100px',
-            height: 'calc(100vh - 100px)'
+            height: 'calc(100vh - 100px)',
           }
         }}
         data-testid="SideDrawer-Drawer"
