@@ -149,7 +149,7 @@ const Page4: React.FC<ImageUploadPageProps> = ({
               startIcon={<CloudUploadIcon />}
               data-testid="ExperienceForm-UploadPersonPhotoButton"
             >
-              Person Photo
+              Person Photo (Optional)
             </Button>
           </label>
         </Box>
