@@ -183,6 +183,14 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
         >
           <Box>
             <Typography
+              variant="h5"
+              sx={{
+                marginBottom: "12px"
+              }}
+            >
+              Description:
+            </Typography>
+            <Typography
               variant="body2"
               component="p"
               data-testid="ExperienceView-Description"
