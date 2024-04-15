@@ -28,13 +28,9 @@ const formatISOToAmericanDate = (isoDate: string) => {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const date = new Date(isoDate);
   const month = monthNames[date.getMonth()];
-  const day = date.getDate();
   const year = date.getFullYear();
 
-  // Pad the month and day with leading zeros if necessary
-  const formattedDay = day.toString();
-
-  return `${month} ${formattedDay}, ${year}`;
+  return `${month}, ${year}`;
 };
 
 const ExperienceView: React.FC<ExperienceViewProps> = ({
