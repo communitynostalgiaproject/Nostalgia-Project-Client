@@ -120,22 +120,30 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
   return (
     <React.Fragment key={'sidebar'}>
       <Button
-        style={{ 
+        variant='contained'
+        disableElevation
+        sx={{ 
           position: 'fixed',
           top: '50%',
-          right: '0px',
+          right: '-20px',
           borderRadius: '150px 0 0 150px',
           backgroundColor: '#272A40',
-          display: sidebar.right ? "none" : "block",
-          zIndex: 900
+          display: sidebarOpen ? "none" : "block",
+          zIndex: 900,
+          ":hover": {
+            backgroundColor: '#272A40'
+          }
         }}
         onClick={() => setSidebarOpen(true)}
         data-testid="SideDrawer-ToggleOpenButton"
       >
         <ArrowBackIosIcon
-          style={{
+          sx={{
             fontSize: '48px',
-            color: '#fff'
+            color: '#fff',
+            "@media (max-width: 599px)": {
+              fontSize: '35px'
+            }
           }} 
         />
       </Button>
