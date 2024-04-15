@@ -51,16 +51,12 @@ const sleep = (ms: number) => {
 };
 
 const formatISOToAmericanDate = (isoDate: string) => {
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const date = new Date(isoDate);
-  const month = date.getMonth() + 1; // getMonth() returns 0-11
-  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
 
-  // Pad the month and day with leading zeros if necessary
-  const formattedMonth = month.toString().padStart(2, '0');
-  const formattedDay = day.toString().padStart(2, '0');
-
-  return `${formattedMonth}/${formattedDay}/${year}`;
+  return `${month} ${year}`;
 };
 
 
