@@ -117,6 +117,7 @@ const Page1: React.FC<FormPageProps> = ({
         >
           <DatePicker
             onChange={handleDateChange}
+            views={["month", "year"]}
             value={experience.experienceDate ? dayjs(experience.experienceDate) : undefined}
             name="experienceDate"
             label="Date of experience"
