@@ -14,7 +14,7 @@ import {
   CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import { Experience } from '../../../types/experience';
-import { Page1, Page2, Page3, Page4 } from './pages';
+import { Page1, Page2, Page3 } from './pages';
 import axios from "axios";
 
 interface BaseProps {
@@ -125,15 +125,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
     />,
     <Page3
       key="page3"
-      experience={experience}
-      setExperience={setExperience}
-      setError={setError}
-      onValidationSuccess={incrementPage}
-      validationTrigger={validationTrigger}
-      setValidationTrigger={setValidationTrigger}
-    />,
-    <Page4
-      key="page4"
       experience={experience}
       setExperience={setExperience}
       foodPhoto={foodPhoto}
