@@ -57,6 +57,13 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
     setFormattedRecipeText(formattedText);
   };
 
+  const formatMultiSelectData = (text: string) => {
+    return text
+      .split(",")
+      .map((value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase())
+      .join(", ");
+  };
+
   useEffect(() => {
     if (experience.recipe && !formattedRecipeText) {
       formatMarkdownText(`${experience.recipe}`);
@@ -223,7 +230,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <Typography
                   data-testid="ExperienceView-PersonText"
                 >
-                  {experience.personItRemindsThemOf}
+                  {formatMultiSelectData(experience.personItRemindsThemOf)}
                 </Typography>
               </>
             )}
@@ -233,7 +240,16 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-FoodType"  
               >
-                Food Type: {experience.foodtype}
+                Meal Type: {formatMultiSelectData(experience.foodtype)}
+              </Typography>
+            )}
+            {experience.cuisine && (
+              <Typography
+                variant="body2"
+                component="p"
+                data-testid="ExperienceView-FlavourProfile"
+              >
+                Cuisine: {formatMultiSelectData(experience.cuisine)}
               </Typography>
             )}
             {experience.flavourProfile && (
@@ -242,7 +258,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-FlavourProfile"  
               >
-                Flavor Profile: {experience.flavourProfile}
+                Flavor Profile: {formatMultiSelectData(experience.flavourProfile)}
               </Typography>
             )}
             {experience.mood && (
@@ -251,7 +267,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-Mood"  
               >
-                Mood: {experience.mood}
+                Mood: {formatMultiSelectData(experience.mood)}
               </Typography>
             )}
             {experience.periodOfLifeAssociation && (
@@ -260,7 +276,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-PeriodOfLife"
               >
-                Period of Life Association: {experience.periodOfLifeAssociation}
+                Period of Life Association: {formatMultiSelectData(experience.periodOfLifeAssociation)}
               </Typography>
             )}         
           </Box>
