@@ -247,7 +247,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
               <Typography
                 variant="body2"
                 component="p"
-                data-testid="ExperienceView-FlavourProfile"
+                data-testid="ExperienceView-Cuisine"
               >
                 Cuisine: {formatMultiSelectData(experience.cuisine)}
               </Typography>
