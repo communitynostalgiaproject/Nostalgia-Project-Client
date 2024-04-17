@@ -30,13 +30,14 @@ const mockExperience = {
   "recipe": "Ingredients:\n-One part sugar\n-One part love\n\nInstructions:\n1. Add to pot\n2. Stir",
   "foodPhotoUrl": "https://i.imgur.com/2z5znh3.png",
   "createdDate": "2024-01-24T16:11:55.240Z",
-  "mood": "Joyous, Grateful",
-  "personItRemindsThemOf": "Uncle Chuck",
+  "mood": "Joyous,Grateful",
+  "personItRemindsThemOf": "father",
   "periodOfLifeAssociation": "High School",
   "creatorId": "00000001",
   "placesToGetFood": [],
-  "flavourProfile": "Savory, Spicy",
-  "foodtype": "Soup",
+  "flavourProfile": "savory,spicy",
+  "foodtype": "breakfast",
+  "cuisine": "mexican",
   "personPhotoUrl": "https://i.imgur.com/TdyB5bK.png"
 } as Experience;
 const mockUser = {
@@ -57,6 +58,16 @@ const formatISOToAmericanDate = (isoDate: string) => {
   const year = date.getFullYear();
 
   return `${month} ${year}`;
+};
+
+const checkMultiSelectField = (element: HTMLElement, fieldValue: string) => {
+  const values = fieldValue.split(",");
+
+
+  values.forEach((value: string) => {
+    const result = within(element).getByText(value);
+    expect(result).toBeInTheDocument();
+  });
 };
 
 
@@ -138,12 +149,18 @@ export const CreateExperienceTest: Story = {
     const descriptionField = canvas.getByTestId("ExperienceForm-DescriptionField");
     const experienceDateField = canvas.getByTestId("ExperienceForm-ExperienceDateField");
     const locationField = canvas.getByTestId("ExperienceForm-LocationField");
+    const personItRemindsThemOfField = canvas.getByTestId("ExperienceForm-PersonItRemindsThemOfField");
+    const periodOfLifeField = canvas.getByTestId("ExperienceForm-PeriodOfLifeField");
+    const moodField = canvas.getByTestId("ExperienceForm-EmotionsField");
     const forwardButton = canvas.getByTestId("ExperienceForm-ForwardButton");
 
     expect(titleField).toBeInTheDocument();
     expect(descriptionField).toBeInTheDocument();
     expect(experienceDateField).toBeInTheDocument();
     expect(locationField).toBeInTheDocument();
+    expect(personItRemindsThemOfField).toBeInTheDocument();
+    expect(periodOfLifeField).toBeInTheDocument();
+    expect(moodField).toBeInTheDocument();
     expect(forwardButton).toBeInTheDocument();
 
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
@@ -162,7 +179,7 @@ export const CreateExperienceTest: Story = {
     expect(errorMessage.textContent).toBe("Please enter a date for the experience");
 
     const dateInput = within(experienceDateField).getByRole('textbox');
-    await userEvent.type(dateInput, "01012024", {delay: 100});
+    await userEvent.type(dateInput, "Ja1999", {delay: 100});
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
     expect(errorMessage.textContent).toBe("Please select a location for the experience");
 
@@ -179,47 +196,34 @@ export const CreateExperienceTest: Story = {
       expect(descriptionField).not.toBeInTheDocument();
       expect(experienceDateField).not.toBeInTheDocument();
       expect(locationField).not.toBeInTheDocument();
+      expect(personItRemindsThemOfField).not.toBeInTheDocument();
+      expect(periodOfLifeField).not.toBeInTheDocument();
+      expect(moodField).not.toBeInTheDocument();
     });
 
     // Page 2
     const recipeField = canvas.getByTestId("ExperienceForm-RecipeField");
-    expect(recipeField).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
-
-    const recipeInput = within(recipeField).getByRole('textbox');
-    await userEvent.type(recipeInput, "- Boil water\n- Dunk tea bag", {delay: 100});
-    await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
-    await waitFor(() => {
-      expect(recipeField).not.toBeInTheDocument();
-    });
-
-    // Page 3
-    const personItRemindsThemOfField = canvas.getByTestId("ExperienceForm-PersonItRemindsThemOfField");
-    const periodOfLifeField = canvas.getByTestId("ExperienceForm-PeriodOfLifeField");
-    const moodField = canvas.getByTestId("ExperienceForm-MoodField");
-    const foodTypeField = canvas.getByTestId("ExperienceForm-FoodTypeField");
+    const foodTypeField = canvas.getByTestId("ExperienceForm-MealTypeField");
+    const cuisineField = canvas.getByTestId("ExperienceForm-CuisineField");
     const flavourProfileField = canvas.getByTestId("ExperienceForm-FlavourProfileField");
 
-    expect(personItRemindsThemOfField).toBeInTheDocument();
-    expect(periodOfLifeField).toBeInTheDocument();
-    expect(moodField).toBeInTheDocument();
+    expect(recipeField).toBeInTheDocument();
     expect(foodTypeField).toBeInTheDocument();
+    expect(cuisineField).toBeInTheDocument();
     expect(flavourProfileField).toBeInTheDocument();
     expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
     expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
 
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
     await waitFor(() => {
-      expect(personItRemindsThemOfField).not.toBeInTheDocument();
-      expect(periodOfLifeField).not.toBeInTheDocument();
-      expect(moodField).not.toBeInTheDocument();
+      expect(recipeField).not.toBeInTheDocument();
       expect(foodTypeField).not.toBeInTheDocument();
+      expect(cuisineField).not.toBeInTheDocument();
       expect(flavourProfileField).not.toBeInTheDocument();
     });
 
 
-    // Page 4
+    // Page 3
     const uploadFoodPhotoButton = canvas.getByTestId("ExperienceForm-UploadFoodPhotoButton");
     const uploadPersonPhotoButton = canvas.getByTestId("ExperienceForm-UploadPersonPhotoButton");
     const backButton = canvas.getByTestId("ExperienceForm-BackButton");
@@ -291,11 +295,18 @@ export const UpdateExperienceTest: Story = {
     const descriptionField = canvas.getByTestId("ExperienceForm-DescriptionField");
     const experienceDateField = canvas.getByTestId("ExperienceForm-ExperienceDateField");
     const locationField = canvas.getByTestId("ExperienceForm-LocationField");
+    const personItRemindsThemOfField = canvas.getByTestId("ExperienceForm-PersonItRemindsThemOfField");
+    const periodOfLifeField = canvas.getByTestId("ExperienceForm-PeriodOfLifeField");
+    const moodField = canvas.getByTestId("ExperienceForm-EmotionsField");
     const forwardButton = canvas.getByTestId("ExperienceForm-ForwardButton");
+
     expect(titleField).toBeInTheDocument();
     expect(descriptionField).toBeInTheDocument();
     expect(experienceDateField).toBeInTheDocument();
     expect(locationField).toBeInTheDocument();
+    expect(personItRemindsThemOfField).toBeInTheDocument();
+    expect(periodOfLifeField).toBeInTheDocument();
+    expect(moodField).toBeInTheDocument();
     expect(forwardButton).toBeInTheDocument();
 
     const titleInput = within(titleField).getByRole('textbox');
@@ -306,6 +317,9 @@ export const UpdateExperienceTest: Story = {
     expect(descriptionInput).toHaveValue(mockExperience.description);
     expect(experienceDateInput).toHaveValue(formatISOToAmericanDate(mockExperience.experienceDate));
     expect(locationInput).toHaveValue(mockExperience.place.address.label);
+    checkMultiSelectField(personItRemindsThemOfField, mockExperience.personItRemindsThemOf as string);
+    checkMultiSelectField(periodOfLifeField, mockExperience.periodOfLifeAssociation as string);
+    checkMultiSelectField(moodField, mockExperience.mood as string);
 
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
     await waitFor(() => {
@@ -313,58 +327,38 @@ export const UpdateExperienceTest: Story = {
       expect(descriptionField).not.toBeInTheDocument();
       expect(experienceDateField).not.toBeInTheDocument();
       expect(locationField).not.toBeInTheDocument();
+      expect(personItRemindsThemOfField).not.toBeInTheDocument();
+      expect(periodOfLifeField).not.toBeInTheDocument();
+      expect(moodField).not.toBeInTheDocument();
     });
 
     // Verify page 2 fields and values
     const recipeField = canvas.getByTestId("ExperienceForm-RecipeField");
+    const foodTypeField = canvas.getByTestId("ExperienceForm-MealTypeField");
+    const flavourProfileField = canvas.getByTestId("ExperienceForm-FlavourProfileField");
+    const cuisineField = canvas.getByTestId("ExperienceForm-CuisineField");
+
     expect(recipeField).toBeInTheDocument();
+    expect(foodTypeField).toBeInTheDocument();
+    expect(flavourProfileField).toBeInTheDocument();
+    expect(cuisineField).toBeInTheDocument();
     expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
     expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
 
-    const recipeInput = within(recipeField).getByRole('textbox');
-    expect(recipeInput).toHaveValue(mockExperience.recipe);
+    expect(within(recipeField).getByRole('textbox')).toHaveValue(mockExperience.recipe);
+    checkMultiSelectField(foodTypeField, mockExperience.foodtype as string);
+    checkMultiSelectField(flavourProfileField, mockExperience.flavourProfile as string);
+    checkMultiSelectField(cuisineField, mockExperience.cuisine as string);
 
-    await sleep(1000);
     await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
     await waitFor(() => {
       expect(recipeField).not.toBeInTheDocument();
-    });
-
-    // Verify page 3 fields and values
-    const personItRemindsThemOfField = canvas.getByTestId("ExperienceForm-PersonItRemindsThemOfField");
-    const periodOfLifeField = canvas.getByTestId("ExperienceForm-PeriodOfLifeField");
-    const moodField = canvas.getByTestId("ExperienceForm-MoodField");
-    const foodTypeField = canvas.getByTestId("ExperienceForm-FoodTypeField");
-    const flavourProfileField = canvas.getByTestId("ExperienceForm-FlavourProfileField");
-    expect(personItRemindsThemOfField).toBeInTheDocument();
-    expect(periodOfLifeField).toBeInTheDocument();
-    expect(moodField).toBeInTheDocument();
-    expect(foodTypeField).toBeInTheDocument();
-    expect(flavourProfileField).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-BackButton")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceForm-ForwardButton")).toBeInTheDocument();
-
-    const personItRemindsThemOfInput = within(personItRemindsThemOfField).getByRole('textbox');
-    const periodOfLifeInput = within(periodOfLifeField).getByRole('textbox');
-    const moodInput = within(moodField).getByRole('textbox');
-    const foodTypeInput = within(foodTypeField).getByRole('textbox');
-    const flavourProfileInput = within(flavourProfileField).getByRole('textbox');
-    expect(personItRemindsThemOfInput).toHaveValue(mockExperience.personItRemindsThemOf);
-    expect(periodOfLifeInput).toHaveValue(mockExperience.periodOfLifeAssociation);
-    expect(moodInput).toHaveValue(mockExperience.mood);
-    expect(foodTypeInput).toHaveValue(mockExperience.foodtype);
-    expect(flavourProfileInput).toHaveValue(mockExperience.flavourProfile);
-
-    await userEvent.click(canvas.getByTestId("ExperienceForm-ForwardButton"));
-    await waitFor(() => {
-      expect(personItRemindsThemOfField).not.toBeInTheDocument();
-      expect(periodOfLifeField).not.toBeInTheDocument();
-      expect(moodField).not.toBeInTheDocument();
       expect(foodTypeField).not.toBeInTheDocument();
       expect(flavourProfileField).not.toBeInTheDocument();
+      expect(cuisineField).not.toBeInTheDocument();
     });
 
-    // Verify page 4 fields
+    // Verify page 3 fields
     const foodPhotoPreview = canvas.getByTestId("ExperienceForm-FoodPhotoPreview");
     const personPhotoPreview = canvas.getByTestId("ExperienceForm-PersonPhotoPreview");
     const uploadFoodPhotoButton = canvas.getByTestId("ExperienceForm-UploadFoodPhotoButton");
