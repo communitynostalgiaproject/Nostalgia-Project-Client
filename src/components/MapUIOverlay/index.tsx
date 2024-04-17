@@ -1,4 +1,4 @@
-import { Container, Button, Box, Typography } from '@mui/material';
+import { Container, Button, Box, Typography, Modal } from '@mui/material';
 import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
@@ -16,7 +16,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   user,
   setBbox
 }) => {
-  const [ newExperienceModalOpen, setNewExperienceModalOpen ] = useState<boolean>(false);
+  const [newExperienceModalOpen, setNewExperienceModalOpen] = useState<boolean>(false);
   const [searchBarLocation, setSearchBarLocation] = useState<PeliasGeoJSONFeature | null>(null);
 
   const toggleNewExperienceModal = () => {

@@ -10,22 +10,18 @@ interface CardModalProps {
 const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
   const { children, onClose, cardProps, ...otherProps } = props;
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (onClose) {
-      onClose(event, 'escapeKeyDown');
-    }
-  };
-
   return (
-    <Modal {...otherProps} >
-      <Box
-        sx={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+    <Modal
+      {...otherProps}
+      onClose={onClose}
+      sx={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        pointerEvents: "auto"
+      }}
+    >
         <Card {...cardProps}>
           <Box
             sx={{
@@ -37,7 +33,7 @@ const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
             }}
           >
             <IconButton
-              onClick={handleClose}
+              onClick={(event) => onClose ? onClose(event, "escapeKeyDown") : null}
               sx={{
                 marginRight: "20px"
               }}
@@ -48,7 +44,6 @@ const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
           </Box>
           {children}
         </Card>
-      </Box>
   </Modal>
   );
 };
