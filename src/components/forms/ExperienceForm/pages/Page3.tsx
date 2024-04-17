@@ -1,6 +1,11 @@
-import { TextField } from '@mui/material';
+import {
+  TextField,
+  Autocomplete,
+  SelectChangeEvent,
+} from '@mui/material';
 import { FormPageProps } from '../formPageProps';
 import React, { ChangeEvent, useEffect } from 'react';
+import selectOptions from "../selectOptions.json";
 
 const Page3: React.FC<FormPageProps> = ({
   experience,
@@ -9,10 +14,10 @@ const Page3: React.FC<FormPageProps> = ({
   validationTrigger,
   setValidationTrigger
 }) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const handleComboBoxChange = (newValue: any, fieldName: string) => {
+    const value = Array.isArray(newValue) ? newValue.join(",") : newValue;
 
-    setExperience({ ...experience, [name]: value });
+    setExperience({ ...experience, [fieldName]: value});
   };
 
   useEffect(() => {
@@ -24,51 +29,84 @@ const Page3: React.FC<FormPageProps> = ({
 
   return (
     <>
-      <TextField
-        variant="outlined"
-        margin="normal"
-        fullWidth
-        label="Person it reminds you of"
-        name="personItRemindsThemOf"
-        value={experience.personItRemindsThemOf}
-        autoFocus
-        onChange={handleChange}
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "personItRemindsThemOf")}
         data-testid="ExperienceForm-PersonItRemindsThemOfField"
-      />  
-      <TextField
-        variant="outlined"
-        margin="normal"
+        value={experience.personItRemindsThemOf?.split(",")}
+        options={selectOptions.relationships}
+        freeSolo
+        multiple
         fullWidth
-        label="Period of life"
-        name="periodOfLifeAssociation"
-        value={experience.periodOfLifeAssociation}
-        onChange={handleChange}
+        renderInput={(params) => <TextField
+          {...params}
+          label="Person/people it reminds you of (relationship)"
+        />}
+      />  
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "periodOfLifeAssociation")}
         data-testid="ExperienceForm-PeriodOfLifeField"
+        value={experience.periodOfLifeAssociation?.split(",")}
+        options={selectOptions.periodsOfLife}
+        freeSolo
+        multiple
+        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Period of Life Association"
+        />}
+      />   
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "mood")}
+        data-testid="ExperienceForm-EmotionsField"
+        value={experience.mood?.split(",")}
+        options={selectOptions.emotions}
+        freeSolo
+        multiple
+        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Emotions Felt"
+        />}
       />  
-      <TextField
-        label="Mood"
-        name="mood"
-        value={experience.mood}
-        onChange={handleChange}
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "foodtype")}
+        data-testid="ExperienceForm-MealTypeField"
+        value={experience.foodtype?.split(",")}
+        options={selectOptions.mealTypes}
+        freeSolo
+        multiple
         fullWidth
-        data-testid="ExperienceForm-MoodField"
-      />
-      <TextField
-        label="Food Type"
-        name="foodtype"
-        value={experience.foodtype}
-        onChange={handleChange}
-        fullWidth
-        data-testid="ExperienceForm-FoodTypeField"
-      />
-      <TextField
-        label="Flavour Profile"
-        name="flavourProfile"
-        value={experience.flavourProfile}
-        onChange={handleChange}
-        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Meal Type"
+        />}
+      /> 
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "flavourProfile")}
         data-testid="ExperienceForm-FlavourProfileField"
+        value={experience.flavourProfile?.split(",")}
+        options={selectOptions.flavorProfiles}
+        freeSolo
+        multiple
+        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Flavour Profile"
+        />}
       />
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "cuisine")}
+        data-testid="ExperienceForm-CuisineField"
+        value={experience.cuisine?.split(",")}
+        options={selectOptions.cuisines}
+        freeSolo
+        multiple
+        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Cuisine"
+        />}
+      /> 
     </>
   );
 };

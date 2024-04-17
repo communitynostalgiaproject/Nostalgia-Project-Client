@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Typography,
@@ -45,6 +45,10 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
   const [validationTrigger, setValidationTrigger] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
   const [submitPending, setSubmitPending] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(`Experience: ${JSON.stringify(experience)}`);
+  }, [experience]);
 
   const handlePageBack = () => {
     if (pageIndex > 0) {
