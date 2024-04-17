@@ -244,6 +244,11 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
           }}
           open
           color="red"
+          sx={{
+            "@media (max-width: 599px)": {
+              marginTop: "15px",
+            }
+          }}
       >
         <Alert
           severity="error"

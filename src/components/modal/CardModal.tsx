@@ -19,10 +19,22 @@ const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        pointerEvents: "auto"
+        pointerEvents: "auto",
+        overflow: "auto"
       }}
     >
-      <Card {...cardProps}>
+      <Card 
+        {...cardProps}
+        sx={{
+          ...cardProps.sx,
+          maxHeight: "90%",
+          overflow: "auto",
+          WebkitOverflowScrolling: "touch",
+          "@media (max-width: 599px)": {
+            maxHeight: "98%"
+          }
+        }}  
+      >
         <Box
           sx={{
             height: "60px",

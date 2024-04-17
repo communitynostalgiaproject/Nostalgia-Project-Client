@@ -59,7 +59,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
           sx: {
             width: "90%",
             maxWidth: "600px",
-            paddingBottom: "30px"
+            paddingBottom: "30px",
           }
         }}
         data-testid="MapUIOverlay-CreateExperienceModal"
