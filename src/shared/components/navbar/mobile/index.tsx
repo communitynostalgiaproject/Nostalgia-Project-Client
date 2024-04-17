@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Drawer, List, ListItemText, ListItemButton, IconButton, Box, Typography } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import usersRequest from '../../../../api/users.request';
+import UserMenu from '../../../../components/menus/UserMenu';
 import useStyles from './styles';
 
 const logo = require('../../../../assets/CNI-logo.png');
@@ -65,11 +67,43 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
           open={open}
           onClose={toggleDrawer}
           className={classes.drawer}
+          hideBackdrop
         >
-          <Box className={classes.drawer}>
-            <div className={classes.navHeader}>
+          <Box 
+            className={classes.drawer}
+            sx={{
+              pointerEvents: "auto"
+            }}
+          >
+            <Box  
+              className={classes.navHeader}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                paddingRight: "10px"
+              }}
+            >
               <p>Menu</p>
-            </div>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: "8px"
+                }}
+              >
+                <UserMenu user={user} />
+                <IconButton
+                  onClick={toggleDrawer}
+                >
+                  <CloseIcon
+                    sx={{
+                      color: "white"
+                    }}
+                  />
+                </IconButton>
+              </Box>
+              
+            </Box>
             <Box className={classes.navItemBox}>
               <List className={classes.navItemGroup}>
                 {
