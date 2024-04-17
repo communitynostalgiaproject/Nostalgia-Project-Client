@@ -22,28 +22,28 @@ const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
         pointerEvents: "auto"
       }}
     >
-        <Card {...cardProps}>
-          <Box
+      <Card {...cardProps}>
+        <Box
+          sx={{
+            height: "60px",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end"
+          }}
+        >
+          <IconButton
+            onClick={(event) => onClose ? onClose(event, "escapeKeyDown") : null}
             sx={{
-              height: "60px",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end"
+              marginRight: "20px"
             }}
+            data-testid="CardModal-CloseButton"
           >
-            <IconButton
-              onClick={(event) => onClose ? onClose(event, "escapeKeyDown") : null}
-              sx={{
-                marginRight: "20px"
-              }}
-              data-testid="CardModal-CloseButton"
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
-          {children}
-        </Card>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        {children}
+      </Card>
   </Modal>
   );
 };
