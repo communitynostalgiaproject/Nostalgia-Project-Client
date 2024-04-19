@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { TextField, Autocomplete } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { FormPageProps } from '../formPageProps';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -8,6 +8,7 @@ import { useValidation, ValidationRule } from '../../../../hooks/useValidation';
 import React, { useEffect, ChangeEvent } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { PeliasGeoJSONFeature } from '@stadiamaps/api';
+import selectOptions from "../selectOptions.json";
 
 const Page1: React.FC<FormPageProps> = ({
   experience,
@@ -45,6 +46,12 @@ const Page1: React.FC<FormPageProps> = ({
         location: location.geometry
       } as Place
     });
+  };
+
+  const handleComboBoxChange = (newValue: any, fieldName: string) => {
+    const value = Array.isArray(newValue) ? newValue.join(",") : newValue;
+
+    setExperience({ ...experience, [fieldName]: value });
   };
 
   const validationRules = [
@@ -117,6 +124,7 @@ const Page1: React.FC<FormPageProps> = ({
         >
           <DatePicker
             onChange={handleDateChange}
+            views={["month", "year"]}
             value={experience.experienceDate ? dayjs(experience.experienceDate) : undefined}
             name="experienceDate"
             label="Date of experience"
@@ -141,6 +149,45 @@ const Page1: React.FC<FormPageProps> = ({
           }}
         />
       </div>
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "personItRemindsThemOf")}
+        data-testid="ExperienceForm-PersonItRemindsThemOfField"
+        value={experience.personItRemindsThemOf?.split(",")}
+        options={selectOptions.relationships}
+        freeSolo
+        multiple
+        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Person/people it reminds you of (relationship)"
+        />}
+      />
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "periodOfLifeAssociation")}
+        data-testid="ExperienceForm-PeriodOfLifeField"
+        value={experience.periodOfLifeAssociation?.split(",")}
+        options={selectOptions.periodsOfLife}
+        freeSolo
+        multiple
+        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Period of Life Association"
+        />}
+      />
+      <Autocomplete
+        onChange={(event, newValue) => handleComboBoxChange(newValue, "mood")}
+        data-testid="ExperienceForm-EmotionsField"
+        value={experience.mood?.split(",")}
+        options={selectOptions.emotions}
+        freeSolo
+        multiple
+        fullWidth
+        renderInput={(params) => <TextField
+          {...params}
+          label="Emotions Felt"
+        />}
+      /> 
     </>
   );
 };

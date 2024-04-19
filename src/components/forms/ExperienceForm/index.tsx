@@ -14,7 +14,7 @@ import {
   CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import { Experience } from '../../../types/experience';
-import { Page1, Page2, Page3, Page4 } from './pages';
+import { Page1, Page2, Page3 } from './pages';
 import axios from "axios";
 
 interface BaseProps {
@@ -123,15 +123,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
       key="page3"
       experience={experience}
       setExperience={setExperience}
-      setError={setError}
-      onValidationSuccess={incrementPage}
-      validationTrigger={validationTrigger}
-      setValidationTrigger={setValidationTrigger}
-    />,
-    <Page4
-      key="page4"
-      experience={experience}
-      setExperience={setExperience}
       foodPhoto={foodPhoto}
       personPhoto={personPhoto}
       setFoodPhoto={setFoodPhoto}
@@ -216,6 +207,9 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
     return (
       <Box
         sx={{
+          width: "100%",
+          height: "100%",
+          padding: "80px 0px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -250,6 +244,11 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
           }}
           open
           color="red"
+          sx={{
+            "@media (max-width: 599px)": {
+              marginTop: "15px",
+            }
+          }}
       >
         <Alert
           severity="error"
@@ -259,14 +258,14 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
           {error}
         </Alert>
       </Snackbar> : null}
-      <Typography
+      {!submitSuccess && <Typography
         variant="h5"
         sx={{
           marginBottom: "15px"
         }}
       >
         { editing ? "Edit Experience" : "Create Experience" }
-      </Typography>
+      </Typography>}
       <Box
         sx={{
           display: "flex",

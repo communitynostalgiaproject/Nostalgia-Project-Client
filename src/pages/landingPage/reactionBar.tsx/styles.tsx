@@ -20,10 +20,10 @@ const useStyles = createUseStyles({
         
     },
     experienceImage: {
-        width: "65px",
-        height: "65px",
+        width: "130px",
+        height: "130px",
         borderRadius: "50%",
-        border: "4px solid rgb(240, 200, 50)",
+        // border: "4px solid rgb(240, 200, 50)",
         boxSizing: "border-box"
     },
     reactionGroup: {

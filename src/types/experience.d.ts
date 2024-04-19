@@ -17,6 +17,7 @@ export interface Experience {
   createdDate?: string;
   mood?: string;
   foodtype?: string;
+  cuisine?: string;
   personItRemindsThemOf?: string;
   flavourProfile?: string;
   periodOfLifeAssociation?: string;

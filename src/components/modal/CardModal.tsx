@@ -10,45 +10,52 @@ interface CardModalProps {
 const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
   const { children, onClose, cardProps, ...otherProps } = props;
 
-  const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (onClose) {
-      onClose(event, 'escapeKeyDown');
-    }
-  };
-
   return (
-    <Modal {...otherProps} >
-      <Box
+    <Modal
+      {...otherProps}
+      onClose={onClose}
+      sx={{
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        pointerEvents: "auto",
+        overflow: "auto"
+      }}
+    >
+      <Card 
+        {...cardProps}
         sx={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
+          ...cardProps.sx,
+          maxHeight: "90%",
+          overflow: "auto",
+          WebkitOverflowScrolling: "touch",
+          "@media (max-width: 599px)": {
+            maxHeight: "98%"
+          }
+        }}  
       >
-        <Card {...cardProps}>
-          <Box
+        <Box
+          sx={{
+            height: "60px",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end"
+          }}
+        >
+          <IconButton
+            onClick={(event) => onClose ? onClose(event, "escapeKeyDown") : null}
             sx={{
-              height: "60px",
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-end"
+              marginRight: "20px"
             }}
+            data-testid="CardModal-CloseButton"
           >
-            <IconButton
-              onClick={handleClose}
-              sx={{
-                marginRight: "20px"
-              }}
-              data-testid="CardModal-CloseButton"
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
-          {children}
-        </Card>
-      </Box>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        {children}
+      </Card>
   </Modal>
   );
 };
