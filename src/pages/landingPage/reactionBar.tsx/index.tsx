@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import reactionsRequest from '../../../api/reactions.request';
 import usersRequest from '../../../api/users.request';
 import { useQuery } from 'react-query';
+import fetchCurrentUser from '../../../api/queries/fetchCurrentUser';
 import { Experience } from '../../../types/experience';
 
 import ThanksForSharing from '../../../assets/reactionIcons/thanksForSharing';
@@ -10,25 +11,24 @@ import WillTry from '../../../assets/reactionIcons/willTry';
 import useStyles from './styles';
 
 interface ReactionBarProps {
-  experience: Experience,
-  setSelectedExperience: React.Dispatch<Experience | null>
+  experience: Experience;
+  setSelectedExperience: React.Dispatch<Experience | null>;
+  setSidebarOpen: React.Dispatch<boolean>;
 }
 
 const ReactionBar: React.FC<ReactionBarProps> = ({
   experience,
-  setSelectedExperience
+  setSelectedExperience,
+  setSidebarOpen
 }) => {
-  const classes = useStyles()
+  const classes = useStyles();
+  const { data: user, error } = fetchCurrentUser();
 
   const [selectedReaction, setSelectedReaction] = useState({
       meToo: false,
       thanksForSharing: false,
       willTry: false
   })
-
-  const { data: user } = useQuery("currentUser", async () => {
-      return await usersRequest.fetchData();
-  }); 
 
   const { data: reactions } = useQuery(["reactions", experience._id.toString()], async() => {
       return await reactionsRequest.getByUserId({ experienceId: experience["_id"], userId: user["_id"] })
@@ -89,6 +89,7 @@ const ReactionBar: React.FC<ReactionBarProps> = ({
   const handleSelectExperience = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
     setSelectedExperience(experience);
+    setSidebarOpen(true);
   };
 
   return (
@@ -106,7 +107,7 @@ const ReactionBar: React.FC<ReactionBarProps> = ({
               <img src={experience.foodPhotoUrl} alt={experience.title} className={classes.experienceImage} />
           </div>
         </div>
-        <div className={classes.reactionGroup}>
+        {user && <div className={classes.reactionGroup}>
             <div id="meToo" className={classes.meToo} title='Me Too' data-experience={experience["_id"]} onClick={handleReaction}>
                 <MeToo/>
             </div>
@@ -116,7 +117,7 @@ const ReactionBar: React.FC<ReactionBarProps> = ({
             <div id="willTry" className={classes.willTry} title='Will try' data-experience={experience["_id"]} onClick={handleReaction}>
                 <WillTry />
             </div>
-        </div>
+        </div>}
       </div>
   );
 }

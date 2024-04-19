@@ -18,6 +18,8 @@ interface SideDrawerProps {
   fetchNextPage: () => void;
   setEditModalOpen: React.Dispatch<boolean>;
   setDeleteModalOpen: React.Dispatch<boolean>;
+  sidebarOpen: boolean;
+  setSidebarOpen: React.Dispatch<boolean>;
 }
 
 const  SideDrawer: React.FC<SideDrawerProps> = ({
@@ -27,7 +29,9 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
   hasNextPage,
   fetchNextPage,
   setEditModalOpen,
-  setDeleteModalOpen
+  setDeleteModalOpen,
+  sidebarOpen,
+  setSidebarOpen
 }) => {
   const [sidebar, setSidebar] = useState({
     top: false,
@@ -35,21 +39,6 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
     bottom: false,
     right: false,
   });
-
-  const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event &&
-        event.type === 'keydown' &&
-        ((event as React.KeyboardEvent).key === 'Tab' ||
-          (event as React.KeyboardEvent).key === 'Shift')
-      ) {
-        return;
-      }
-
-    setSidebar({ ...sidebar, [anchor]: open });
-  };
 
   const list = (anchor: Anchor) => (
     <Box 
@@ -74,7 +63,7 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
             width: '5rem',
             pointerEvents: 'auto'
           }}
-          onClick={toggleDrawer('right', false)}
+          onClick={() => setSidebarOpen(false)}
           data-testid="SideDrawer-ToggleClosedButton"
         >
           <ArrowForwardIosIcon
@@ -94,8 +83,8 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
           overflow: 'auto'
         }}
         // role="presentation"
-        onClick={toggleDrawer(anchor, false)}
-        onKeyDown={toggleDrawer(anchor, false)}
+        onClick={() => setSidebarOpen(false)}
+        onKeyDown={() => setSidebarOpen(false)}
       >
         <Paper
           sx={{
@@ -150,7 +139,7 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
           display: sidebar.right ? "none" : "block",
           zIndex: 900
         }}
-        onClick={toggleDrawer('right', true)}
+        onClick={() => setSidebarOpen(true)}
         data-testid="SideDrawer-ToggleOpenButton"
       >
         <ArrowBackIosIcon
@@ -162,9 +151,9 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
       </Button>
       <SwipeableDrawer
         anchor={'right'}
-        open={sidebar['right']}
-        onClose={toggleDrawer('right', false)}
-        onOpen={toggleDrawer('right', true)}
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        onOpen={() => setSidebarOpen(true)}
         hideBackdrop
         sx={{
           pointerEvents: 'none'
