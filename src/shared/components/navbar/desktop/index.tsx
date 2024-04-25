@@ -1,10 +1,12 @@
 import React, { SyntheticEvent, useState, useEffect } from 'react';
-import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material';
+import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab, InputLabel } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import useStyles from './styles';
 import UserMenu from '../../../../components/menus/UserMenu';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 const logo = require('../../../../assets/CNI-logo.png');
 
@@ -13,14 +15,16 @@ interface DesktopNavProps {
 }
 
 const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
-  const { data: user, error } = useQuery("currentUser", async () => {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
 
-    return res.data;
-  });
+    const [value, setValue] = useState(0);
+    
     const classes = useStyles();
 
-    const [value, setValue] = useState(0)
+    const { data: user, error } = useQuery("currentUser", async () => {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/users/fetchData`, { withCredentials: true });
+
+        return res.data;
+    });
 
     const handleChange = (event: SyntheticEvent, newValue: number) => {
         setValue(newValue)
@@ -41,7 +45,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                     <Box
                         sx={{
                             display: 'flex',
-                            justifyContent: 'space-between',
+                            justifyContent: 'sInputLabelpace-between',
                             alignItems: 'center'
                         }}
                     >
@@ -73,6 +77,28 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                     />
                                 ))
                             }
+                            <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>                                
+                                <InputLabel id="demo-simple-select-label">Learn More</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-filled-label"
+                                    id="demo-simple-select-filled"
+                                >
+                                    <Tab 
+                                        key={'About Us'}
+                                        label={'About Us'}
+                                        component={Link}
+                                        to={`/About Us`}
+                                        data-testid={`DesktopNav-LinkTab-About Us`}
+                                    />
+                                    <Tab 
+                                        key={'Research'}
+                                        label={'Research'}
+                                        component={Link}
+                                        to={`/Research`}
+                                        data-testid={`DesktopNav-LinkTab-Research`}
+                                    />
+                                </Select>
+                            </FormControl>
                         </Tabs>
                         <UserMenu user={user} />
                     </Box>

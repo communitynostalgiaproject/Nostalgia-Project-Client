@@ -4,7 +4,8 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-const bannerImage = require('../../assets/science-banner.png');
+const mriImg = require('../../assets/science-banner.png');
+const presentationImg = require('../../assets/research-page-image-presentation.png');
 
 const ResearchPage = () => {
 
@@ -32,7 +33,7 @@ const ResearchPage = () => {
             >
                 <Box sx={{ width: { sx: '100%', sm: '100%', md: '50%' }, marginRight: '1rem' }} >
                     <img
-                        src={bannerImage}
+                        src={mriImg}
                         alt={'Project team members overseeing an MRI scan.'}
                         loading="lazy"
                         style={{ height: '100%', width: '100%' }}
@@ -132,7 +133,7 @@ const ResearchPage = () => {
                 </Box>
                 <Box sx={{ width: { sx: '100%', sm: '100%', md: '50%' } }} >
                     <img
-                        src={bannerImage}
+                        src={presentationImg}
                         alt={'Project team members overseeing an MRI scan.'}
                         loading="lazy"
                         style={{ height: '100%', width: '100%' }}

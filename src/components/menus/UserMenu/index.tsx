@@ -27,6 +27,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 
   return (
     <Box
+      sx={{ display: 'flex', alignItems: 'center', marginLeft: '2.5rem' }}
       data-testid="UserMenu-ButtonContainer"
     >
       { user  
