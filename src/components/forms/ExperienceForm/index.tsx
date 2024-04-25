@@ -55,7 +55,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
 
   const incrementPage = () => {
     if (pageIndex < pages.length) setPageIndex((prev) => prev + 1);
-  }
+  };
 
   const handleSubmit = async () => {
     const formData = new FormData();
