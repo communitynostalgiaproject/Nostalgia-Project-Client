@@ -145,7 +145,7 @@ const TeamPage = () => {
                 flexDirection: { xs: 'column', md: 'row' },
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                minWidth: '100%',
+                width: '100%',
                 padding: '0',
                 marginTop: {xs: '35%', md: '10%'},   
             }}
