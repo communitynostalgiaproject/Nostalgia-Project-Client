@@ -82,8 +82,8 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
                 <ListItemButton key={'About Us'}  component={Link} to={`/About Us`} onClick={handleListItemClick} className={classes.navItem}>
                   <ListItemText primary={'About Us'} />
                 </ListItemButton>
-                <ListItemButton key={'Research'}  component={Link} to={`/Research`} onClick={handleListItemClick} className={classes.navItem}>
-                  <ListItemText primary={'Research'} />
+                <ListItemButton key={'Our Team'}  component={Link} to={`/Our Team`} onClick={handleListItemClick} className={classes.navItem}>
+                  <ListItemText primary={'Our Team'} />
                 </ListItemButton>
               </List>
             </Box>

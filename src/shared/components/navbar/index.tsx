@@ -11,7 +11,7 @@ const Navbar = () => {
     const pages: string[] = [
         "Events",
         "Community Outreach",
-        "Our Team",
+        "Research",
     ]
 
     return (
