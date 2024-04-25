@@ -142,6 +142,11 @@ const Page1: React.FC<FormPageProps> = ({
           setLocation={handleLocationChange}
           currentLocation={experience.place?.address.label}
           error={errorFields.location}
+          boxProps={{
+            sx: {
+              position: "relative"
+            },
+          }}
           listProps={{
             sx: {
               maxWidth: "350px"
