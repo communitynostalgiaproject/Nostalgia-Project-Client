@@ -154,23 +154,21 @@ type EventPostSkeleton = {
 };
 
 const useContentful = () => {
-
    const contentfulClient = createClient({
-       // space: process.env.CONTENTFUL_SPACE_ID,
-       // accessToken: process.env.CONTENTFUL_ACCESS_ID
        space: 'zs1lze0d37xl',
        accessToken: 'KXiJBT5G8g6UAY75gbHlzcpGio0RhcoMykOG915AcRw'
    });
 
-   const getEvents = async () => {
-       try {
-           const events = await contentfulClient.getEntries();
+    const getEvents = async () => {
+        try {
+            const events = await contentfulClient.getEntries();
+            
+            return events;
+        } catch(err) {
+            console.log(`ERROR FETCHING CONTENFUL DATA --> ${err}`);
+        };
+    };
 
-           return events;
-       } catch(err) {
-           console.log(`ERROR FETCHING CONTENFUL DATA --> ${err}`);
-       };
-   };
 
    return { getEvents }
 };
