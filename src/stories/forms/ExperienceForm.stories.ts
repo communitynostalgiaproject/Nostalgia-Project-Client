@@ -249,7 +249,7 @@ export const CreateExperienceTest: Story = {
       expect(uploadPersonPhotoButton).not.toBeInTheDocument();
       expect(backButton).not.toBeInTheDocument();
       expect(submitButton).not.toBeInTheDocument();
-    }, { timeout: 5000 });
+    }, { timeout: 10000 });
 
     // Thank You Message
     const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");
