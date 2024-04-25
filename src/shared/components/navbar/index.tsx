@@ -9,6 +9,7 @@ const Navbar = () => {
     const matches = useMediaQuery(theme.breakpoints.down(1024));
 
     const pages: string[] = [
+        "Map",
         "Events",
         "Community Outreach",
         "Research",

@@ -68,12 +68,22 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                         <Tabs value={value} onChange={handleChange} aria-label='navigation tab' className={classes.navLink} classes={{ indicator: classes.tabIndicator }}>
                             {
                                 navItems.map((item: string) => (
+                                    item == 'Map' 
+                                    ? 
+                                        <Tab
+                                            key={'Map'}
+                                            label={'Map'}
+                                            component={Link}
+                                            to={`/`}
+                                            data-testid={`DesktopNav-LinkTab-Map`}
+                                        />
+                                  :
                                     <Tab
-                                      key={item}
-                                      label={item}
-                                      component={Link}
-                                      to={`/${item}`}
-                                      data-testid={`DesktopNav-LinkTab-${item}`}
+                                        key={item}
+                                        label={item}
+                                        component={Link}
+                                        to={`/${item}`}
+                                        data-testid={`DesktopNav-LinkTab-${item}`}
                                     />
                                 ))
                             }
