@@ -62,8 +62,6 @@ const ResearchPage = () => {
                     </Typography>
                 </Box>
             </Box>
-
-
             <Box 
                 sx={{
                     display: 'flex',

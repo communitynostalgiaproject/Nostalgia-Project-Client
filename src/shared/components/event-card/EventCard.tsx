@@ -67,7 +67,7 @@ export default function EventCard({event }: any) {
                 {event.fields.title}
             </Typography>
             <Link href='https://www.thecommunitynostalgiaproject.com/Events' underline="hover" sx={{ fontFamily: 'lato', fontWeight: '700', color: '#5E0916'}}>
-                THE COMMUNIT NOSTALGIA PROJECT
+                THE COMMUNITY NOSTALGIA PROJECT
             </Link>
             <Typography variant="h5" sx={{ margin: '.5rem 0 1rem 0' }}>
                 {date}
