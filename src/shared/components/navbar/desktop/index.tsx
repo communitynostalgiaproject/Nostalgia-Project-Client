@@ -93,13 +93,13 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                     labelId="demo-simple-select-filled-label"
                                     id="demo-simple-select-filled"
                                 >
-                                    <Tab 
+                                    {/* <Tab 
                                         key={'Our Mission'}
                                         label={'Our Mission'}
                                         component={Link}
                                         to={`/Our Mission`}
                                         data-testid={`DesktopNav-LinkTab-Our Mission`}
-                                    />
+                                    /> */}
                                     <Tab 
                                         key={'Our Team'}
                                         label={'Our Team'}
