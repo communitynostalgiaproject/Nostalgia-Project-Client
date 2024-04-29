@@ -48,7 +48,7 @@ const SponsorsPage = () => {
                 padding: '0 1rem 0 1rem' 
             }} 
         >
-            <Box sx={{ width: { xs: '100%', sm: '100%', md: '80%' } }}>
+            <Box sx={{ width: { xs: '100%', sm: '100%', md: '80%', lg: '40%' } }}>
             <form 
                 style={{
                     display: 'flex',
@@ -96,7 +96,7 @@ const SponsorsPage = () => {
                     />
                 </Box>
                 <textarea
-                    style={{ width: '100%', margin: '1rem 0 1rem 0' }}
+                    style={{ width: '100%', margin: '1rem 0 1rem 0', resize: 'none' }}
                     rows='5'
                     name="message"
                     placeholder="Your Message"

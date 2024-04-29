@@ -9,4 +9,4 @@ const useFetchCurrentUser = () => {
   });
 }
 
-export default useFetchCurrentUser;
+export default useFetchCurrentUser;   
