@@ -112,7 +112,7 @@ const LocationSearch: React.FC<LocationSearchParams> = ({
             position: 'absolute', 
             maxHeight: 200, 
             overflow: 'auto', 
-            zIndex: 5,
+            zIndex: 900,
             backgroundColor: "rgba(255,255,255,1)",
             opacity: 1
           }}

@@ -29,7 +29,8 @@ const ExperienceMap = ({
   userLocation,
   bbox,
   setBbox,
-  setSelectedExperience
+  setSelectedExperience,
+  setSidebarOpen
 }) => {  
   const classes = useStyles()
   const [movedToUser, setMovedToUser] = useState(false);
@@ -111,6 +112,7 @@ const ExperienceMap = ({
                 <ReactionBar
                   experience={experience}
                   setSelectedExperience={setSelectedExperience}
+                  setSidebarOpen={setSidebarOpen}
                 />
               </Popup>
             </Marker>

@@ -114,7 +114,13 @@ const Menu: React.FC<MenuProps> = ({ user }) => {
         onClick={toggleMenuOpen}
         data-testid="UserMenu-MenuToggleButton"
       >
-        <AccountCircleIcon />
+        <AccountCircleIcon 
+          sx={{
+            "@media (max-width: 599px)": {
+              color: "white"
+            }
+          }}
+        />
       </IconButton>
       <MenuPopover />
       <AccountSettingsModal />

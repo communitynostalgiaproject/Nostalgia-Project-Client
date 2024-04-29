@@ -14,7 +14,7 @@ import {
   CheckCircle as CheckCircleIcon
 } from '@mui/icons-material';
 import { Experience } from '../../../types/experience';
-import { Page1, Page2, Page3, Page4 } from './pages';
+import { Page1, Page2, Page3 } from './pages';
 import axios from "axios";
 
 interface BaseProps {
@@ -55,28 +55,46 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
 
   const incrementPage = () => {
     if (pageIndex < pages.length) setPageIndex((prev) => prev + 1);
-  }
+  };
+
+  const uploadImage = async (imageFile: File) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    const result = await axios.post(
+      `${process.env.REACT_APP_API_URL}/experiences/images`,
+      formData,
+      {
+        withCredentials: true
+      }
+    );
+    return result.data?.imageUrl;
+  };
 
   const handleSubmit = async () => {
-    const formData = new FormData();
-    const stringifiedExperience = editing 
-      ? JSON.stringify(experience)
-      : JSON.stringify({
-        ...experience,
-        creatorId: props.user ? props.user._id : undefined
-      } as Experience);
-    formData.append("experience", stringifiedExperience);
-    if (foodPhoto) {
-      formData.append("foodPhoto", foodPhoto);
-    }
-    if (personPhoto) {
-      formData.append("personPhoto", personPhoto);
-    }
-
     try {
       setSubmitPending(true);
+      let experienceObj = editing
+        ? experience
+        : {
+          ...experience,
+          creatorId: props.user ? props.user._id : undefined
+        } as Experience;
+      if (foodPhoto) {
+        const foodPhotoUrl = await uploadImage(foodPhoto);
+        experienceObj = {
+          ...experienceObj,
+          foodPhotoUrl
+        }
+      }
+      if (personPhoto) {
+        const personPhotoUrl = await uploadImage(personPhoto);
+        experienceObj = {
+          ...experienceObj,
+          personPhotoUrl
+        }
+      }
       if (props.mode === "edit") {
-        await axios.patch(`${process.env.REACT_APP_API_URL}/experiences/${experience._id}`, formData, {
+        await axios.patch(`${process.env.REACT_APP_API_URL}/experiences/${experience._id}`, experienceObj, {
           withCredentials: true
         });
         props.setExperiences((current: Experience[]) => {
@@ -86,7 +104,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
         });
         props.setSelectedExperience(experience as Experience);
       } else {
-        await axios.post(`${process.env.REACT_APP_API_URL}/experiences`, formData, {
+        await axios.post(`${process.env.REACT_APP_API_URL}/experiences`, experienceObj, {
           withCredentials: true
         });
       }
@@ -94,7 +112,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
       setSubmitSuccess(true);
     } catch(err) {
       console.error(`Could not complete submit request: ${err}`);
-      setError("There was an error with your request.");
+      setError(`There was an error with your request: ${err}`);
     } finally {
       setSubmitPending(false);
     }
@@ -121,15 +139,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
     />,
     <Page3
       key="page3"
-      experience={experience}
-      setExperience={setExperience}
-      setError={setError}
-      onValidationSuccess={incrementPage}
-      validationTrigger={validationTrigger}
-      setValidationTrigger={setValidationTrigger}
-    />,
-    <Page4
-      key="page4"
       experience={experience}
       setExperience={setExperience}
       foodPhoto={foodPhoto}
@@ -216,6 +225,9 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
     return (
       <Box
         sx={{
+          width: "100%",
+          height: "100%",
+          padding: "80px 0px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -250,6 +262,11 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
           }}
           open
           color="red"
+          sx={{
+            "@media (max-width: 599px)": {
+              marginTop: "15px",
+            }
+          }}
       >
         <Alert
           severity="error"
@@ -259,14 +276,14 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
           {error}
         </Alert>
       </Snackbar> : null}
-      <Typography
+      {!submitSuccess && <Typography
         variant="h5"
         sx={{
           marginBottom: "15px"
         }}
       >
         { editing ? "Edit Experience" : "Create Experience" }
-      </Typography>
+      </Typography>}
       <Box
         sx={{
           display: "flex",

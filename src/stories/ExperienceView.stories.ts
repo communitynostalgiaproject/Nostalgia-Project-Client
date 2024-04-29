@@ -27,13 +27,14 @@ const mockExperience = {
   "recipe": "Ingredients:\n- One part sugar\n- One part love\nInstructions:\n1. Add to pot\n2. Stir",
   "foodPhotoUrl": "https://i.imgur.com/EHe1E66.png",
   "createdDate": "2024-01-24T16:11:55.240Z",
-  "mood": "Joyous, Grateful",
+  "mood": "joyous,grateful",
   "personItRemindsThemOf": "Aunt Carol",
   "periodOfLifeAssociation": "High School",
   "creatorId": "232156884",
   "placesToGetFood": [],
-  "flavourProfile": "Savory, Spicy",
-  "foodtype": "Soup",
+  "flavourProfile": "savory,spicy",
+  "cuisine": "chinese",
+  "foodtype": "breakfast",
   "personPhotoUrl": "https://i.imgur.com/E1kZTkU.png",
 } as Experience;
 
@@ -49,6 +50,13 @@ const mockUser2 = {
   "googleId": "whatever",
   "email": "faker@test.com",
   "displayName": "Test User 2"
+};
+
+const formatMultiSelectData = (text: string) => {
+  return text
+    .split(",")
+    .map((value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase())
+    .join(", ");
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -144,10 +152,11 @@ export const NonCreatorViewTest: Story = {
     expect(canvas.getByTestId("ExperienceView-ExperienceLocationLabel").textContent).toBe(mockExperience.place.address.label);
     expect(canvas.getByTestId("ExperienceView-ExperienceDateText")).toBeInTheDocument();
     expect(canvas.getByTestId("ExperienceView-PersonPhoto")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceView-FoodType").textContent).toContain(mockExperience.foodtype);
-    expect(canvas.getByTestId("ExperienceView-FlavourProfile").textContent).toContain(mockExperience.flavourProfile);
-    expect(canvas.getByTestId("ExperienceView-Mood").textContent).toContain(mockExperience.mood);
-    expect(canvas.getByTestId("ExperienceView-PeriodOfLife").textContent).toContain(mockExperience.periodOfLifeAssociation);
+    expect(canvas.getByTestId("ExperienceView-FoodType").textContent).toContain(formatMultiSelectData(mockExperience.foodtype as string));
+    expect(canvas.getByTestId("ExperienceView-FlavourProfile").textContent).toContain(formatMultiSelectData(mockExperience.flavourProfile as string));
+    expect(canvas.getByTestId("ExperienceView-Mood").textContent).toContain(formatMultiSelectData(mockExperience.mood as string));
+    expect(canvas.getByTestId("ExperienceView-PeriodOfLife").textContent).toContain(formatMultiSelectData(mockExperience.periodOfLifeAssociation as string));
+    expect(canvas.getByTestId("ExperienceView-Cuisine").textContent).toContain(formatMultiSelectData(mockExperience.cuisine as string));
     expect(canvas.getByTestId("ExperienceView-RecipeContainer")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -186,10 +195,11 @@ export const CreatorViewTest: Story = {
     expect(canvas.getByTestId("ExperienceView-ExperienceDateText")).toBeInTheDocument();
     expect(canvas.getByTestId("ExperienceView-CreatedBy").textContent).toContain("Created by:");
     expect(canvas.getByTestId("ExperienceView-PersonPhoto")).toBeInTheDocument();
-    expect(canvas.getByTestId("ExperienceView-FoodType").textContent).toContain(mockExperience.foodtype);
-    expect(canvas.getByTestId("ExperienceView-FlavourProfile").textContent).toContain(mockExperience.flavourProfile);
-    expect(canvas.getByTestId("ExperienceView-Mood").textContent).toContain(mockExperience.mood);
-    expect(canvas.getByTestId("ExperienceView-PeriodOfLife").textContent).toContain(mockExperience.periodOfLifeAssociation);
+    expect(canvas.getByTestId("ExperienceView-FoodType").textContent).toContain(formatMultiSelectData(mockExperience.foodtype as string));
+    expect(canvas.getByTestId("ExperienceView-FlavourProfile").textContent).toContain(formatMultiSelectData(mockExperience.flavourProfile as string));
+    expect(canvas.getByTestId("ExperienceView-Mood").textContent).toContain(formatMultiSelectData(mockExperience.mood as string));
+    expect(canvas.getByTestId("ExperienceView-PeriodOfLife").textContent).toContain(formatMultiSelectData(mockExperience.periodOfLifeAssociation as string));
+    expect(canvas.getByTestId("ExperienceView-Cuisine").textContent).toContain(formatMultiSelectData(mockExperience.cuisine as string));
     expect(canvas.getByTestId("ExperienceView-RecipeContainer")).toBeInTheDocument();
 
     await waitFor(() => {

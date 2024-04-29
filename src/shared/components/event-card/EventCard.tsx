@@ -25,34 +25,34 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function EventCard({event }: any) {
-
-    // console.log(event);
-    // console.log('DATE: ', event.fields.dateAndTime);
-    // console.log('NEW DATE: ', new Date(event.fields.dateAndTime));
-    
     const [expanded, setExpanded] = useState(false);
-    const [eventDate, setEventDate] = useState<any>();
 
     let date = new Date(event.fields.dateAndTime).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"});
     date += ` - ${new Date(event.fields.dateAndTime).toLocaleTimeString()}`;
 
     let subDetails;
 
-    if (event.fields.eventInfo.content[0].content[0].value && event.fields.eventInfo.content[0].content[0].value.length > 150) subDetails = `${event.fields.eventInfo.content[0].content[0].value.substring(0, 150)}...`;
     if (event.fields.eventInfo.content[0].content[0].value && event.fields.eventInfo.content[0].content[0].value.length < 150) subDetails = event.fields.eventInfo.content[0].content[0].value;
+    if (event.fields.eventInfo.content[0].content[0].value && event.fields.eventInfo.content[0].content[0].value.length > 150) subDetails = `${event.fields.eventInfo.content[0].content[0].value.substring(0, 100)}...`;
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     return (
-        <Card sx={{ width: '60%', marginBottom: '5rem' }}>
+        <Card 
+            sx={{ 
+                width: { xs: '100%', sm: '100%', md: '60%' },
+                maxHeight: { xs: '1000px', sm: '1000px', md: '100%' },
+            }}
+        >
             <CardMedia
                 component="img"
                 alt="event image"
                 src={event.fields.thumbnail.fields.file.url}
                 sx={{ 
-                    height: '60%',
+                    objectFit: 'contain',
+                    maxHeight: { xs: '800px', sm: '800px', md: '1000px' },
                     width: '100%', 
                     padding: '0px', 
                     margin: '0px' 
@@ -67,64 +67,44 @@ export default function EventCard({event }: any) {
                 {event.fields.title}
             </Typography>
             <Link href='https://www.thecommunitynostalgiaproject.com/Events' underline="hover" sx={{ fontFamily: 'lato', fontWeight: '700', color: '#5E0916'}}>
-                THE COMMUNIT NOSTALGIA PROJECT
+                THE COMMUNITY NOSTALGIA PROJECT
             </Link>
-            <Typography variant="h5" sx={{ margin: '.5rem 0 1rem 0' }}>
+            <Typography variant="h5" sx={{ margin: '.5rem 0 .5rem 0' }}>
                 {date}
             </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-                <Typography variant="h6" sx={{ padding: '0 .5rem .5rem .5rem' }}>
+            <CardActions 
+                disableSpacing 
+                sx={{ 
+                    display: 'flex', 
+                    flexDirection: { xs: 'column', sm: 'column', md: 'row' } 
+                }}
+            >
+                <Typography 
+                    variant="h6" 
+                    sx={{ 
+                        display: 'flex', 
+                        justifyContent: 'flex-start', 
+                        padding: '0 .5rem .5rem .5rem' 
+                    }}
+                >
                     {expanded ? event.fields.eventInfo.content[0].content[0].value : subDetails}
                 </Typography>
-            <ExpandMore
-                expand={expanded}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-            >
-                <ExpandMoreIcon />
-            </ExpandMore>
+                {
+                    subDetails.length < 50 
+                    ?
+                        null
+                    :
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                            <ExpandMoreIcon />
+                        </ExpandMore>
+                }
             </CardActions>
         </Card>
     );
 };
-
-//  <Card 
-//             sx={{ 
-//                 width: '60%',
-//                 height: '40rem',
-//                 margin: '2.5rem',
-//                 padding: '0px',
-//                 backgroundColor: event.color
-//             }}
-//         >
-//             <img
-//                 alt="event image"
-//                 src={event.fields.thumbnail.fields.file.url}
-//                 style={{ 
-//                     height: '60%',
-//                     width: '100%', 
-//                     padding: '0px', 
-//                     margin: '0px' 
-//                 }}
-//             />
-//             <CardContent>
-//                 <Typography 
-//                     gutterBottom 
-//                     variant="h4" 
-//                     component="div" 
-//                 >
-//                     {event.fields.title}
-//                 </Typography>
-//                 <Typography variant="h5" sx={{ margin: '.5rem 0 1rem 0' }}>
-//                     {event.fields.dateAndTime}
-//                 </Typography>
-//                 <Link href='https://www.thecommunitynostalgiaproject.com/Events' underline="hover">
-//                     The Community Nostalgia Project
-//                 </Link>
-//                 <Typography variant="h6">
-//                     {event.fields.eventInfo.content[0].content[0].value}
-//                 </Typography>
-//             </CardContent>
-//         </Card>

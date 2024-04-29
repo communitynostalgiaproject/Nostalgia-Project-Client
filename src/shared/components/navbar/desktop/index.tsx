@@ -88,24 +88,31 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 ))
                             }
                             <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>                                
-                                <InputLabel id="demo-simple-select-label">Learn More</InputLabel>
+                                <InputLabel id="demo-simple-select-label">About Us</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-filled-label"
                                     id="demo-simple-select-filled"
                                 >
-                                    <Tab 
-                                        key={'About Us'}
-                                        label={'About Us'}
+                                    {/* <Tab 
+                                        key={'Our Mission'}
+                                        label={'Our Mission'}
                                         component={Link}
-                                        to={`/About Us`}
-                                        data-testid={`DesktopNav-LinkTab-About Us`}
-                                    />
+                                        to={`/Our Mission`}
+                                        data-testid={`DesktopNav-LinkTab-Our Mission`}
+                                    /> */}
                                     <Tab 
                                         key={'Our Team'}
                                         label={'Our Team'}
                                         component={Link}
                                         to={`/Our Team`}
                                         data-testid={`DesktopNav-LinkTab-Our Team`}
+                                    />
+                                    <Tab 
+                                        key={'Our Sponsors'}
+                                        label={'Our Sponsors'}
+                                        component={Link}
+                                        to={`/Our Sponsors`}
+                                        data-testid={`DesktopNav-LinkTab-Our Sponsors`}
                                     />
                                 </Select>
                             </FormControl>

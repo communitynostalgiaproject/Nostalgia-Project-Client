@@ -28,7 +28,7 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
     >
       {!experiences.length && <Box
         sx={{
-          paddingTop: 5,
+          paddingTop: '5px',
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
@@ -54,8 +54,7 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
         cols={3}
         sx={{
           width: '100%',
-          overflow: 'auto',
-          overflowX: 'hidden'
+          paddingBottom: 'env(safe-area-inset-bottom)',
         }}
         data-testid='ExperiencePreviewList-List'
       >

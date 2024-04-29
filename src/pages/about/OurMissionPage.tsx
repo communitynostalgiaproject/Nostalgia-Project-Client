@@ -65,7 +65,7 @@ const DUMMY_DATA: Facet[] = [
     },
 ];
 
-const AboutPage = () => {
+const OurMissionPage = () => {
 
     const displayFacets = DUMMY_DATA.map((facet: Facet) => {
         return (
@@ -125,4 +125,4 @@ const AboutPage = () => {
     );
 };
 
-export default AboutPage;
+export default OurMissionPage;

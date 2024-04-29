@@ -21,6 +21,7 @@ const LandingPage: React.FC = () => {
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const {
     experiences,
     setExperiences,
@@ -84,6 +85,8 @@ const LandingPage: React.FC = () => {
         fetchNextPage={fetchNextPage}
         setEditModalOpen={setEditModalOpen}
         setDeleteModalOpen={setDeleteModalOpen}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
       />
       <ExperienceMap
         experiences={experiences}
@@ -93,6 +96,7 @@ const LandingPage: React.FC = () => {
         bbox={bbox}
         setBbox={setBbox}
         setSelectedExperience={setSelectedExperience}
+        setSidebarOpen={setSidebarOpen}
       />
       <EditExperienceModal
         open={editModalOpen}
