@@ -12,7 +12,7 @@ const navItems = [
   "Events",
   "Community Outreach",
   "Our Team",
-  "About Us"
+  "Our Mission"
 ];
 
 const mockUser = {

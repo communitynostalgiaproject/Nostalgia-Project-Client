@@ -28,13 +28,9 @@ const formatISOToAmericanDate = (isoDate: string) => {
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const date = new Date(isoDate);
   const month = monthNames[date.getMonth()];
-  const day = date.getDate();
   const year = date.getFullYear();
 
-  // Pad the month and day with leading zeros if necessary
-  const formattedDay = day.toString();
-
-  return `${month} ${formattedDay}, ${year}`;
+  return `${month}, ${year}`;
 };
 
 const ExperienceView: React.FC<ExperienceViewProps> = ({
@@ -59,6 +55,13 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
   const formatMarkdownText = async (text: string) => {
     const formattedText = documentToReactComponents(await richTextFromMarkdown(text));
     setFormattedRecipeText(formattedText);
+  };
+
+  const formatMultiSelectData = (text: string) => {
+    return text
+      .split(",")
+      .map((value: string) => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase())
+      .join(", ");
   };
 
   useEffect(() => {
@@ -183,6 +186,14 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
         >
           <Box>
             <Typography
+              variant="h5"
+              sx={{
+                marginBottom: "12px"
+              }}
+            >
+              Description:
+            </Typography>
+            <Typography
               variant="body2"
               component="p"
               data-testid="ExperienceView-Description"
@@ -219,7 +230,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 <Typography
                   data-testid="ExperienceView-PersonText"
                 >
-                  {experience.personItRemindsThemOf}
+                  {formatMultiSelectData(experience.personItRemindsThemOf)}
                 </Typography>
               </>
             )}
@@ -229,7 +240,16 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-FoodType"  
               >
-                Food Type: {experience.foodtype}
+                Meal Type: {formatMultiSelectData(experience.foodtype)}
+              </Typography>
+            )}
+            {experience.cuisine && (
+              <Typography
+                variant="body2"
+                component="p"
+                data-testid="ExperienceView-Cuisine"
+              >
+                Cuisine: {formatMultiSelectData(experience.cuisine)}
               </Typography>
             )}
             {experience.flavourProfile && (
@@ -238,7 +258,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-FlavourProfile"  
               >
-                Flavor Profile: {experience.flavourProfile}
+                Flavor Profile: {formatMultiSelectData(experience.flavourProfile)}
               </Typography>
             )}
             {experience.mood && (
@@ -247,7 +267,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-Mood"  
               >
-                Mood: {experience.mood}
+                Mood: {formatMultiSelectData(experience.mood)}
               </Typography>
             )}
             {experience.periodOfLifeAssociation && (
@@ -256,7 +276,7 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
                 component="p"
                 data-testid="ExperienceView-PeriodOfLife"
               >
-                Period of Life Association: {experience.periodOfLifeAssociation}
+                Period of Life Association: {formatMultiSelectData(experience.periodOfLifeAssociation)}
               </Typography>
             )}         
           </Box>

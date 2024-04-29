@@ -5,15 +5,18 @@ const useStyles = createUseStyles({
         backgroundColor: "#EDEDED",
         position: "fixed",
         height: "100px",
+        width: '100%',
         boxShadow: "2px 0px 2px rgb(155, 155, 155)",
     },
     navContainer: {
         height: "100%",
-        // padding: "0px 96px"
+        minWidth: '100%',
     },
     navContent: {
-        height: "100%",
+        display: 'flex',
         justifyContent: "space-between",
+        width: '100%',
+        height: "100%",
     },
     navlinkContainer: {
         display: "flex",
