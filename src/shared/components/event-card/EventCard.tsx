@@ -25,13 +25,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export default function EventCard({event }: any) {
-
-    // console.log(event);
-    // console.log('DATE: ', event.fields.dateAndTime);
-    // console.log('NEW DATE: ', new Date(event.fields.dateAndTime));
-    
     const [expanded, setExpanded] = useState(false);
-    const [eventDate, setEventDate] = useState<any>();
 
     let date = new Date(event.fields.dateAndTime).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"});
     date += ` - ${new Date(event.fields.dateAndTime).toLocaleTimeString()}`;

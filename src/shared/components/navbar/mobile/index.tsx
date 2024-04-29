@@ -125,6 +125,9 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
                 <ListItemButton key={'Our Team'}  component={Link} to={`/Our Team`} onClick={handleListItemClick} className={classes.navItem}>
                   <ListItemText primary={'Our Team'} />
                 </ListItemButton>
+                <ListItemButton key={'Our Sponsors'}  component={Link} to={`/Our Sponsors`} onClick={handleListItemClick} className={classes.navItem}>
+                  <ListItemText primary={'Our Sponsors'} />
+                </ListItemButton>
               </List>
             </Box>
           </Box>

@@ -107,6 +107,13 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                         to={`/Our Team`}
                                         data-testid={`DesktopNav-LinkTab-Our Team`}
                                     />
+                                    <Tab 
+                                        key={'Our Sponsors'}
+                                        label={'Our Sponsors'}
+                                        component={Link}
+                                        to={`/Our Sponsors`}
+                                        data-testid={`DesktopNav-LinkTab-Our Sponsors`}
+                                    />
                                 </Select>
                             </FormControl>
                         </Tabs>
