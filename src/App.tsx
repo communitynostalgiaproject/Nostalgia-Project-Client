@@ -6,7 +6,7 @@ import LandingPage from "./pages/landingPage";
 import ResearchPage from "./pages/research/ResearchPage";
 import CommunityOutreachPage from "./pages/community-outreach/CommunityOutreachPage";
 import EventsPage from "./pages/events/EventsPage";
-import AboutPage from "./pages/about/AboutPage";
+import AboutPage from "./pages/our-mission/OurMissionPage";
 import TeamPage from "./pages/team/TeamPage";
 import "./App.css";
 

@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState, useEffect } from 'react';
-import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab, InputLabel } from '@mui/material';
+import { Box, Container, AppBar, Toolbar, Typography, Tabs, Tab, InputLabel, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import axios from 'axios';
@@ -88,25 +88,29 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 ))
                             }
                             <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>                                
-                                <InputLabel id="demo-simple-select-label">About Us</InputLabel>
+                                <InputLabel id="demo-simple-select-label">Our Mission</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-filled-label"
                                     id="demo-simple-select-filled"
                                 >
-                                    {/* <Tab 
-                                        key={'Our Mission'}
-                                        label={'Our Mission'}
-                                        component={Link}
-                                        to={`/Our Mission`}
-                                        data-testid={`DesktopNav-LinkTab-Our Mission`}
-                                    /> */}
-                                    <Tab 
-                                        key={'Our Team'}
-                                        label={'Our Team'}
-                                        component={Link}
-                                        to={`/Our Team`}
-                                        data-testid={`DesktopNav-LinkTab-Our Team`}
-                                    />
+                                    <MenuItem>
+                                        <Tab 
+                                            key={'Our Mission'}
+                                            label={'Our Mission'}
+                                            component={Link}
+                                            to={`/Our Mission`}
+                                            data-testid={`DesktopNav-LinkTab-Our Mission`}
+                                        />
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <Tab 
+                                            key={'Our Team'}
+                                            label={'Our Team'}
+                                            component={Link}
+                                            to={`/Our Team`}
+                                            data-testid={`DesktopNav-LinkTab-Our Team`}
+                                        />
+                                    </MenuItem>
                                 </Select>
                             </FormControl>
                         </Tabs>
