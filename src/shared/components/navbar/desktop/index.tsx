@@ -88,7 +88,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({ navItems }) => {
                                 ))
                             }
                             <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>                                
-                                <InputLabel id="demo-simple-select-label">About Us</InputLabel>
+                                <InputLabel id="demo-simple-select-label">Our Mission</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-filled-label"
                                     id="demo-simple-select-filled"

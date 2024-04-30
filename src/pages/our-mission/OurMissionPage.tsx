@@ -35,7 +35,7 @@ const OurMissionPage = () => {
                         color: '#5E0916'
                     }}
                 >
-                    ABOUT US
+                    OUR MISSION
                 </Typography>
                 <Typography sx={{ fontSize: '1.6rem', fontStyle: 'italic', color: '#5E0916' }}>
                     What We Do
