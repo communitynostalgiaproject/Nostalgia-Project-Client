@@ -32,7 +32,6 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
 
   useEffect(() => {
     if (error) console.error(`Error fetching user: ${error}`);
-    // console.log(`user: ${JSON.stringify(user)}`);
   }, [error, user]);
 
   return (
@@ -119,9 +118,9 @@ const MobileNav: React.FC<MobileNavProps> = ({ navItems }) => {
                         </ListItemButton> 
                   ))
                 }
-                {/* <ListItemButton key={'Our Mission'}  component={Link} to={`/Our Mission`} onClick={handleListItemClick} className={classes.navItem}>
+                <ListItemButton key={'Our Mission'}  component={Link} to={`/Our Mission`} onClick={handleListItemClick} className={classes.navItem}>
                   <ListItemText primary={'Our Mission'} />
-                </ListItemButton> */}
+                </ListItemButton>
                 <ListItemButton key={'Our Team'}  component={Link} to={`/Our Team`} onClick={handleListItemClick} className={classes.navItem}>
                   <ListItemText primary={'Our Team'} />
                 </ListItemButton>

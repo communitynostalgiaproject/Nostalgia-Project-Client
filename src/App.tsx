@@ -7,7 +7,6 @@ import ResearchPage from "./pages/research/ResearchPage";
 import CommunityOutreachPage from "./pages/community-outreach/CommunityOutreachPage";
 import EventsPage from "./pages/events/EventsPage";
 import AboutPage from "./pages/about/OurMissionPage";
-import SponsorsPage from "./pages/sponsors/SponsorsPage";
 import TeamPage from "./pages/team/TeamPage";
 import "./App.css";
 
@@ -29,7 +28,6 @@ const App: React.FC = () => {
                 <Route path="/Community Outreach" element={<CommunityOutreachPage />} />
                 <Route path="/Our Team" element={<TeamPage />} />
                 <Route path="/Our Mission" element={<AboutPage />} />
-                <Route path="/Our Sponsors" element={<SponsorsPage />} />
             </Routes>     
         </Router>
     );
