@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
 import LocationSearch from '../form-elements/locationSearch';
+import BugReportForm from '../forms/BugReportForm';
 import { PeliasGeoJSONFeature } from '@stadiamaps/api';
 
 interface MapUIOverlayProps {
@@ -17,6 +18,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   setBbox
 }) => {
   const [newExperienceModalOpen, setNewExperienceModalOpen] = useState<boolean>(false);
+  const [bugReportModalOpen, setBugReportModalOpen] = useState<boolean>(false);
   const [searchBarLocation, setSearchBarLocation] = useState<PeliasGeoJSONFeature | null>(null);
 
   const toggleNewExperienceModal = () => {
@@ -68,6 +70,12 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
           mode="create"
           user={user}
         />
+      </CardModal>
+      <CardModal
+        open={bugReportModalOpen}
+        onClose={() => setBugReportModalOpen(false)}
+      >
+        <BugReportForm />
       </CardModal>
       <Box
         sx={{
@@ -161,6 +169,13 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             >
               Privacy Policy
             </a>
+        </Box>
+        <Box>
+          <Button
+            onClick={() => setBugReportModalOpen(true)}
+          >
+            Report a bug
+          </Button>
         </Box>
       </Box>
     </Container>
