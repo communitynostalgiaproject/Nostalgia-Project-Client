@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import axios from "axios";
 import {
   Box,
@@ -6,7 +6,8 @@ import {
   TextField,
   Button,
   Snackbar,
-  Alert
+  Alert,
+  CircularProgress
 } from "@mui/material";
 import ThankYouMessage from "../../form-elements/ThankYouMessage";
 import { getApiBase } from "../../../api/helpers";
@@ -14,10 +15,18 @@ import { getApiBase } from "../../../api/helpers";
 const BugReportForm: React.FC = () => {
   const [issueText, setIssueText] = useState<string>("");
   const [errorText, setErrorText] = useState<string>("");
+  const [submitPending, setSubmitPending] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+
+  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    setIssueText(value);
+  };
 
   const submitIssue = async () => {
     try {
+      setSubmitPending(true);
       setIssueText("");
       await axios.post(`${getApiBase()}/github/bug-report`, {
         message: issueText
@@ -26,11 +35,44 @@ const BugReportForm: React.FC = () => {
     } catch (err) {
       console.log(`Error submitting bug report: ${err}`);
       setErrorText(`${err}`);
+    } finally {
+      setSubmitPending(false);
     }
   };
 
+  const SubmitButton = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "5px"
+        }}
+      >
+        {submitPending ? <CircularProgress color="info" size={24} /> : null}
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          onClick={submitIssue}
+          disabled={submitPending}
+        >
+          Submit
+        </Button>
+      </Box>
+    );
+  };
+
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        padding: "0 20px"
+      }}
+    >
       {errorText ? <Snackbar
         anchorOrigin={{
           vertical: "top",
@@ -53,19 +95,36 @@ const BugReportForm: React.FC = () => {
         </Alert>
       </Snackbar> : null}
       {!submitSuccess ? <>
-          <Typography>
-            Report a bug
-          </Typography>
-          <TextField
-            label="Describe the issue"
-            multiline
-            value={issueText}
-          />
-          <Button
-            onClick={submitIssue}
+          <Box>
+            <Typography
+              variant="h5"
+              sx={{
+                marginBottom: "15px"
+              }}
+            >
+              Report a bug
+            </Typography>
+          </Box>
+          <Box>
+            <TextField
+              label="Describe the issue"
+              multiline
+              fullWidth
+              rows={10}
+              value={issueText}
+            onChange={handleTextChange}
+            />
+          </Box>
+          <Box
+            sx={{
+              padding: "15px 0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end"
+            }}
           >
-            Submit
-          </Button>
+            <SubmitButton />
+          </Box>
         </>
         : <ThankYouMessage
           message="Thank you for your feedback"

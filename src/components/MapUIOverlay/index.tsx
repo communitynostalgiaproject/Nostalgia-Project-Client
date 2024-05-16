@@ -74,6 +74,13 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
       <CardModal
         open={bugReportModalOpen}
         onClose={() => setBugReportModalOpen(false)}
+        cardProps={{
+          sx: {
+            width: "90%",
+            maxWidth: "600px",
+            paddingBottom: "30px",
+          }
+        }}
       >
         <BugReportForm />
       </CardModal>
@@ -149,14 +156,24 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             justifyContent: "center",
             gap: 3,
             padding: "5px 0px",
-            a: {
+            button: {
+              background: "none",
+              border: "none",
+              padding: 0,
+              font: "inherit",
+              cursor: "pointer",
+              outline: "inherit",
+              lineHeight: "normal",
+              pointerEvents: "auto"   
+            },
+            "a, button": {
               color: "black",
               textDecoration: "none",
               pointerEvents: "auto"
             },
-            "a:hover": {
+            "a:hover, button:hover": {
               color: "grey"
-            }
+            },
           }}
         >
             <a
@@ -169,13 +186,11 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             >
               Privacy Policy
             </a>
-        </Box>
-        <Box>
-          <Button
-            onClick={() => setBugReportModalOpen(true)}
-          >
-            Report a bug
-          </Button>
+            <button
+              onClick={() => setBugReportModalOpen(true)}
+            >
+              Report a bug
+            </button>
         </Box>
       </Box>
     </Container>
