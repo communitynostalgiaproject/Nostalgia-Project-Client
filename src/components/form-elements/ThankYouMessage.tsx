@@ -19,7 +19,7 @@ const ThankYouMessage: React.FC<ThankYouMessageProps> = ({ message }) => {
         justifyContent: "center",
         gap: "20px"
       }}
-      data-testid="ExperienceForm-ThankYouMessage"
+      data-testid="ThankYouMessage-Container"
     >
       <CheckCircleIcon
         color="success"

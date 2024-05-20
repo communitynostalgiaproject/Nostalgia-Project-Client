@@ -50,13 +50,14 @@ const BugReportForm: React.FC = () => {
           gap: "5px"
         }}
       >
-        {submitPending ? <CircularProgress color="info" size={24} /> : null}
+        {submitPending ? <CircularProgress color="info" size={24} data-testid="BugReportForm-SubmitButtonSpinner" /> : null}
         <Button
           type="submit"
           variant="contained"
           color="primary"
           onClick={submitIssue}
-          disabled={submitPending}
+          disabled={!issueText || submitPending}
+          data-testid="BugReportForm-SubmitButton"
         >
           Submit
         </Button>
@@ -89,7 +90,7 @@ const BugReportForm: React.FC = () => {
         <Alert
           severity="error"
           variant="filled"
-          data-testid="ExperienceForm-ErrorMessage"
+          data-testid="BugReportForm-ErrorMessage"
         >
           {errorText}
         </Alert>
@@ -101,6 +102,7 @@ const BugReportForm: React.FC = () => {
               sx={{
                 marginBottom: "15px"
               }}
+              data-testid="BugReportForm-TitleText"
             >
               Report a bug
             </Typography>
@@ -112,7 +114,8 @@ const BugReportForm: React.FC = () => {
               fullWidth
               rows={10}
               value={issueText}
-            onChange={handleTextChange}
+              onChange={handleTextChange}
+              data-testid="BugReportForm-TextField"
             />
           </Box>
           <Box
