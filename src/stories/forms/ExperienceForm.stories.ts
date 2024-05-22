@@ -252,7 +252,7 @@ export const CreateExperienceTest: Story = {
     }, { timeout: 10000 });
 
     // Thank You Message
-    const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");
+    const thankYouMessageContainer = canvas.getByTestId("ThankYouMessage-Container");
     const thankYouMessageText = within(thankYouMessageContainer).getByText("Thank you for submitting your experience");
     expect(thankYouMessageContainer).toBeInTheDocument();
     expect(thankYouMessageText).toBeInTheDocument();
@@ -384,7 +384,7 @@ export const UpdateExperienceTest: Story = {
     }, {timeout: 5000});
 
     // Verify Thank You page appears with the correct message
-    const thankYouMessageContainer = canvas.getByTestId("ExperienceForm-ThankYouMessage");
+    const thankYouMessageContainer = canvas.getByTestId("ThankYouMessage-Container");
     const thankYouMessageText = within(thankYouMessageContainer).getByText("Your experience has been updated");
     expect(thankYouMessageContainer).toBeInTheDocument();
     expect(thankYouMessageText).toBeInTheDocument();

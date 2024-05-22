@@ -103,3 +103,27 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
     });
   }
 };
+
+export const TestBugReport: Story = {
+  args: {
+    redirectToLogin: fn(),
+    user: mockUser
+  },
+  decorators: [createQueryClientDecorator(new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 3 * 1000
+      }
+    }
+  }))],
+  play: async ({ args }) => {
+    expect(screen.getByTestId("MapUIOverlay-ReportBugButton")).toBeInTheDocument();
+    expect(screen.queryByTestId("MapUIOverlay-BugReportModal")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByTestId("MapUIOverlay-ReportBugButton"));
+    await waitFor(() => {
+      expect(screen.getByTestId("MapUIOverlay-BugReportModal")).toBeInTheDocument();
+      expect(screen.getByTestId("BugReportForm-Container")).toBeInTheDocument();
+    });
+  }
+};

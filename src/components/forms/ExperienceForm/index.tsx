@@ -15,6 +15,7 @@ import {
 } from '@mui/icons-material';
 import { Experience } from '../../../types/experience';
 import { Page1, Page2, Page3 } from './pages';
+import ThankYouMessage from '../../form-elements/ThankYouMessage';
 import axios from "axios";
 
 interface BaseProps {
@@ -221,38 +222,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
     </>
   );
 
-  const ThankYouMessage = () => {
-    return (
-      <Box
-        sx={{
-          width: "100%",
-          height: "100%",
-          padding: "80px 0px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "20px"
-        }}
-        data-testid="ExperienceForm-ThankYouMessage"
-      >
-        <CheckCircleIcon
-          color="success"
-          sx={{
-            fontSize: "100px"
-          }}
-        />
-        <Typography>
-          {
-            editing
-              ? "Your experience has been updated"
-              : "Thank you for submitting your experience"
-          }
-        </Typography>
-      </Box>
-    );
-  };
-
   return (
     <Container component="main" maxWidth="xs">
       {error ? <Snackbar
@@ -294,7 +263,9 @@ const ExperienceForm: React.FC<ExperienceFormProps> = (props) => {
         }}
       >
         { submitSuccess 
-          ? <ThankYouMessage /> 
+          ? <ThankYouMessage
+            message={editing ? "Your experience has been updated" : "Thank you for submitting your experience"}
+          /> 
           : <>
               {pages[pageIndex]}
               <PageNavigation />

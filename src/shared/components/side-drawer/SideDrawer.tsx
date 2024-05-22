@@ -154,12 +154,13 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
         onOpen={() => setSidebarOpen(true)}
         hideBackdrop
         sx={{
-          pointerEvents: 'none'
+          pointerEvents: 'none',
         }}
         PaperProps={{
           style: {
             top: '100px',
             height: 'calc(100vh - 100px)',
+            display: sidebarOpen ? 'block' : 'none'
           }
         }}
         data-testid="SideDrawer-Drawer"
