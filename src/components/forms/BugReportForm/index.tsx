@@ -73,6 +73,7 @@ const BugReportForm: React.FC = () => {
         flexDirection: "column",
         padding: "0 20px"
       }}
+      data-testid="BugReportForm-Container"
     >
       {errorText ? <Snackbar
         anchorOrigin={{

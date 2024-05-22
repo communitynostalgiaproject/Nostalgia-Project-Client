@@ -81,6 +81,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             paddingBottom: "30px",
           }
         }}
+        data-testid="MapUIOverlay-BugReportModal"
       >
         <BugReportForm />
       </CardModal>
@@ -188,6 +189,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             </a>
             <button
               onClick={() => setBugReportModalOpen(true)}
+              data-testid="MapUIOverlay-ReportBugButton"
             >
               Report a bug
             </button>
