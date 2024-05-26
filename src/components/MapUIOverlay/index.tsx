@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import CardModal from '../modal/CardModal';
 import ExperienceForm from '../forms/ExperienceForm';
 import LocationSearch from '../form-elements/locationSearch';
+import BugReportForm from '../forms/BugReportForm';
 import { PeliasGeoJSONFeature } from '@stadiamaps/api';
 
 interface MapUIOverlayProps {
@@ -17,6 +18,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   setBbox
 }) => {
   const [newExperienceModalOpen, setNewExperienceModalOpen] = useState<boolean>(false);
+  const [bugReportModalOpen, setBugReportModalOpen] = useState<boolean>(false);
   const [searchBarLocation, setSearchBarLocation] = useState<PeliasGeoJSONFeature | null>(null);
 
   const toggleNewExperienceModal = () => {
@@ -38,7 +40,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   };
 
   return (
-    <Container
+    <Box
       sx={{
         width: "100vw",
         height: "100%",
@@ -68,6 +70,20 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
           mode="create"
           user={user}
         />
+      </CardModal>
+      <CardModal
+        open={bugReportModalOpen}
+        onClose={() => setBugReportModalOpen(false)}
+        cardProps={{
+          sx: {
+            width: "90%",
+            maxWidth: "600px",
+            paddingBottom: "30px",
+          }
+        }}
+        data-testid="MapUIOverlay-BugReportModal"
+      >
+        <BugReportForm />
       </CardModal>
       <Box
         sx={{
@@ -112,7 +128,11 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
       >
         <Box
           sx={{
-            padding: "20px 15px"
+            padding: "20px 15px",
+            "@media (min-width: 599px)": {
+              paddingLeft: "80px",
+              paddingBottom: "80px"
+            }
           }}
         >
           <Button
@@ -141,14 +161,25 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             justifyContent: "center",
             gap: 3,
             padding: "5px 0px",
-            a: {
+            background: "rgba(255, 255, 255, 0.4)",
+            button: {
+              background: "none",
+              border: "none",
+              padding: 0,
+              font: "inherit",
+              cursor: "pointer",
+              outline: "inherit",
+              lineHeight: "normal",
+              pointerEvents: "auto"   
+            },
+            "a, button": {
               color: "black",
               textDecoration: "none",
               pointerEvents: "auto"
             },
-            "a:hover": {
+            "a:hover, button:hover": {
               color: "grey"
-            }
+            },
           }}
         >
             <a
@@ -161,9 +192,15 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             >
               Privacy Policy
             </a>
+            <button
+              onClick={() => setBugReportModalOpen(true)}
+              data-testid="MapUIOverlay-ReportBugButton"
+            >
+              Report a bug
+            </button>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

@@ -89,6 +89,19 @@ export const createExperienceUpdateHandler = (status: number) => {
   );
 };
 
+// GitHub endpoints
+export const createPostBugReportHandler = (status: number) => {
+  return rest.post(
+    /^.+\/github\/bug-report/,
+    (_req, res, ctx) => {
+      return res(
+        ctx.delay(2500),
+        ctx.status(status)
+      );
+    }
+  );
+};
+
 // External API calls
 export const createGeocodeEarthAutocompleteHandler = (results: { features: PeliasGeoJSONFeature[] }) => {
   return rest.get(

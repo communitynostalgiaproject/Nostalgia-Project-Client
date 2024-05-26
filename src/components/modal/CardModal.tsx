@@ -22,6 +22,13 @@ const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
         pointerEvents: "auto",
         overflow: "auto"
       }}
+      slotProps={{
+        backdrop: {
+          sx: {
+            pointerEvents: "none"
+          }
+        }
+      }}
     >
       <Card 
         {...cardProps}
