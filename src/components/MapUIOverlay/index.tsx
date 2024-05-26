@@ -40,7 +40,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   };
 
   return (
-    <Container
+    <Box
       sx={{
         width: "100vw",
         height: "100%",
@@ -128,7 +128,11 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
       >
         <Box
           sx={{
-            padding: "20px 15px"
+            padding: "20px 15px",
+            "@media (min-width: 599px)": {
+              paddingLeft: "80px",
+              paddingBottom: "80px"
+            }
           }}
         >
           <Button
@@ -157,6 +161,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             justifyContent: "center",
             gap: 3,
             padding: "5px 0px",
+            background: "rgba(255, 255, 255, 0.4)",
             button: {
               background: "none",
               border: "none",
@@ -195,7 +200,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             </button>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 
