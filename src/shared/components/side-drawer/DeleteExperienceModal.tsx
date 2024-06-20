@@ -7,25 +7,21 @@ import {
   Box,
   Button
 } from '@mui/material';
+import { useLandingPageContext } from '../../../contexts/LandingPageContext';
 
-interface DeleteExperienceModalProps {
-  open: boolean,
-  onClose: () => void;
-  onDelete: () => void;
-  deleteError: string;
-  processingDeletion: boolean;
-};
+const DeleteExperienceModal: React.FC = () => {
+  const {
+    deleteModalOpen,
+    deleteExperience,
+    setDeleteModalOpen
+  } = useLandingPageContext();
+  const deleteError = `${deleteExperience.error}`;
+  const onClose = () => setDeleteModalOpen(false);
+  const onDelete = () => deleteExperience.mutate();
 
-const DeleteExperienceModal: React.FC<DeleteExperienceModalProps> = ({
-  open,
-  onClose,
-  onDelete,
-  deleteError,
-  processingDeletion
-}) => {
   return (
     <CardModal
-      open={open}
+      open={deleteModalOpen}
       onClose={onClose}
       cardProps={{
         sx: {
@@ -87,7 +83,7 @@ const DeleteExperienceModal: React.FC<DeleteExperienceModalProps> = ({
             variant="contained"
             color="error"
             onClick={onDelete}
-            disabled={processingDeletion}
+            disabled={deleteExperience.isLoading}
             data-testid="ExperienceView-DeleteModalDeleteButton"
           >
             Delete

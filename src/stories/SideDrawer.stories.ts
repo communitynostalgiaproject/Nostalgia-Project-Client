@@ -1,7 +1,7 @@
 import { userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { createQueryClientDecorator } from './assets/StorybookDecorators';
+import { createQueryClientDecorator, createLandingPageContextDecorator } from './assets/StorybookDecorators';
 import { QueryClient } from 'react-query';
 import { Experience } from '../types/experience';
 import SideDrawer from '../shared/components/side-drawer/SideDrawer';
@@ -56,7 +56,10 @@ export const Base: Story = {
     fetchNextPage: () => {},
     sidebarOpen: false,
     setSidebarOpen: () => {}
-  }
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ],
 };
 
 // export const OpenClosedTest: Story = {

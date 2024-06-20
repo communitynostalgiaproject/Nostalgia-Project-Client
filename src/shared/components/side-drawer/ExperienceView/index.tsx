@@ -16,12 +16,11 @@ import {
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { richTextFromMarkdown } from "@contentful/rich-text-from-markdown";
 import axios from "axios";
+import { useLandingPageContext } from "../../../../contexts/LandingPageContext";
 
 interface ExperienceViewProps {
   experience: Experience;
   onClose: () => void;
-  setEditModalOpen: React.Dispatch<boolean>;
-  setDeleteModalOpen: React.Dispatch<boolean>;
 }
 
 const formatISOToAmericanDate = (isoDate: string) => {
@@ -35,9 +34,7 @@ const formatISOToAmericanDate = (isoDate: string) => {
 
 const ExperienceView: React.FC<ExperienceViewProps> = ({
   experience,
-  onClose,
-  setEditModalOpen,
-  setDeleteModalOpen
+  onClose
 }) => {
   const [ formattedRecipeText, setFormattedRecipeText ] = useState<React.ReactNode | null>(null);
   const { data: currentUser } = useQuery("currentUser", async () => {
@@ -51,6 +48,10 @@ const ExperienceView: React.FC<ExperienceViewProps> = ({
 
     return res.data;
   });
+  const {
+    setEditModalOpen,
+    setDeleteModalOpen
+  } = useLandingPageContext();
 
   const formatMarkdownText = async (text: string) => {
     const formattedText = documentToReactComponents(await richTextFromMarkdown(text));
