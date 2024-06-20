@@ -87,7 +87,13 @@ const ReactionBar: React.FC<ReactionBarProps> = ({
 
   return (
       <div className={classes.popupGroup}>
-        <div>
+        <div
+          style={{cursor: "pointer"}}
+          onClick={() => {
+            setSelectedExperience(experience);
+            setSidebarOpen(true);
+          }}
+        >
           <div className={classes.experienceTitle}>
           {experience.title}
           </div>
