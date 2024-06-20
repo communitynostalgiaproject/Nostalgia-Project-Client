@@ -27,7 +27,6 @@ type Story = StoryObj<typeof meta>;
 export const LoggedIn: Story = {
   args: {
     redirectToLogin: fn(),
-    user: mockUser
   },
   decorators: [createQueryClientDecorator(new QueryClient({
     defaultOptions: {
@@ -41,7 +40,6 @@ export const LoggedIn: Story = {
 export const LoggedOut: Story = {
   args: {
     redirectToLogin: fn(),
-    user: mockUser
   },
   parameters: {
     msw: {
@@ -55,8 +53,7 @@ export const LoggedOut: Story = {
 
 export const CreateExperienceButtonLoggedInTest: Story = {
   args: {
-    redirectToLogin: fn(),
-    user: mockUser
+    redirectToLogin: fn()
   },
   decorators: [createQueryClientDecorator(new QueryClient({
     defaultOptions: {
@@ -106,8 +103,7 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
 
 export const TestBugReport: Story = {
   args: {
-    redirectToLogin: fn(),
-    user: mockUser
+    redirectToLogin: fn()
   },
   decorators: [createQueryClientDecorator(new QueryClient({
     defaultOptions: {

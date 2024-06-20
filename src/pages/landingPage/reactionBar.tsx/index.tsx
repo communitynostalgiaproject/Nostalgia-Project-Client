@@ -1,37 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import reactionsRequest from '../../../api/reactions.request';
-import usersRequest from '../../../api/users.request';
 import { useQuery } from 'react-query';
-import fetchCurrentUser from '../../../api/queries/fetchCurrentUser';
-import { Experience } from '../../../types/experience';
+import { useLandingPageContext } from '../../../contexts/LandingPageContext';
 
 import ThanksForSharing from '../../../assets/reactionIcons/thanksForSharing';
 import MeToo from '../../../assets/reactionIcons/meToo';
 import WillTry from '../../../assets/reactionIcons/willTry';
 import useStyles from './styles';
+import { Experience } from '../../../types/experience';
 
 interface ReactionBarProps {
   experience: Experience;
-  setSelectedExperience: React.Dispatch<Experience | null>;
-  setSidebarOpen: React.Dispatch<boolean>;
 }
 
 const ReactionBar: React.FC<ReactionBarProps> = ({
-  experience,
-  setSelectedExperience,
-  setSidebarOpen
+  experience
 }) => {
   const classes = useStyles();
-  const { data: user, error } = fetchCurrentUser();
+  const {
+    user,
+    setSelectedExperience,
+    setSidebarOpen
+  } = useLandingPageContext();
 
   const [selectedReaction, setSelectedReaction] = useState({
       meToo: false,
       thanksForSharing: false,
       willTry: false
-  })
+  });
 
   const { data: reactions } = useQuery(["reactions", experience._id.toString()], async() => {
-      return await reactionsRequest.getByUserId({ experienceId: experience["_id"], userId: user["_id"] })
+      return await reactionsRequest.getByUserId({ experienceId: experience._id, userId: user["_id"] })
   });
 
   useEffect(() => {
@@ -86,35 +85,24 @@ const ReactionBar: React.FC<ReactionBarProps> = ({
       }
   };
 
-  const handleSelectExperience = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    setSelectedExperience(experience);
-    setSidebarOpen(true);
-  };
-
   return (
       <div className={classes.popupGroup}>
-        <div
-          style={{
-            cursor: "pointer"
-          }}
-          onClick={handleSelectExperience}
-        >
+        <div>
           <div className={classes.experienceTitle}>
-              {experience.title}
+          {experience.title}
           </div>
           <div className={classes.experienceImageGroup}>
-              <img src={experience.foodPhotoUrl} alt={experience.title} className={classes.experienceImage} />
+          <img src={experience.foodPhotoUrl} alt={experience.title} className={classes.experienceImage} />
           </div>
         </div>
         {user && <div className={classes.reactionGroup}>
-            <div id="meToo" className={classes.meToo} title='Me Too' data-experience={experience["_id"]} onClick={handleReaction}>
+        <div id="meToo" className={classes.meToo} title='Me Too' data-experience={experience._id} onClick={handleReaction}>
                 <MeToo/>
             </div>
-            <div id="thanksForSharing" className={classes.thanksForSharing} title='Thanks for sharing' data-experience={experience["_id"]} onClick={handleReaction}>
+        <div id="thanksForSharing" className={classes.thanksForSharing} title='Thanks for sharing' data-experience={experience._id} onClick={handleReaction}>
                 <ThanksForSharing />
             </div>
-            <div id="willTry" className={classes.willTry} title='Will try' data-experience={experience["_id"]} onClick={handleReaction}>
+        <div id="willTry" className={classes.willTry} title='Will try' data-experience={experience._id} onClick={handleReaction}>
                 <WillTry />
             </div>
         </div>}

@@ -77,9 +77,7 @@ type Story = StoryObj<typeof meta>;
 export const NotLoggedInAsCreator: Story = {
   args: {
     experience: mockExperience,
-    onClose: () => {},
-    setEditModalOpen: () => {},
-    setDeleteModalOpen: () => {}
+    onClose: () => {}
   },
   parameters: {
     msw: {
@@ -95,9 +93,7 @@ export const NotLoggedInAsCreator: Story = {
 export const LoggedInAsCreator: Story = {
   args: {
     experience: mockExperience,
-    onClose: () => { },
-    setEditModalOpen: () => { },
-    setDeleteModalOpen: () => { }
+    onClose: () => { }
   },
   parameters: {
     msw: {
@@ -113,9 +109,7 @@ export const LoggedInAsCreator: Story = {
 export const CreatorNotFound: Story = {
   args: {
     experience: mockExperience,
-    onClose: () => { },
-    setEditModalOpen: () => { },
-    setDeleteModalOpen: () => { }
+    onClose: () => { }
   },
   parameters: {
     msw: {
@@ -130,9 +124,7 @@ export const CreatorNotFound: Story = {
 export const NonCreatorViewTest: Story = {
   args: {
     experience: mockExperience,
-    onClose: () => { },
-    setEditModalOpen: () => { },
-    setDeleteModalOpen: () => { }
+    onClose: () => { }
   },
   parameters: {
     msw: {
@@ -172,9 +164,7 @@ export const NonCreatorViewTest: Story = {
 export const CreatorViewTest: Story = {
   args: {
     experience: mockExperience,
-    onClose: () => { },
-    setEditModalOpen: () => { },
-    setDeleteModalOpen: () => { }
+    onClose: () => { }
   },
   parameters: {
     msw: {
