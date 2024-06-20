@@ -2,7 +2,7 @@ import { within, userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Experience } from '../types/experience';
-import { createQueryClientDecorator } from './assets/StorybookDecorators';
+import { createQueryClientDecorator, createLandingPageContextDecorator } from './assets/StorybookDecorators';
 import { QueryClient } from 'react-query';
 import {
   createUserFetchHandler,
@@ -87,7 +87,9 @@ export const NotLoggedInAsCreator: Story = {
       }
     }
   },
-  decorators: [createQueryClientDecorator(new QueryClient())]
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const LoggedInAsCreator: Story = {
@@ -103,7 +105,9 @@ export const LoggedInAsCreator: Story = {
       }
     }
   },
-  decorators: [createQueryClientDecorator(new QueryClient())]
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const CreatorNotFound: Story = {
@@ -118,7 +122,9 @@ export const CreatorNotFound: Story = {
       }
     }
   },
-  decorators: [createQueryClientDecorator(new QueryClient())]
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const NonCreatorViewTest: Story = {
@@ -134,7 +140,9 @@ export const NonCreatorViewTest: Story = {
       }
     }
   },
-  decorators: [createQueryClientDecorator(new QueryClient())],
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
@@ -174,7 +182,9 @@ export const CreatorViewTest: Story = {
       }
     }
   },
-  decorators: [createQueryClientDecorator(new QueryClient())],
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
