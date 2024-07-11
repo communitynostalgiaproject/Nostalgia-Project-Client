@@ -11,7 +11,7 @@ import { LandingPageContextProvider } from '../../contexts/LandingPageContext';
 const LandingPage: React.FC = () => {
   const defaultLocation = [38.9072, 139.69222];
   const defaultZoom = 6;
-  const [userLocation, setUserLocation] = useState<Number[] | null>(null);
+  const [userLocation, setUserLocation] = useState<number[] | null>(null);
   // const queryClient = useQueryClient();
   // const [bbox, setBbox] = useState<String | null>(null);
   // const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
