@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactionBar from '../../../pages/landingPage/reactionBar';
 
 import useStyles from './styles';
 
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
-import { latLng, Icon, latLngBounds, LatLngBounds, point, Point } from 'leaflet';
+import { latLng, LatLng, Icon, latLngBounds, LatLngBounds, point } from 'leaflet';
 import MarkerClusterGroup from "react-leaflet-cluster";
 import LeafletTileLayer from './leafletTileLayer';
 import chefHatIconImage from "../../../assets/chef-hat-icon.png";
@@ -36,31 +36,18 @@ const ExperienceMap: React.FC<ExperienceMapProps> = ({
 }) => {
   const classes = useStyles()
   const [movedToUser, setMovedToUser] = useState(false);
+  const [currentZoom, setCurrentZoom] = useState<number>(defaultZoom);
+  const [currentCenter, setCurrentCenter] = useState<LatLng>(latLng(defaultLocation[0], defaultLocation[1]))
   const {
     experiences,
     bbox,
-    setBbox,
-    setSelectedExperience,
-    setSidebarOpen
+    setBbox
   } = useLandingPageContext();
+  const moveTimeoutRef = useRef<NodeJS.Timeout>();
 
   const updateBbox = (bounds: LatLngBounds) => { 
     setBbox(bounds.toBBoxString());
   };
-
-  // // Functions for determining amount of change in bbox
-  // const areaChange = (oldBbox, newBbox) => {
-  //   const [minLng1, minLat1, maxLng1, maxLat1] = oldBbox;
-  //   const [minLng2, minLat2, maxLng2, maxLat2] = newBbox;
-  //   const area1 = (maxLat1 - minLat1) * (maxLng1 - minLng1);
-  //   const area2 = (maxLat2 - minLat2) * (maxLng2 - minLng2);
-
-  //   return Math.abs(area1 - area2) / Math.min(area1, area2);
-  // };
-
-  // const centerChange = (oldBbox, newBbox) => {
-  //   const center1 = oldBbox.
-  // };
 
   const boundsFromBboxString = (bboxString: string) => {
     const strValues = bboxString.split(",");
@@ -68,24 +55,6 @@ const ExperienceMap: React.FC<ExperienceMapProps> = ({
     const corner2 = latLng(Number(strValues[3]), Number(strValues[2]));
     return latLngBounds([corner1, corner2]);
   };
-
-  const MapEvents = () => {
-    
-  };
-
-  // const MemoizedMarker = React.memo(function MarkerComponent({ experience }) {
-  //   return (
-  //     <Marker
-  //       key={experience._id}
-  //       icon={chefHatIcon}
-  //       position={[experience.place.location.coordinates[1], experience.place.location.coordinates[0]]}
-  //     >
-  //       <Popup>
-  //         <ReactionBar experience={experience} />
-  //       </Popup>
-  //     </Marker>
-  //   );
-  // });
 
   const Markers = () => {
     const map = useMap();
@@ -106,17 +75,18 @@ const ExperienceMap: React.FC<ExperienceMapProps> = ({
     }, [map, userLocation]);
 
     useEffect(() => {
-      if (!bbox) return;
-      const bounds = boundsFromBboxString(bbox);
-      map.fitBounds(bounds);
-    }, [map, bbox]);
+      map.setView(currentCenter, currentZoom);
+    }, [map, currentCenter, currentZoom]);
 
     useMapEvents({
       zoomend: () => {
+        setCurrentZoom(map.getZoom());
         updateBbox(map.getBounds());
       },
       moveend: () => {
+        setCurrentCenter(map.getCenter());
         updateBbox(map.getBounds());
+        map.closePopup();
       }
     });
 
