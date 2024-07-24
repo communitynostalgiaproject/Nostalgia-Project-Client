@@ -14,6 +14,10 @@ interface LandingPageContextType {
   setEditModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   deleteModalOpen: boolean;
   setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  myExperiencesModalOpen: boolean;
+  setMyExperiencesModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  willTrysModalOpen: boolean;
+  setwillTrysModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   sidebarOpen: boolean;
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
   experiences: Experience[] | undefined;
@@ -44,6 +48,8 @@ export const LandingPageContextProvider: React.FC<LandingPageContextProviderProp
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [myExperiencesModalOpen, setMyExperiencesModalOpen] = useState<boolean>(false);
+  const [willTrysModalOpen, setwillTrysModalOpen] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const { data: user } = useQuery("currentUser", async () => {
     return await usersRequest.fetchData();
@@ -84,6 +90,10 @@ export const LandingPageContextProvider: React.FC<LandingPageContextProviderProp
         setEditModalOpen,
         deleteModalOpen,
         setDeleteModalOpen,
+        myExperiencesModalOpen,
+        setMyExperiencesModalOpen,
+        willTrysModalOpen,
+        setwillTrysModalOpen,
         sidebarOpen,
         setSidebarOpen,
         experiences,

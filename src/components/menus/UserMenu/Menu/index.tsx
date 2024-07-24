@@ -12,6 +12,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import UserForm from '../../../forms/UserForm';
 import CardModal from '../../../modal/CardModal';
 import axios from 'axios';
+import { useLandingPageContext } from '../../../../contexts/LandingPageContext';
+import { words } from 'lodash';
 
 interface MenuProps {
   user: any;
@@ -40,6 +42,13 @@ const Menu: React.FC<MenuProps> = ({ user }) => {
   );
 
   const MenuPopover = () => {
+    const {
+      myExperiencesModalOpen,
+      setMyExperiencesModalOpen,
+      willTrysModalOpen,
+      setwillTrysModalOpen
+    } = useLandingPageContext();
+
     return (
       <Popover
         id='user-menu-popover'
@@ -57,6 +66,30 @@ const Menu: React.FC<MenuProps> = ({ user }) => {
         data-testid="UserMenu-MenuPopover"
       >
         <List>
+          <ListItem
+            disablePadding
+          >
+            <ListItemButton
+              onClick={() => setMyExperiencesModalOpen(!myExperiencesModalOpen)}
+              data-testid="UserMenu-MyExperiencesButton"
+            >
+              <ListItemText
+                primary="My Experiences"
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            disablePadding
+          >
+            <ListItemButton
+              onClick={() => setwillTrysModalOpen(!willTrysModalOpen)}
+              data-testid="UserMenu-WillTrysButton"
+            >
+              <ListItemText
+                primary="Will Try"
+              />
+            </ListItemButton>
+          </ListItem>
           <ListItem
             disablePadding
           >

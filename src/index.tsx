@@ -8,6 +8,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeProvider } from '@emotion/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { LandingPageContextProvider } from './contexts/LandingPageContext';
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,7 +27,9 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <LandingPageContextProvider>
           <App />
+        </LandingPageContextProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
