@@ -7,7 +7,6 @@ import EditExperienceModal from '../../shared/components/side-drawer/EditExperie
 import DeleteExperienceModal from '../../shared/components/side-drawer/DeleteExperienceModal';
 import MyExperiencesModal from '../../components/modal/MyExperiencesModal';
 import { Box } from '@mui/material';
-import { LandingPageContextProvider } from '../../contexts/LandingPageContext';
 
 const LandingPage: React.FC = () => {
   const defaultLocation = [38.9072, 139.69222];
