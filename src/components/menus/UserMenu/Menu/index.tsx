@@ -70,7 +70,10 @@ const Menu: React.FC<MenuProps> = ({ user }) => {
             disablePadding
           >
             <ListItemButton
-              onClick={() => setMyExperiencesModalOpen(!myExperiencesModalOpen)}
+              onClick={() => {
+                setMyExperiencesModalOpen(!myExperiencesModalOpen);
+                setMenuOpen(false);
+              }}
               data-testid="UserMenu-MyExperiencesButton"
             >
               <ListItemText
@@ -82,7 +85,10 @@ const Menu: React.FC<MenuProps> = ({ user }) => {
             disablePadding
           >
             <ListItemButton
-              onClick={() => setwillTrysModalOpen(!willTrysModalOpen)}
+              onClick={() => {
+                setwillTrysModalOpen(!willTrysModalOpen);
+                setMenuOpen(false);
+              }}
               data-testid="UserMenu-WillTrysButton"
             >
               <ListItemText
