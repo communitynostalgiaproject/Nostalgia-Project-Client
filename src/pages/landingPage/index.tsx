@@ -6,6 +6,7 @@ import { redirectToLogin } from '../../api/helpers';
 import EditExperienceModal from '../../shared/components/side-drawer/EditExperienceModal';
 import DeleteExperienceModal from '../../shared/components/side-drawer/DeleteExperienceModal';
 import MyExperiencesModal from '../../components/modal/MyExperiencesModal';
+import WillTrysModal from '../../components/modal/WillTrysModal';
 import { Box } from '@mui/material';
 
 const LandingPage: React.FC = () => {
@@ -47,6 +48,7 @@ const LandingPage: React.FC = () => {
       <EditExperienceModal />
       <DeleteExperienceModal />
       <MyExperiencesModal />
+      <WillTrysModal />
     </Box>
   )
 }
