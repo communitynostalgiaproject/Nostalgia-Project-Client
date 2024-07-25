@@ -17,17 +17,22 @@ const ModalContent: React.FC<ModalContentProps> = ({
     isLoading,
     isError
   } = useFetchExperiencesByUser(user?._id);
+  const {setMyExperiencesModalOpen} = useLandingPageContext();
 
   if (isLoading) {
     return <CircularProgress />;
   }
 
   if (isError) {
-    return <Typography>Sorry, unable to load experiences.</Typography>
+    return <Typography>Sorry, unable to load experiences.</Typography>;
   }
 
   if (userExperiences) {
-    return <ExperienceList headerText="My Experiences" experiences={userExperiences} />
+    return <ExperienceList
+      headerText="My Experiences"
+      experiences={userExperiences}
+      updateModalOpenState={setMyExperiencesModalOpen}
+    />;
   }
 
   return <Typography>Sorry, there's been an error.</Typography>

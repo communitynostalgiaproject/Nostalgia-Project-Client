@@ -33,6 +33,7 @@ const ExperienceListWrapper: React.FC<ExperienceListWrapperProps> = ({
         <ExperienceList
           headerText="List Title"
           experiences={createExperiences(numExperiences)}
+          updateModalOpenState={() => {}}
         />
       </Box>
     </div>

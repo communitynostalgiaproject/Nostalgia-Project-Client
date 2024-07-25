@@ -6,22 +6,25 @@ import { useLandingPageContext } from '../../../contexts/LandingPageContext';
 interface ExperienceListProps {
   experiences: Experience[];
   headerText: string;
+  updateModalOpenState: React.Dispatch<boolean>;
+  showCreatedDate?: boolean;
 }
 
 const ExperienceList: React.FC<ExperienceListProps> = ({
   headerText,
-  experiences
+  experiences,
+  updateModalOpenState,
+  showCreatedDate = true
 }) => {
   const {
     setSelectedExperience,
-    setMyExperiencesModalOpen,
     setSidebarOpen
   } = useLandingPageContext();
 
   const handleExperienceSelect = (experience: Experience) => {
     setSelectedExperience(experience);
     setSidebarOpen(true);
-    setMyExperiencesModalOpen(false);
+    updateModalOpenState(false);
   }
 
   const formatDateString = (dateStr: string) => {
@@ -84,7 +87,7 @@ const ExperienceList: React.FC<ExperienceListProps> = ({
                     <Typography>
                       {experience.title}
                     </Typography>
-                    {experience.createdDate &&
+                    {showCreatedDate && experience.createdDate &&
                       <Typography>
                         Created: {formatDateString(experience.createdDate)}
                       </Typography>

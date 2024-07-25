@@ -20,6 +20,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
     userId: user?._id || "",
     reaction: "willTry"
   });
+  const { setwillTrysModalOpen } = useLandingPageContext();
 
   if (isLoading) {
     return <CircularProgress />;
@@ -30,12 +31,15 @@ const ModalContent: React.FC<ModalContentProps> = ({
   }
 
   if (experiences) {
-    return <ExperienceList headerText="My Experiences" experiences={experiences} />
+    return <ExperienceList
+      headerText="Will Try"
+      experiences={experiences}
+      updateModalOpenState={setwillTrysModalOpen}
+      showCreatedDate={false}
+    />;
   }
 
   return <Typography>Sorry, there's been an error.</Typography>
-
-  return <p>To do</p>
 };
 
 const WillTrysModal: React.FC = () => {
