@@ -6,39 +6,28 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ExperiencePreviewList from './ExperiencePreviewList';
 import ExperienceView from './ExperienceView';
-import { Experience } from '../../../types/experience';
+import { useLandingPageContext } from '../../../contexts/LandingPageContext';
 
 type Anchor = 'left' | 'right';
 
-interface SideDrawerProps {
-  experiences: Experience[];
-  selectedExperience: Experience | null;
-  setSelectedExperience: React.Dispatch<Experience | null>;
-  hasNextPage: boolean | undefined;
-  fetchNextPage: () => void;
-  setEditModalOpen: React.Dispatch<boolean>;
-  setDeleteModalOpen: React.Dispatch<boolean>;
-  sidebarOpen: boolean;
-  setSidebarOpen: React.Dispatch<boolean>;
-}
-
-const  SideDrawer: React.FC<SideDrawerProps> = ({
-  experiences,
-  selectedExperience,
-  setSelectedExperience,
-  hasNextPage,
-  fetchNextPage,
-  setEditModalOpen,
-  setDeleteModalOpen,
-  sidebarOpen,
-  setSidebarOpen
-}) => {
+const  SideDrawer: React.FC = () => {
   const [sidebar, setSidebar] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+  const {
+    experiences,
+    selectedExperience,
+    setSelectedExperience,
+    setEditModalOpen,
+    setDeleteModalOpen,
+    hasNextPage,
+    fetchNextPage,
+    sidebarOpen,
+    setSidebarOpen
+  } = useLandingPageContext();
 
   const list = (anchor: Anchor) => (
     <Box 
@@ -102,16 +91,9 @@ const  SideDrawer: React.FC<SideDrawerProps> = ({
                   onClose={() => {
                     setSelectedExperience(null);
                   }}
-                  setEditModalOpen={setEditModalOpen}
-                  setDeleteModalOpen={setDeleteModalOpen}
                 />
               </Box>
-              : <ExperiencePreviewList
-                experiences={experiences}
-                setSelectedExperience={setSelectedExperience}
-                hasNextPage={hasNextPage}
-                fetchNextPage={fetchNextPage}
-              />
+              : <ExperiencePreviewList />
           } 
       </Box>
     </Box>

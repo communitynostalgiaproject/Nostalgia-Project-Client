@@ -3,9 +3,9 @@ import { fn } from '@storybook/test';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient } from 'react-query';
-import { redirectToLogin } from '../api/helpers';
-import { createQueryClientDecorator } from './assets/StorybookDecorators';
+import { createQueryClientDecorator, createLandingPageContextDecorator} from './assets/StorybookDecorators';
 import { createUserFetchHandler } from './util/mswHandlers';
+import { LandingPageContextProvider } from '../contexts/LandingPageContext';
 import MapUIOverlay from '../components/MapUIOverlay';
 
 const mockUser = {
@@ -25,23 +25,24 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
-  args: {
-    redirectToLogin: fn(),
-    user: mockUser
-  },
-  decorators: [createQueryClientDecorator(new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 3 * 1000
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(200)]
       }
     }
-  }))]
+  },
+  args: {
+    redirectToLogin: fn(),
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const LoggedOut: Story = {
   args: {
     redirectToLogin: fn(),
-    user: mockUser
   },
   parameters: {
     msw: {
@@ -50,21 +51,25 @@ export const LoggedOut: Story = {
       }
     }
   },
-  decorators: [createQueryClientDecorator(new QueryClient())]
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const CreateExperienceButtonLoggedInTest: Story = {
   args: {
-    redirectToLogin: fn(),
-    user: mockUser
+    redirectToLogin: fn()
   },
-  decorators: [createQueryClientDecorator(new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 60 * 1000
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(200)]
       }
     }
-  }))],
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ],
   play: async () => {
     await waitFor(() => {
       expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedIn")).toBeInTheDocument();
@@ -92,7 +97,16 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
   args: {
     redirectToLogin: fn()
   },
-  decorators: [createQueryClientDecorator(new QueryClient())],
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ],
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(500)]
+      }
+    }
+  },
   play: async ({ args }) => {
     expect(screen.getByTestId("MapUIOverlay-CreateExperienceButton-LoggedOut")).toBeInTheDocument();
     expect(screen.getByTestId("LocationSearch-InputField")).toBeInTheDocument();
@@ -106,16 +120,18 @@ export const CreateExperienceButtonLoggedOutTest: Story = {
 
 export const TestBugReport: Story = {
   args: {
-    redirectToLogin: fn(),
-    user: mockUser
+    redirectToLogin: fn()
   },
-  decorators: [createQueryClientDecorator(new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 3 * 1000
+  parameters: {
+    msw: {
+      handlers: {
+        fetchUser: [createUserFetchHandler(200)]
       }
     }
-  }))],
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ],
   play: async ({ args }) => {
     expect(screen.getByTestId("MapUIOverlay-ReportBugButton")).toBeInTheDocument();
     expect(screen.queryByTestId("MapUIOverlay-BugReportModal")).not.toBeInTheDocument();

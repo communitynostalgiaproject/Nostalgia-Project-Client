@@ -3,52 +3,16 @@ import ExperienceMap from '../../shared/components/ExperienceMap';
 import SideDrawer from '../../shared/components/side-drawer/SideDrawer';
 import MapUIOverlay from '../../components/MapUIOverlay';
 import { redirectToLogin } from '../../api/helpers';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import useFetchExperiencesByBbox from '../../api/queries/fetchExperiencesByBbox';
-import { Experience } from '../../types/experience';
 import EditExperienceModal from '../../shared/components/side-drawer/EditExperienceModal';
 import DeleteExperienceModal from '../../shared/components/side-drawer/DeleteExperienceModal';
-import usersRequest from '../../api/users.request';
-import experiencesRequest from '../../api/experiences.request';
+import MyExperiencesModal from '../../components/modal/MyExperiencesModal';
+import WillTrysModal from '../../components/modal/WillTrysModal';
 import { Box } from '@mui/material';
 
 const LandingPage: React.FC = () => {
   const defaultLocation = [38.9072, 139.69222];
   const defaultZoom = 6;
-  const queryClient = useQueryClient();
-  const [userLocation, setUserLocation] = useState<Number[] | null>(null);
-  const [bbox, setBbox] = useState<String | null>(null);
-  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
-  const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
-  const {
-    experiences,
-    setExperiences,
-    fetchNextPage,
-    hasNextPage
-  } = useFetchExperiencesByBbox(bbox);
-
-  const { data: user } = useQuery("currentUser", async () => {
-    return await usersRequest.fetchData();
-  });
-
-  const deleteExperience = useMutation(async () => {
-    await experiencesRequest.delete(selectedExperience?._id);
-  }, {
-    onSuccess: async () => {
-      await queryClient.cancelQueries(["experiences", bbox]);
-
-      setExperiences(experiences.filter((experience: Experience) => {
-        return experience._id !== selectedExperience?._id
-      }));
-      setDeleteModalOpen(false);
-      setSelectedExperience(null);
-    },
-    onError: (err: any) => {
-      console.error(`Unable to delete experience: ${err}`);
-    }
-  });
+  const [userLocation, setUserLocation] = useState<number[] | null>(null);
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -74,45 +38,17 @@ const LandingPage: React.FC = () => {
     >
       <MapUIOverlay
         redirectToLogin={redirectToLogin}
-        user={user}
-        setBbox={setBbox}  
       />
-      <SideDrawer
-        experiences={experiences}
-        selectedExperience={selectedExperience}
-        setSelectedExperience={setSelectedExperience}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
-        setEditModalOpen={setEditModalOpen}
-        setDeleteModalOpen={setDeleteModalOpen}
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-      />
+      <SideDrawer />
       <ExperienceMap
-        experiences={experiences}
         defaultLocation={defaultLocation}
         defaultZoom={defaultZoom}
         userLocation={userLocation}
-        bbox={bbox}
-        setBbox={setBbox}
-        setSelectedExperience={setSelectedExperience}
-        setSidebarOpen={setSidebarOpen}
       />
-      <EditExperienceModal
-        open={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        user={user}
-        experience={selectedExperience as Experience}
-        setExperiences={setExperiences}
-        setSelectedExperience={setSelectedExperience}
-      />
-      <DeleteExperienceModal
-        open={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onDelete={() => deleteExperience.mutate()}
-        deleteError={`${deleteExperience.error}`}
-        processingDeletion={deleteExperience.isLoading}
-      />
+      <EditExperienceModal />
+      <DeleteExperienceModal />
+      <MyExperiencesModal />
+      <WillTrysModal />
     </Box>
   )
 }

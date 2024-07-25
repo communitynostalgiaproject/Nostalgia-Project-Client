@@ -5,28 +5,26 @@ import ExperienceForm from '../forms/ExperienceForm';
 import LocationSearch from '../form-elements/locationSearch';
 import BugReportForm from '../forms/BugReportForm';
 import { PeliasGeoJSONFeature } from '@stadiamaps/api';
+import { useLandingPageContext } from '../../contexts/LandingPageContext';
 
 interface MapUIOverlayProps {
   redirectToLogin: () => void;
-  user: any;
-  setBbox: React.Dispatch<String | null>;
 };
 
 const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
-  redirectToLogin,
-  user,
-  setBbox
+  redirectToLogin
 }) => {
   const [newExperienceModalOpen, setNewExperienceModalOpen] = useState<boolean>(false);
   const [bugReportModalOpen, setBugReportModalOpen] = useState<boolean>(false);
   const [searchBarLocation, setSearchBarLocation] = useState<PeliasGeoJSONFeature | null>(null);
+  const context = useLandingPageContext();
 
   const toggleNewExperienceModal = () => {
     setNewExperienceModalOpen((prev) => !prev);
   };
 
   const handleCreateExperienceButtonClick = () => {
-    if (user) {
+    if (context.user) {
       toggleNewExperienceModal();
       return;
     }
@@ -35,7 +33,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
   }
 
   const handleLocationSelection = (location: PeliasGeoJSONFeature) => {
-    setBbox(location.bbox?.join(",") || null);
+    context.setBbox(location.bbox?.join(",") || null);
     setSearchBarLocation(location);
   };
 
@@ -68,7 +66,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
       >
         <ExperienceForm
           mode="create"
-          user={user}
+          user={context.user}
         />
       </CardModal>
       <CardModal
@@ -145,7 +143,7 @@ const MapUIOverlay: React.FC<MapUIOverlayProps> = ({
             }}
             onClick={handleCreateExperienceButtonClick}
             data-testid={
-              user
+              context.user
                 ? "MapUIOverlay-CreateExperienceButton-LoggedIn"
                 : "MapUIOverlay-CreateExperienceButton-LoggedOut"
             }

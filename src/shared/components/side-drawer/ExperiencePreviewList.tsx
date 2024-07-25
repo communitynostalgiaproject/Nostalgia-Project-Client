@@ -3,21 +3,51 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import nothingHereIcon from '../../../assets/nothing-here-icon.png';
 import { Box, Button, Typography } from '@mui/material';
-import { Experience } from '../../../types/experience';
+import { useLandingPageContext } from '../../../contexts/LandingPageContext';
 
-interface ExperiencePreviewListProps {
-  experiences: Experience[],
-  setSelectedExperience: React.Dispatch<Experience | null>;
-  hasNextPage: boolean | undefined;
-  fetchNextPage: () => void;
-};
+const ExperiencePreviewList: React.FC = () => {
+  const {
+    experiences,
+    setSelectedExperience,
+    hasNextPage,
+    fetchNextPage
+  } = useLandingPageContext();
 
-const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
-  experiences,
-  setSelectedExperience,
-  hasNextPage,
-  fetchNextPage
-}) => {
+  const PreviewList = () => {
+    if (!experiences) return null;
+
+    return (
+      <ImageList
+        cols={3}
+        sx={{
+          width: '100%',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+        }}
+        data-testid='ExperiencePreviewList-List'
+      >
+        {experiences.map((experience, index) => (
+          <ImageListItem
+            key={experience._id}
+            onClick={(event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+              event.stopPropagation();
+              setSelectedExperience(experience);
+            }}
+            sx={{
+              cursor: 'pointer'
+            }}
+            data-testid={`ExperiencePreviewList-ListItem-${index}`}
+          >
+            <img
+              src={`${experience.foodPhotoUrl}?w=248&fit=crop&auto=format`}
+              alt={experience.title}
+              loading="lazy"
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -26,7 +56,7 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
       }}
       data-testid='ExperiencePreviewList-Container'
     >
-      {!experiences.length && <Box
+      {!experiences?.length && <Box
         sx={{
           paddingTop: '5px',
           width: '100%',
@@ -50,34 +80,7 @@ const ExperiencePreviewList: React.FC<ExperiencePreviewListProps> = ({
           }}
         />
       </Box>}
-      <ImageList
-        cols={3}
-        sx={{
-          width: '100%',
-          paddingBottom: 'env(safe-area-inset-bottom)',
-        }}
-        data-testid='ExperiencePreviewList-List'
-      >
-        {experiences.map((experience, index) => (
-          <ImageListItem
-            key={experience._id}
-            onClick={(event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-              event.stopPropagation();
-              setSelectedExperience(experience);
-            }}
-            sx={{
-              cursor: 'pointer'
-            }}
-          data-testid={`ExperiencePreviewList-ListItem-${index}`}
-          >
-            <img
-              src={`${experience.foodPhotoUrl}?w=248&fit=crop&auto=format`}
-              alt={experience.title}
-              loading="lazy"
-            />
-          </ImageListItem>
-        ))}
-      </ImageList>
+      <PreviewList />
       {hasNextPage && (
         <Box
           sx={{

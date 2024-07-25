@@ -2,6 +2,7 @@ import { userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { createLandingPageContextDecorator } from '../assets/StorybookDecorators';
 import {
   createUserDeleteHandler,
   createUserFetchHandler,
@@ -75,6 +76,9 @@ export const NotLoggedIn: Story = {
   args: {
     handleLogin: fn()
   },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const LoggedIn: Story = {
@@ -89,7 +93,10 @@ export const LoggedIn: Story = {
         logout: [createLogoutHandler(200)]
       }
     }
-  }
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const NotLoggedInTest: Story = {
@@ -105,7 +112,10 @@ export const NotLoggedInTest: Story = {
     });
     await userEvent.click(screen.getByTestId("LoginButton-Button"));
     expect(args.handleLogin).toHaveBeenCalled();
-  }
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const LoggedInTest: Story = {
@@ -127,7 +137,10 @@ export const LoggedInTest: Story = {
       expect(screen.queryByTestId("LoginButton-Button")).not.toBeInTheDocument();
       expect(screen.getByTestId("UserMenu-MenuToggleButton")).toBeInTheDocument();
     });
-  }
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const MenuTest: Story = {
@@ -163,7 +176,10 @@ export const MenuTest: Story = {
       expect(screen.queryByTestId("UserMenu-AccountSettingsButton")).not.toBeInTheDocument();
       expect(screen.queryByTestId("UserMenu-LogoutButton")).not.toBeInTheDocument();
     });
-  }
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const AccountSettingsModalTest: Story = {
@@ -199,7 +215,10 @@ export const AccountSettingsModalTest: Story = {
       expect(screen.getByTestId("UserForm-DisplayNameText")).toBeInTheDocument();
       expect(screen.getByTestId("UserForm-EditDisplayNameButton")).toBeInTheDocument();
     });
-  }
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };
 
 export const LogoutTest: Story = {
@@ -231,5 +250,8 @@ export const LogoutTest: Story = {
       expect(screen.queryByTestId("UserMenu-MenuPopover")).not.toBeInTheDocument();
       expect(screen.getByTestId("LoginButton-Button")).toBeInTheDocument();
     });
-  }
+  },
+  decorators: [
+    createLandingPageContextDecorator(new QueryClient())
+  ]
 };

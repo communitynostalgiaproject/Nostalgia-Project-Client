@@ -33,7 +33,7 @@ const CardModal: React.FC<ModalProps & CardModalProps> = (props) => {
       <Card 
         {...cardProps}
         sx={{
-          ...cardProps.sx,
+          ...cardProps?.sx,
           maxHeight: "90%",
           overflow: "auto",
           WebkitOverflowScrolling: "touch",
