@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 import { useLandingPageContext } from "../../contexts/LandingPageContext";
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress, Typography, Box } from "@mui/material";
 import ExperienceList from "../lists/ExperienceList";
 import CardModal from "./CardModal";
+import useFetchExperiencesByReaction from "../../api/queries/fetchExperiencesByReaction";
 
 interface ModalContentProps {
   user?: any;
@@ -11,25 +12,28 @@ interface ModalContentProps {
 const ModalContent: React.FC<ModalContentProps> = ({
   user
 }) => {
-  // const {
-  //   data: userExperiences,
-  //   isLoading,
-  //   isError
-  // } = useFetchExperiencesByUser(user?._id);
+  const {
+    data: experiences,
+    isLoading,
+    isError
+  } = useFetchExperiencesByReaction({
+    userId: user?._id || "",
+    reaction: "willTry"
+  });
 
-  // if (isLoading) {
-  //   return <CircularProgress />;
-  // }
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
-  // if (isError) {
-  //   return <Typography>Sorry, unable to load experiences.</Typography>
-  // }
+  if (isError) {
+    return <Typography>Sorry, unable to load experiences.</Typography>
+  }
 
-  // if (userExperiences) {
-  //   return <ExperienceList headerText="My Experiences" experiences={userExperiences} />
-  // }
+  if (experiences) {
+    return <ExperienceList headerText="My Experiences" experiences={experiences} />
+  }
 
-  // return <Typography>Sorry, there's been an error.</Typography>
+  return <Typography>Sorry, there's been an error.</Typography>
 
   return <p>To do</p>
 };
@@ -58,7 +62,15 @@ const WillTrysModal: React.FC = () => {
         }
       }}
     >
-      {content}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        {content}
+      </Box>
     </CardModal>
 
   )
