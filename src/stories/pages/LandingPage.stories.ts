@@ -1,7 +1,7 @@
 import { userEvent, waitFor, screen } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { createQueryClientDecorator } from '../assets/StorybookDecorators';
+import { createQueryClientDecorator, createLandingPageContextDecorator } from '../assets/StorybookDecorators';
 import { QueryClient } from 'react-query';
 import LandingPage from '../../pages/landingPage';
 
@@ -19,11 +19,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Base: Story = {
-  decorators: [createQueryClientDecorator(new QueryClient())]
+  decorators: [createQueryClientDecorator(new QueryClient()), createLandingPageContextDecorator(new QueryClient())]
 };
 
 export const BasicTest: Story = {
-  decorators: [createQueryClientDecorator(new QueryClient())],
+  decorators: [createQueryClientDecorator(new QueryClient()), createLandingPageContextDecorator(new QueryClient())],
   play: async () => {
     await waitFor(() => {
       expect(screen.getByTestId("MapUIOverlay-Container")).toBeInTheDocument();
