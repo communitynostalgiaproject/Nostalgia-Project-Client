@@ -14,38 +14,96 @@ const ExperienceList: React.FC<ExperienceListProps> = ({
 }) => {
   const {
     setSelectedExperience,
-    setMyExperiencesModalOpen
+    setMyExperiencesModalOpen,
+    setSidebarOpen
   } = useLandingPageContext();
 
   const handleExperienceSelect = (experience: Experience) => {
     setSelectedExperience(experience);
+    setSidebarOpen(true);
     setMyExperiencesModalOpen(false);
   }
 
+  const formatDateString = (dateStr: string) => {
+    const dateObj = new Date(dateStr);
+
+    return dateObj.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  };
+
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100%",
+        padding: "0px 20px",
+        display: "flex",
+        flexDirection: "column"
+      }}
+    >
       <Typography
         variant="h4"
       >
         {headerText}
       </Typography>
-      <List>
-        {
-          experiences.map((experience, index) => {
-            return (
-              <ListItem
-                key={index}
-                onClick={() => handleExperienceSelect(experience)}
-                sx={{
-                  cursor: "pointer"
-                }}
-              >
-                {experience.title}
-              </ListItem>
-            )
-          })
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          paddingTop: "14px"
+        }}
+      >
+        {!!experiences.length && 
+          <List
+            sx={{
+              width: "100%"
+            }}
+            data-testid="ExperienceList-List"
+          >
+            {experiences.map((experience, index) => {
+                return (
+                  <ListItem
+                    key={index}
+                    data-testid={`ExperienceList-ListItem${index + 1}`}
+                    onClick={() => handleExperienceSelect(experience)}
+                    sx={{
+                      cursor: "pointer",
+                      height: "35px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      ":hover": {
+                        color: "grey"
+                      }
+                    }}
+                  >
+                    <Typography>
+                      {experience.title}
+                    </Typography>
+                    {experience.createdDate &&
+                      <Typography>
+                        Created: {formatDateString(experience.createdDate)}
+                      </Typography>
+                    }
+                  </ListItem>
+                )
+              })
+            }
+          </List>
+          
         }
-      </List>
+      </Box>
+      {!experiences.length && 
+        <Typography
+          data-testid="ExperienceList-NoExperiencesMessage"
+        >
+          No experiences to display
+        </Typography>
+      }
     </Box>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useLandingPageContext } from "../../contexts/LandingPageContext";
 import { CircularProgress, Typography } from "@mui/material";
-import useFetchCurrentUserExperiences from "../../api/queries/fetchCurrentUser'Experiences";
+import useFetchExperiencesByUser from "../../api/queries/fetchExperiencesByUser";
 import ExperienceList from "../lists/ExperienceList";
 import CardModal from "./CardModal";
 
@@ -16,7 +16,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
     data: userExperiences,
     isLoading,
     isError
-  } = useFetchCurrentUserExperiences(user?._id);
+  } = useFetchExperiencesByUser(user?._id);
 
   if (isLoading) {
     return <CircularProgress />;
